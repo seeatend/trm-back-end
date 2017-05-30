@@ -4,16 +4,15 @@ const port = process.env.PORT || 3000
 const bodyParser = require('body-parser')
 
 require('config/db')
-require('models/todoList')
+require('models/message')
 
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 
-var routes = require('routes')
-routes(app)
+require('routes')(app)
 
 app.use(function(req, res) {
-  res.status(404).send({url: req.originalUrl + ' not found'})
+  res.status(404).send({url: `${req.originalUrl} not found`})
 })
 
 app.listen(port)

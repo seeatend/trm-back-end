@@ -1,8 +1,8 @@
 module.exports = function(app) {
-  var todoList = require('controllers/todoList');
+  var todoList = require('controllers/message');
 
   // todoList Routes
-  app.route('/tasks')
-    .get(todoList.allTasks)
-    .post(todoList.createTask)
+  app.route('/message')
+    .get(todoList.allMessages)
+    .post(todoList.createMessage)
 }
