@@ -1,17 +1,15 @@
-var express = require('express'),
-  app = express(),
-  port = process.env.PORT || 3000,
-  bodyParser = require('body-parser')
+const express = require('express')
+const app = express()
+const port = process.env.PORT || 3000
+const bodyParser = require('body-parser')
 
-require('./config/db')
-require('./models/todoList'),
-
-
+require('config/db')
+require('models/todoList')
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
-var routes = require('./routes')
+var routes = require('routes')
 routes(app)
 
 app.use(function(req, res) {

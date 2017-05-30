@@ -1,7 +1,7 @@
 {
   "main": "server/index.js",
   "scripts": {
-    "start": "nodemon server"
+    "start": "NODE_PATH=./server nodemon server"
   },
   "dependencies": {
     "body-parser": "^1.17.2",
