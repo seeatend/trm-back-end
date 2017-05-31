@@ -1,8 +1,9 @@
-module.exports = function(app) {
-  var todoList = require('controllers/message');
+const express = require('express')
 
-  // todoList Routes
-  app.route('/message')
-    .get(todoList.allMessages)
-    .post(todoList.createMessage)
-}
+const messageRouter = require('./message')
+
+const rootRouter = express.Router({mergeParams: true})
+
+rootRouter.use(messageRouter)
+
+module.exports = rootRouter

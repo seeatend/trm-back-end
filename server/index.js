@@ -6,10 +6,12 @@ const bodyParser = require('body-parser')
 require('config/db')
 require('models/message')
 
+const routes = require('routes');
+
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 
-require('routes')(app)
+app.use('/api/v1', routes)
 
 app.use(function(req, res) {
   res.status(404).send({url: `${req.originalUrl} not found`})
@@ -18,4 +20,4 @@ app.use(function(req, res) {
 app.listen(port)
 
 
-console.log('todo list RESTful API server started on: ' + port)
+console.log('TRM RESTful API server started on: ' + port)

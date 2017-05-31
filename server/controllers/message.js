@@ -26,7 +26,6 @@ exports.createMessage = function(req, res) {
 
     newMessage.save(function(err, elem) {
       if (err) {
-        console.log('save error')
         res.send(err)
       }
       res.json(elem)
