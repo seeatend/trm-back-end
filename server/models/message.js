@@ -6,7 +6,7 @@ const MessageSchema = new Schema({
     type: String,
     required: true
   },
-  groupId: {
+  horseId: {
     type: String,
     required: true
   },

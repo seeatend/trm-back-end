@@ -4,7 +4,7 @@ const messageRouter = express.Router({mergeParams: true})
 const messageController = require('controllers/message');
 
 messageRouter.route('/message')
-  .get(messageController.allMessages)
+  .get(messageController.getMessage)
   .post(messageController.createMessage)
 
 module.exports = messageRouter
