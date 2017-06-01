@@ -1,8 +1,8 @@
-const { expect } = require('chai')
+const {expect} = require('chai')
 
-const prepareQuery = require('./prepareQuery')
+const {prepareQuery, processFiles} = require('./request')
 
-describe('Utils - prepareQuery', () => {
+describe('Utils - request - prepareQuery', () => {
   it('should extract correct query', () => {
     const availableQueries = ['horseId']
 

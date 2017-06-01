@@ -11,10 +11,10 @@ const MessageSchema = new Schema({
     required: true
   },
   video: {
-    type: String
+    type: Array
   },
   image: {
-    type: String
+    type: Array
   },
   text: {
     type: String
