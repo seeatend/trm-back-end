@@ -1,4 +1,5 @@
 const {prepareQuery, processFiles} = require('utils/request')
+const {removePrivate} = require('utils/object')
 const mongoose = require('mongoose')
 const Message = mongoose.model('Message')
 
@@ -7,6 +8,11 @@ const availableQueries = ['horseId', 'trainerId']
 exports.getMessage = function(req, res) {
   Message.find(
     prepareQuery(req.query, availableQueries),
+    {__v: false, _id: false},
+    {
+      limit: 20,
+      sort: {createdAt: -1}
+    },
     function(err, task) {
       if (err)
         res.send(err)
@@ -27,7 +33,7 @@ const validateAttachment = (body) => {
 }
 
 exports.createMessage = function(req, res) {
-  const { body, files } = req
+  const {body, files} = req
   const newMessage = new Message(body)
 
   let errors = newMessage.validateSync()
@@ -43,7 +49,7 @@ exports.createMessage = function(req, res) {
           res.send(err)
         }
         console.log(`message received: ${elem._id}`)
-        res.json(elem)
+        res.json({error: false})
       })
     }
   }
