@@ -14,6 +14,13 @@ exports.prepareQuery = (query, availableQueries) => {
 
 exports.processFiles = (files, basePath) => {
   const result = {}
+  if (!Array.isArray(files)) {
+    let newFiles = []
+    Object.keys(files).forEach(key => {
+      newFiles = newFiles.concat(files[key])
+    })
+    files = newFiles
+  }
   files.forEach(file => {
     let relativePath = `uploads/${basePath}/${file.filename}`;
     const destination = path.resolve(relativePath)
