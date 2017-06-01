@@ -42,6 +42,7 @@ exports.createMessage = function(req, res) {
         if (err) {
           res.send(err)
         }
+        console.log(`message received: ${elem._id}`)
         res.json(elem)
       })
     }

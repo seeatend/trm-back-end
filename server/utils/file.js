@@ -11,10 +11,14 @@ const moveFile = (from, to, done) => {
 
   source.pipe(destination)
   source.on('end', function() {
-    fs.unlink(from, function(err) {
-      done()
-      if (err) throw err
-    })
+    setTimeout(() => {
+      fs.unlink(from, function(error) {
+        done()
+        if (error) {
+          console.warn(`Could not unlink file ${from}`)
+        }
+      })
+    }, 100)
   })
 }
 
