@@ -15,13 +15,14 @@ exports.prepareQuery = (query, availableQueries) => {
 exports.processFiles = (files, basePath) => {
   const result = {}
   files.forEach(file => {
-    const destination = path.resolve(`uploads/${basePath}/${file.filename}`)
+    let relativePath = `uploads/${basePath}/${file.filename}`;
+    const destination = path.resolve(relativePath)
 
     move(file.path, destination)
 
     result[file.fieldname] = result[file.fieldname] || []
     result[file.fieldname].push({
-      path: destination
+      path: `/${relativePath}`
     })
   })
   return result

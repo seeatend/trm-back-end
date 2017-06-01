@@ -11,6 +11,8 @@ const routes = require('routes');
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 
+app.use('/uploads', express.static('uploads'))
+
 app.use('/api/v1', routes)
 
 app.use(function(req, res) {
