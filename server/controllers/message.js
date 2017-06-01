@@ -40,6 +40,8 @@ exports.createMessage = function(req, res) {
   if (!errors) {
     const messagePath = `${body.horseId}/${Date.now()}`
     const attachment = processFiles(files, messagePath)
+    // TODO: Find a better solution to do that. Text is part of attachment
+    attachment.text = body.text
 
     if (validateAttachment(attachment)) {
       Object.assign(newMessage, attachment)
@@ -51,6 +53,9 @@ exports.createMessage = function(req, res) {
         console.log(`message received: ${elem._id}`)
         res.json({error: false})
       })
+    }
+    else {
+      res.send({error: true, message: 'Wrong parameters'})
     }
   }
   else {
