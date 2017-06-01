@@ -1,5 +1,5 @@
 const path = require('path')
-const { move } = require('./file')
+const { move, generateThumbnail, thumbnailPath } = require('./file')
 
 exports.prepareQuery = (query, availableQueries) => {
   result = {}
@@ -22,15 +22,25 @@ exports.processFiles = (files, basePath) => {
     files = newFiles
   }
   files.forEach(file => {
-    let relativePath = `uploads/${basePath}/${file.filename}`;
+    const relativePath = `uploads/${basePath}/${file.filename}`;
     const destination = path.resolve(relativePath)
+    let fileObject = {
+      path: `/${relativePath}`,
+    }
 
-    move(file.path, destination)
+    if (file.fieldname === 'video') {
+      const relativeThumbnail = `/${path.relative('./', thumbnailPath(destination))}`
+      fileObject.thumbnail = relativeThumbnail
+    }
+
+    move(file.path, destination, () => {
+      if (file.fieldname === 'video') {
+        generateThumbnail(destination)
+      }
+    })
 
     result[file.fieldname] = result[file.fieldname] || []
-    result[file.fieldname].push({
-      path: `/${relativePath}`
-    })
+    result[file.fieldname].push(fileObject)
   })
   return result
 }
