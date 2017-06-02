@@ -1,5 +1,6 @@
 const path = require('path')
-const { move, generateThumbnail, thumbnailPath } = require('./file')
+const mime = require('mime')
+const {move, generateThumbnail, thumbnailPath} = require('./file')
 
 exports.prepareQuery = (query, availableQueries) => {
   result = {}
@@ -12,8 +13,9 @@ exports.prepareQuery = (query, availableQueries) => {
   return result
 }
 
-exports.processFiles = (files, basePath) => {
-  const result = {}
+
+exports.processFiles = (files, basePath, acceptedTypes = ['video', 'image']) => {
+  const result = []
   if (!Array.isArray(files)) {
     let newFiles = []
     Object.keys(files).forEach(key => {
@@ -22,25 +24,36 @@ exports.processFiles = (files, basePath) => {
     files = newFiles
   }
   files.forEach(file => {
-    const relativePath = `uploads/${basePath}/${file.filename}`;
+    const relativePath = `uploads/${basePath}/${file.filename}`
     const destination = path.resolve(relativePath)
-    let fileObject = {
-      path: `/${relativePath}`,
-    }
+    if (mime.lookup(file.originalname) === file.mimetype) {
+      const type = file.mimetype.slice(0, file.mimetype.indexOf('/'))
+      if (~acceptedTypes.indexOf(type)) {
+        let fileObject = {
+          path: `/${relativePath}`,
+          type
+        }
 
-    if (file.fieldname === 'video') {
-      const relativeThumbnail = `/${path.relative('./', thumbnailPath(destination))}`
-      fileObject.thumbnail = relativeThumbnail
-    }
+        if (type === 'video') {
+          const relativeThumbnail = `/${path.relative('./', thumbnailPath(destination))}`
+          fileObject.thumbnail = relativeThumbnail
+        }
 
-    move(file.path, destination, () => {
-      if (file.fieldname === 'video') {
-        generateThumbnail(destination)
+        move(file.path, destination, () => {
+          if (type === 'video') {
+            generateThumbnail(destination)
+          }
+        })
+
+        result.push(fileObject)
       }
-    })
-
-    result[file.fieldname] = result[file.fieldname] || []
-    result[file.fieldname].push(fileObject)
+    }
+    else {
+      return {
+        error: true,
+        message: 'mime type doesn\'t match extension'
+      }
+    }
   })
   return result
 }

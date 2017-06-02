@@ -10,10 +10,7 @@ const MessageSchema = new Schema({
     type: String,
     required: true
   },
-  video: {
-    type: Array
-  },
-  image: {
+  attachment: {
     type: Array
   },
   text: {

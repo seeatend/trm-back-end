@@ -23,16 +23,11 @@ const storage = multer.diskStorage({
 
 const upload = multer({storage: storage})
 
-const handleAttachment = upload.fields([
-  {name: 'video', maxCount: 3},
-  {name: 'image', maxCount: 12}
-])
-
 const messageRouter = express.Router({mergeParams: true})
 const messageController = require('controllers/message');
 
 messageRouter.route('/message')
   .get(messageController.getMessage)
-  .post(handleAttachment, messageController.createMessage)
+  .post(upload.array('attachment', 15), messageController.createMessage)
 
 module.exports = messageRouter

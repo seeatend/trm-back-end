@@ -23,7 +23,7 @@ exports.getMessage = function(req, res) {
 
 const validateAttachment = (body) => {
   let validated = false
-  const requiredProps = ['video', 'photo', 'text']
+  const requiredProps = ['attachment', 'text']
   requiredProps.forEach((propName) => {
     if (body[propName] && body[propName].length > 0) {
       validated = true
@@ -40,22 +40,26 @@ exports.createMessage = function(req, res) {
   if (!errors) {
     const messagePath = `${body.horseId}/${Date.now()}`
     const attachment = processFiles(files, messagePath)
-    // TODO: Find a better solution to do that. Text is part of attachment
-    attachment.text = body.text
 
-    if (validateAttachment(attachment)) {
-      Object.assign(newMessage, attachment)
-
-      newMessage.save(function(err, elem) {
-        if (err) {
-          res.send(err)
-        }
-        console.log(`message received: ${elem._id}`)
-        res.json({error: false})
-      })
+    if (attachment.error) {
+      res.json(attachment)
     }
     else {
-      res.send({error: true, message: 'Wrong parameters'})
+      newMessage.attachment = attachment
+
+      if (validateAttachment(newMessage)) {
+
+        newMessage.save(function(err, elem) {
+          if (err) {
+            res.send(err)
+          }
+          console.log(`message received: ${elem._id}`)
+          res.json({error: false})
+        })
+      }
+      else {
+        res.send({error: true, message: 'Wrong parameters'})
+      }
     }
   }
   else {
