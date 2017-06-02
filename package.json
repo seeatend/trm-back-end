@@ -2,12 +2,17 @@
   "main": "server/index.js",
   "scripts": {
     "start": "NODE_PATH=./server nodemon server",
+    "prod": "NODE_PATH=./server forever --minUptime 1000 --spinSleepTime 1000 start server",
+    "list": "forever list",
+    "stop": "forever stop 0",
+    "logs": "forever logs 0",
     "test": "NODE_PATH=./server mocha -w --opts mocha.opts --recursive $(find server -name '*.spec.js')"
   },
   "dependencies": {
     "body-parser": "^1.17.2",
     "chai": "^4.0.0",
     "express": "^4.15.3",
+    "forever": "^0.15.3",
     "mime": "^1.3.6",
     "mocha": "^3.4.2",
     "mongoose": "^4.10.4",
