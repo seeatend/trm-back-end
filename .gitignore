@@ -21,3 +21,6 @@ dist/
 
 # Yarn
 yarn.lock
+
+# Other
+/uploads

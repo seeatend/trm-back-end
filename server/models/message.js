@@ -6,15 +6,12 @@ const MessageSchema = new Schema({
     type: String,
     required: true
   },
-  groupId: {
+  horseId: {
     type: String,
     required: true
   },
-  video: {
-    type: String
-  },
-  image: {
-    type: String
+  attachment: {
+    type: Array
   },
   text: {
     type: String
