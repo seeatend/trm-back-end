@@ -2,6 +2,8 @@ const express = require('express')
 
 const multer = require('multer')
 
+const mime = require('mime')
+
 const path = require('path')
 
 const {extension} = require('utils/file')
@@ -27,20 +29,34 @@ const upload = multer({
   storage: storage,
   fileFilter: (req, file, cb) => {
     const type = file.mimetype.slice(0, file.mimetype.indexOf('/'))
-    if (~acceptedTypes.indexOf(type)) {
+    const isExtensionCorrect = mime.lookup(file.originalname) === file.mimetype
+    const isOfAcceptedType = ~acceptedTypes.indexOf(type)
+
+    if (isOfAcceptedType && isExtensionCorrect) {
       cb(null, true)
     }
     else {
       cb(null, false)
     }
   }
-})
+}).array('attachment', 15)
+
+const processAttachment = (req, res, next) => {
+  upload(req, res, function(err) {
+    if (err) {
+      res.send({error: true, message: 'File upload failed'})
+    }
+    else {
+      next()
+    }
+  })
+}
 
 const messageRouter = express.Router({mergeParams: true})
-const messageController = require('controllers/message');
+const messageController = require('controllers/message')
 
 messageRouter.route('/message')
   .get(messageController.getMessage)
-  .post(upload.array('attachment', 15), messageController.createMessage)
+  .post(processAttachment, messageController.createMessage)
 
 module.exports = messageRouter

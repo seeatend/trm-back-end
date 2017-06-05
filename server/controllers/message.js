@@ -1,5 +1,4 @@
 const {prepareQuery, processFiles} = require('utils/request')
-const {removePrivate} = require('utils/object')
 const mongoose = require('mongoose')
 const Message = mongoose.model('Message')
 
