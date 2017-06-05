@@ -14,7 +14,7 @@ exports.prepareQuery = (query, availableQueries) => {
 }
 
 
-exports.processFiles = (files, basePath, acceptedTypes = ['video', 'image']) => {
+exports.processFiles = (files, basePath) => {
   const result = []
   if (!Array.isArray(files)) {
     let newFiles = []
@@ -28,25 +28,24 @@ exports.processFiles = (files, basePath, acceptedTypes = ['video', 'image']) => 
     const destination = path.resolve(relativePath)
     if (mime.lookup(file.originalname) === file.mimetype) {
       const type = file.mimetype.slice(0, file.mimetype.indexOf('/'))
-      if (~acceptedTypes.indexOf(type)) {
-        let fileObject = {
-          path: `/${relativePath}`,
-          type
-        }
 
-        if (type === 'video') {
-          const relativeThumbnail = `/${path.relative('./', thumbnailPath(destination))}`
-          fileObject.thumbnail = relativeThumbnail
-        }
-
-        move(file.path, destination, () => {
-          if (type === 'video') {
-            generateThumbnail(destination)
-          }
-        })
-
-        result.push(fileObject)
+      let fileObject = {
+        path: `/${relativePath}`,
+        type
       }
+
+      if (type === 'video') {
+        const relativeThumbnail = `/${path.relative('./', thumbnailPath(destination))}`
+        fileObject.thumbnail = relativeThumbnail
+      }
+
+      move(file.path, destination, () => {
+        if (type === 'video') {
+          generateThumbnail(destination)
+        }
+      })
+
+      result.push(fileObject)
     }
     else {
       return {
