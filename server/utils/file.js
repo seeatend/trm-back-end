@@ -43,7 +43,7 @@ const fileUtils = {
   },
 
   generateThumbnail: (file, done) => {
-    const command = `ffmpeg -ss 00:00:01 -i ${file} -y -vframes 1 -f image2 ${fileUtils.thumbnailPath(file)}`
+    const command = `ffmpeg -ss 00:00:00 -i ${file} -y -vframes 1 -f image2 ${fileUtils.thumbnailPath(file)}`
     exec(command, done)
   }
 }
