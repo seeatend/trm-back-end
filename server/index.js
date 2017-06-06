@@ -1,6 +1,7 @@
 const express = require('express')
 const morgan = require('morgan')
 const app = express()
+const path = require('path')
 const port = process.env.PORT || 3000
 const bodyParser = require('body-parser')
 
@@ -24,9 +25,17 @@ app.use('/uploads', express.static('uploads'))
 
 app.use('/api/v1', routes)
 
+app.use('/', express.static(path.resolve('./client')))
+
+app.get('/*', (req, res) => {
+  res.sendFile(path.resolve('./client/index.html'))
+})
+
+
 app.use(function(req, res) {
   res.status(404).send({url: `${req.originalUrl} not found`})
 })
+
 
 app.listen(port)
 
