@@ -1,11 +1,12 @@
+const config = require('config')
 const express = require('express')
 const morgan = require('morgan')
 const app = express()
 const path = require('path')
-const port = process.env.PORT || 3000
+const port = config.get('server.port')
 const bodyParser = require('body-parser')
 
-require('config/db')
+require('setup/db')
 require('models/message')
 
 const routes = require('routes')
@@ -21,9 +22,9 @@ app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 
-app.use('/uploads', express.static('uploads'))
+app.use(`/${config.get('storage.path')}`, express.static('uploads'))
 
-app.use('/api/v1', routes)
+app.use(`/api/v${config.get('api.version')}`, routes)
 
 app.use('/', express.static(path.resolve('./client')))
 
