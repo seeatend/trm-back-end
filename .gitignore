@@ -24,4 +24,5 @@ yarn.lock
 
 # Other
 /uploads
+/test-uploads
 /client

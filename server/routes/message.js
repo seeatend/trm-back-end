@@ -1,18 +1,16 @@
 const express = require('express')
-
 const multer = require('multer')
-
 const mime = require('mime')
-
 const path = require('path')
+const mkdirp = require('mkdirp')
+const config = require('config')
 
 const {extension} = require('utils/file')
 
-const mkdirp = require('mkdirp')
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    let destination = path.resolve('./uploads/tmp')
+    let destination = path.resolve(`./${config.get('storage.path')}/tmp`)
     mkdirp(destination, cb.bind(this, null, destination))
   },
   filename: (req, file, cb) => {

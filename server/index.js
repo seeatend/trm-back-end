@@ -22,7 +22,8 @@ app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 
-app.use(`/${config.get('storage.path')}`, express.static('uploads'))
+const storagePath = config.get('storage.path')
+app.use(`/${storagePath}`, express.static(storagePath))
 
 app.use(`/api/v${config.get('api.version')}`, routes)
 
