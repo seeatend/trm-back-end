@@ -1,9 +1,12 @@
+const config = require('config')
 const express = require('express')
+const morgan = require('morgan')
 const app = express()
-const port = process.env.PORT || 3000
+const path = require('path')
+const port = config.get('server.port')
 const bodyParser = require('body-parser')
 
-require('config/db')
+require('setup/db')
 require('models/message')
 
 const routes = require('routes')
@@ -14,16 +17,27 @@ app.use(function(req, res, next) {
   next()
 })
 
+app.use(morgan('dev'))
+
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 
-app.use('/uploads', express.static('uploads'))
+const storagePath = config.get('storage.path')
+app.use(`/${storagePath}`, express.static(storagePath))
 
-app.use('/api/v1', routes)
+app.use(`/api/v${config.get('api.version')}`, routes)
+
+app.use('/', express.static(path.resolve('./client')))
+
+app.get('/*', (req, res) => {
+  res.sendFile(path.resolve('./client/index.html'))
+})
+
 
 app.use(function(req, res) {
   res.status(404).send({url: `${req.originalUrl} not found`})
 })
+
 
 app.listen(port)
 

@@ -1,3 +1,4 @@
+const config = require('config')
 const path = require('path')
 const mime = require('mime')
 const {move, generateThumbnail, thumbnailPath} = require('./file')
@@ -24,7 +25,7 @@ exports.processFiles = (files, basePath) => {
     files = newFiles
   }
   files.forEach(file => {
-    const relativePath = `uploads/${basePath}/${file.filename}`
+    const relativePath = `${config.get('storage.path')}/${basePath}/${file.filename}`
     const destination = path.resolve(relativePath)
     if (mime.lookup(file.originalname) === file.mimetype) {
       const type = file.mimetype.slice(0, file.mimetype.indexOf('/'))
