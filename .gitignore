@@ -26,3 +26,4 @@ yarn.lock
 /uploads
 /test-uploads
 /client
+.env
