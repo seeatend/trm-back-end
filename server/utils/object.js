@@ -1,4 +1,7 @@
 const objectUtils = {
+  isObject: (obj) => {
+    return obj != null && typeof obj === 'object' && Array.isArray(obj) === false
+  },
   removePrivate: (obj) => {
     const result = {}
     Object.keys(obj).forEach(key => {
