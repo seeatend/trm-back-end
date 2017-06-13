@@ -50,10 +50,13 @@ exports.createMessage = function(req, res) {
 
         newMessage.save(function(err, elem) {
           if (err) {
+            console.log('error while saving message')
             res.send(err)
           }
-          console.log(`message received: ${elem._id}`)
-          res.json({error: false})
+          else {
+            console.log(`message received: ${elem._id}`)
+            res.send({error: false})
+          }
         })
       }
       else {

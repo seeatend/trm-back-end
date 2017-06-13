@@ -7,6 +7,8 @@ const config = require('config')
 
 const {extension} = require('utils/file')
 
+const messageRouter = express.Router({mergeParams: true})
+const messageController = require('./controller')
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -48,9 +50,6 @@ const processAttachment = (req, res, next) => {
     }
   })
 }
-
-const messageRouter = express.Router({mergeParams: true})
-const messageController = require('controllers/message')
 
 messageRouter.route('/message')
   .get(messageController.getMessage)

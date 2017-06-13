@@ -1,6 +1,6 @@
 const express = require('express')
 
-const messageRouter = require('./message')
+const messageRouter = require('./message/routes')
 
 const rootRouter = express.Router({mergeParams: true})
 
