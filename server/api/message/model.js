@@ -3,8 +3,7 @@ const Schema = mongoose.Schema
 
 const MessageSchema = new Schema({
   trainerId: {
-    type: String,
-    required: true
+    type: String
   },
   horseId: {
     type: String,

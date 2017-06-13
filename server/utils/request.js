@@ -4,13 +4,16 @@ const mime = require('mime')
 const {move, generateThumbnail, thumbnailPath} = require('./file')
 
 exports.prepareQuery = (query, availableQueries) => {
-  result = {}
+  let result = {}
   availableQueries.forEach((elem) => {
     if (query[elem]) {
       result[elem] = query[elem]
       return result
     }
   })
+  if (result === {}) {
+    result = null
+  }
   return result
 }
 
@@ -21,6 +24,7 @@ exports.success = value => {
 }
 
 exports.error = message => {
+  if (!message) message = 'Wrong parameters'
   return {status: 'error', message}
 }
 
