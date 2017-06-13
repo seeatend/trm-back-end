@@ -7,7 +7,12 @@ const availableQueries = ['name']
 const prepareHorse = horse => {
   horse.runs = horse.performances.length
   horse.wins = horse.performances.filter(
-    p => p.position.official === 1
+    p => {
+      if (p.position) {
+        return p.position.official === 1
+      }
+      else { return false }
+    }
   ).length
   const removeProps = ['performances', 'timeFormId']
   removeProps.forEach(prop => {
@@ -18,7 +23,7 @@ const prepareHorse = horse => {
 
 exports.getHorse = (req, res) => {
   let query = prepareQuery(req.query, availableQueries)
-  if (query) {
+  if (query && Object.keys(query).length === 1) {
     query.name = dehyphenize(query.name)
     Horse.findOne(
       query,
@@ -45,6 +50,18 @@ exports.getHorse = (req, res) => {
     })
   }
   else {
-    res.error(error())
+    Horse.find(
+      {}, {__v: false},
+      {lean: true}
+    ).then(horses => {
+      const result = []
+      horses.forEach(horse => {
+        result.push(prepareHorse(horse))
+      })
+      res.json(success(result))
+    }).catch(err => {
+      console.log(err)
+      res.error(error())
+    })
   }
 }

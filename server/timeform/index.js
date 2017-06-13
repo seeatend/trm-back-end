@@ -1,5 +1,4 @@
 const fs = require('fs-extra')
-process.env.NODE_ENV = 'test'
 require('dotenv').config()
 const {authenticate, horses, performances} = require('./api')
 require('setup/db')
@@ -12,7 +11,7 @@ const convert = require('./convertFields')
 
 authenticate.then(() => {
   horses.get({
-    $top: 2,
+    $top: 20,
   }).then(horses => {
     horses.forEach(horse => {
       console.log(`Processing: ${horse.horseName}`)
