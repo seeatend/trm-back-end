@@ -7,9 +7,9 @@ const port = config.get('server.port')
 const bodyParser = require('body-parser')
 
 require('setup/db')
-require('models/message')
+require('api/message/model')
 
-const routes = require('routes')
+const routes = require('api')
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*")
@@ -27,17 +27,15 @@ app.use(`/${storagePath}`, express.static(storagePath))
 
 app.use(`/api/v${config.get('api.version')}`, routes)
 
+app.use('/api/*', (req, res) => {
+  res.status(404).send({url: `${req.originalUrl} not found`})
+})
+
 app.use('/', express.static(path.resolve('./client')))
 
 app.get('/*', (req, res) => {
   res.sendFile(path.resolve('./client/index.html'))
 })
-
-
-app.use(function(req, res) {
-  res.status(404).send({url: `${req.originalUrl} not found`})
-})
-
 
 app.listen(port)
 

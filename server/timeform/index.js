@@ -4,7 +4,7 @@ require('dotenv').config()
 const {authenticate, horses, performances} = require('./api')
 require('setup/db')
 const mongoose = require('mongoose')
-require('models/horse')
+require('api/horse/model')
 const Horse = mongoose.model('Horse')
 
 

@@ -8,7 +8,9 @@
     "logs": "forever logs 0",
     "timeform": "NODE_PATH=./server node server/timeform",
     "timeform-test": "NODE_PATH=./server mocha -t 10000 ./server/timeform/test.js",
+    "test-server": "NODE_PATH=./server NODE_ENV=test node server",
     "api-test": "NODE_PATH=./server mocha --require ./server/test/start.js --recursive $(find server/test -name '*.js')",
+    "e2e": "run-p test-server api-test",
     "test": "NODE_PATH=./server mocha -w --opts mocha.opts --recursive $(find server -name '*.spec.js')"
   },
   "dependencies": {
@@ -26,6 +28,7 @@
     "morgan": "^1.8.2",
     "multer": "^1.3.0",
     "nodemon": "^1.11.0",
+    "npm-run-all": "^4.0.2",
     "request": "^2.81.0",
     "request-promise": "^4.2.1"
   }

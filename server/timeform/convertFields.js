@@ -1,5 +1,5 @@
 const { isObject } = require('utils/object')
-const { horseDefinition } = require('models/horse')
+const { horseDefinition } = require('api/horse/model')
 
 const selectFields = (body, fields) => {
   const result = {}
