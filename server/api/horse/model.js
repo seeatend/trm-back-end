@@ -60,9 +60,9 @@ const horseDefinition = {
   }]
 }
 
-const HorseSchema = mongoose.model('Horse', new Schema(horseDefinition))
+const Horse = mongoose.model('Horse', new Schema(horseDefinition))
 
 module.exports = {
   horseDefinition,
-  HorseSchema
+  Horse
 }

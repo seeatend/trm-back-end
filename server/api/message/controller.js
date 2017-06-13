@@ -1,6 +1,6 @@
 const {prepareQuery, processFiles} = require('utils/request')
 const mongoose = require('mongoose')
-const Message = mongoose.model('Message')
+const Message = require('./model')
 
 const availableQueries = ['horseId', 'trainerId']
 

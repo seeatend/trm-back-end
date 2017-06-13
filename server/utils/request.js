@@ -14,6 +14,15 @@ exports.prepareQuery = (query, availableQueries) => {
   return result
 }
 
+exports.dehyphenize = query => query.replace(/-/g, ' ').toUpperCase()
+
+exports.success = value => {
+  return {status: 'success', data: value}
+}
+
+exports.error = message => {
+  return {status: 'error', message}
+}
 
 exports.processFiles = (files, basePath) => {
   const result = []
