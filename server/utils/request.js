@@ -11,7 +11,7 @@ exports.prepareQuery = (query, availableQueries) => {
       return result
     }
   })
-  if (result === {}) {
+  if (Object.keys(result).length === 0) {
     result = null
   }
   return result
