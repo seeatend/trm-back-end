@@ -24,6 +24,16 @@ const horseDefinition = {
       tf: 'ownerFullName'
     }
   },
+  foalingDate: {
+    type: Date,
+    tf: 'foalingDate'
+  },
+  sire: {
+    name: {
+      type: String,
+      tf: 'sireName'
+    }
+  },
   dam: {
     name: {
       type: String,
