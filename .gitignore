@@ -27,3 +27,5 @@ yarn.lock
 /test-uploads
 /client
 .env
+
+/package-lock.json

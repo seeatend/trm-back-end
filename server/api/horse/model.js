@@ -18,10 +18,24 @@ const horseDefinition = {
     type: String,
     tf: 'horseGender'
   },
+  color: {
+    type: String,
+    tf: 'horseColour'
+  },
   owner: {
     name: {
       type: String,
       tf: 'ownerFullName'
+    }
+  },
+  foalingDate: {
+    type: Date,
+    tf: 'foalingDate'
+  },
+  sire: {
+    name: {
+      type: String,
+      tf: 'sireName'
     }
   },
   dam: {
@@ -40,12 +54,6 @@ const horseDefinition = {
       tf: 'trainerFullName'
     }
   },
-  syndicate: {
-    color: {
-      type: String,
-      tf: 'horseColour'
-    }
-  },
   performances: [{
     date: {
       type: Date,
@@ -60,9 +68,9 @@ const horseDefinition = {
   }]
 }
 
-const HorseSchema = mongoose.model('Horse', new Schema(horseDefinition))
+const Horse = mongoose.model('Horse', new Schema(horseDefinition))
 
 module.exports = {
   horseDefinition,
-  HorseSchema
+  Horse
 }

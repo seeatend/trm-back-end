@@ -4,16 +4,29 @@ const mime = require('mime')
 const {move, generateThumbnail, thumbnailPath} = require('./file')
 
 exports.prepareQuery = (query, availableQueries) => {
-  result = {}
+  let result = {}
   availableQueries.forEach((elem) => {
     if (query[elem]) {
       result[elem] = query[elem]
       return result
     }
   })
+  if (Object.keys(result).length === 0) {
+    result = null
+  }
   return result
 }
 
+exports.dehyphenize = query => query.trim().replace(/-/g, ' ').toUpperCase()
+
+exports.success = value => {
+  return {status: 'success', data: value}
+}
+
+exports.error = message => {
+  if (!message) message = 'Wrong parameters'
+  return {status: 'error', message}
+}
 
 exports.processFiles = (files, basePath) => {
   const result = []

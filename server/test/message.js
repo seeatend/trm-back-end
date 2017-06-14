@@ -26,12 +26,16 @@ describe('Messages', () => {
       ).get(
         'message'
       ).then(res => {
-        res.should.have.status(200)
-        res.body.should.be.a('array')
-        res.body.length.should.be.eql(0)
-        done()
+        let data = res.body.data
+        if (data) {
+          res.should.have.status(200)
+          data.should.be.a('array')
+          data.length.should.be.eql(0)
+          done()
+        }
+        else { throw new Error('data is undefined')}
       }).catch(error => {
-        // console.log(error)
+        console.log(error)
       })
     })
   })
@@ -56,7 +60,14 @@ describe('Messages', () => {
       }).catch(error => {
         // TODO: fix double response/callback error
       }).then(res => {
-        done()
+        let data = res.body.data
+        if (data) {
+          res.should.have.status(200)
+          data.should.be.a('array')
+          data.length.should.be.eql(1)
+          done()
+        }
+        else { throw new Error('data is undefined')}
       }).catch(error => {
         console.log('Error on getting')
         console.log(error)

@@ -7,7 +7,6 @@ const port = config.get('server.port')
 const bodyParser = require('body-parser')
 
 require('setup/db')
-require('api/message/model')
 
 const routes = require('api')
 
