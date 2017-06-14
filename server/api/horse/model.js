@@ -18,6 +18,10 @@ const horseDefinition = {
     type: String,
     tf: 'horseGender'
   },
+  color: {
+    type: String,
+    tf: 'horseColour'
+  },
   owner: {
     name: {
       type: String,
@@ -48,12 +52,6 @@ const horseDefinition = {
     name: {
       type: String,
       tf: 'trainerFullName'
-    }
-  },
-  syndicate: {
-    color: {
-      type: String,
-      tf: 'horseColour'
     }
   },
   performances: [{

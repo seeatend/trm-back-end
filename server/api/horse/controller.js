@@ -1,33 +1,9 @@
 const {Horse} = require('./model')
 const Message = require('api/message/model')
 const {prepareQuery, dehyphenize, success, error} = require('utils/request')
+const prepareHorse = require('./prepareHorse')
 
 const availableQueries = ['name']
-
-const prepareHorse = horse => {
-  horse.runs = horse.performances.length
-  horse.wins = horse.performances.filter(
-    p => {
-      if (p.position) {
-        return p.position.official === 1
-      }
-      else { return false }
-    }
-  ).length
-  horse.places = horse.performances.filter(
-    p => {
-      if (p.position) {
-        return p.position.official === 2 || p.position.official === 3
-      }
-      else { return false }
-    }
-  ).length
-  const removeProps = ['performances', 'timeFormId']
-  removeProps.forEach(prop => {
-    delete horse[prop]
-  })
-  return horse
-}
 
 exports.getHorse = (req, res) => {
   let query = prepareQuery(req.query, availableQueries)
