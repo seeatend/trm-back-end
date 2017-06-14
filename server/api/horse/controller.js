@@ -14,6 +14,14 @@ const prepareHorse = horse => {
       else { return false }
     }
   ).length
+  horse.places = horse.performances.filter(
+    p => {
+      if (p.position) {
+        return p.position.official === 2 || p.position.official === 3
+      }
+      else { return false }
+    }
+  ).length
   const removeProps = ['performances', 'timeFormId']
   removeProps.forEach(prop => {
     delete horse[prop]
@@ -29,24 +37,30 @@ exports.getHorse = (req, res) => {
       query,
       {__v: false}
     ).then(horse => {
-      this.horse = prepareHorse(horse.toObject())
-      return Message.find(
-        {horseId: horse._id},
-        {_id: false, __v: false, horseId: false},
-        {
-          limit: 20,
-          sort: {createdAt: -1}
-        }
-      )
+      if (horse) {
+        this.horse = prepareHorse(horse.toObject())
+
+        return Message.find(
+          {horseId: horse._id},
+          {_id: false, __v: false, horseId: false},
+          {
+            limit: 20,
+            sort: {createdAt: -1}
+          }
+        )
+      }
+      else {
+        throw new Error('Not found')
+      }
     }).catch(err => {
-      console.log(err)
-      res.send(error(err))
+      res.send(error(err.message))
     }).then(messages => {
-      this.horse.messages = messages
-      res.send(success(this.horse))
+      if (this.horse) {
+        this.horse.messages = messages
+        res.send(success(this.horse))
+      }
     }).catch(err => {
-      console.log(err)
-      res.send(error(err))
+      res.send(error(err.message))
     })
   }
   else {

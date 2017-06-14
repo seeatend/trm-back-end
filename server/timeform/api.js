@@ -1,4 +1,3 @@
-const request = require('request-promise')
 
 const apiBaseUrl = 'https://api.timeform.com/HorseRacingApi/odata/'
 

@@ -17,7 +17,7 @@ exports.prepareQuery = (query, availableQueries) => {
   return result
 }
 
-exports.dehyphenize = query => query.replace(/-/g, ' ').toUpperCase()
+exports.dehyphenize = query => query.trim().replace(/-/g, ' ').toUpperCase()
 
 exports.success = value => {
   return {status: 'success', data: value}
