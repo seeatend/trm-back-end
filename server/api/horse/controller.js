@@ -55,3 +55,22 @@ exports.getHorse = (req, res) => {
     })
   }
 }
+
+exports.updateBrutal = (query, data) => {
+  return new Promise((resolve, reject) => {
+    Horse.findOneAndUpdate(
+      query,
+      data,
+      {upsert: true, new: true}
+    ).then(horse => {
+      if (horse) {
+        resolve(horse)
+      }
+      else {
+        reject({message: 'Could not update horse.'})
+      }
+    }).catch(err => {
+      reject(err)
+    })
+  })
+}

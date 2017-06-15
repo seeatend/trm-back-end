@@ -26,12 +26,12 @@ const horseDefinition = {
   shares: {
     total: Number,
     owners: [{
-      id: ObjectId,
+      _id: ObjectId,
       amount: Number
     }]
   },
   owner: {
-    id: {
+    _id: {
       type: ObjectId
     },
     name: {

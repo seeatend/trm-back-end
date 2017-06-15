@@ -2,10 +2,10 @@ const fs = require('fs-extra')
 require('dotenv').config()
 const {authenticate, horses, performances} = require('./api')
 require('setup/db')
-const mongoose = require('mongoose')
-require('api/horse/model')
-const Horse = mongoose.model('Horse')
 
+const {Horse} = require('api/horse/model')
+const syndicateController = require('api/syndicate/controller')
+const horseController = require('api/horse/controller')
 
 const convert = require('./convertFields')
 
@@ -13,15 +13,16 @@ authenticate.then(() => {
   horses.get({
     $top: 20,
   }).then(horses => {
-    horses.forEach(horse => {
+    horses.forEach((horse) => {
       console.log(`Processing: ${horse.horseName}`)
+      let horseData, syndicateData
 
       performances.get({
         $filter: `horseCode eq '${horse.horseCode}'`
       }).then(performances => {
         console.log(`Performances for: ${horse.horseName}`)
 
-        const horseData = convert.horse(horse)
+        horseData = convert.horse(horse)
 
         let performancesData = []
         performances.forEach(performance => {
@@ -30,16 +31,39 @@ authenticate.then(() => {
 
         horseData.performances = performancesData
 
-        return Horse.findOneAndUpdate(
-          {timeFormId: horse.horseCode},
-          horseData,
-          {upsert: true}
+        if (!horseData.owner || !horseData.owner.name) {
+          throw new Error(`Horse owner is undefined(${horseData.name})`)
+        }
+
+        return syndicateController.findBrutal(horseData.owner.name)
+      }).then(syndicate => {
+        syndicateData = syndicate
+        horseData.owner._id = syndicate._id
+        let timeFormId = horse.horseCode.trim()
+
+        return horseController.updateBrutal(
+          {timeFormId: timeFormId},
+          horseData
         )
-      }).then(res => {
+      }).then(savedHorse => {
         console.log(`Saved: ${horse.horseName}`)
+
+        if (savedHorse._id && syndicateData.horses.indexOf(savedHorse._id) < 0) {
+          syndicateData.horses.push(savedHorse._id)
+          return syndicateData.save().then(res => {
+            console.log('Horse added to syndicate')
+          }).catch(err => {
+            console.error(err.message)
+          })
+        }
+        else {
+          console.log('Horse already part of syndicate')
+        }
       }).catch(err => {
-        console.error(err)
+        console.error(err.message)
       })
     })
+  }).catch(err => {
+    console.error(err.message)
   })
 })

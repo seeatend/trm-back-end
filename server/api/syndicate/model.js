@@ -8,12 +8,9 @@ const Syndicate = new Schema({
     type: String,
     required: true
   },
-  horses: [{
-    id: {
-      type: ObjectId,
-      ref: 'Horse'
-    }
-  }]
+  horses: [
+    { type: ObjectId, ref: 'Horse' }
+  ]
 })
 
 module.exports = mongoose.model('Syndicate', Syndicate)
