@@ -1,12 +1,10 @@
 const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const {Schema} = mongoose
+const {ObjectId} = Schema.Types
 
-const MessageSchema = new Schema({
-  trainerId: {
-    type: String
-  },
+const Message = new Schema({
   horseId: {
-    type: String,
+    type: ObjectId,
     required: true
   },
   attachment: {
@@ -21,4 +19,4 @@ const MessageSchema = new Schema({
   }
 })
 
-module.exports = mongoose.model('Message', MessageSchema)
+module.exports = mongoose.model('Message', Message)

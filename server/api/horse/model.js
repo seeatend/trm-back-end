@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const {Schema} = mongoose
+const {ObjectId} = Schema.Types
 
 const horseDefinition = {
   timeFormId: {
@@ -22,7 +23,17 @@ const horseDefinition = {
     type: String,
     tf: 'horseColour'
   },
+  shares: {
+    total: Number,
+    owners: [{
+      id: ObjectId,
+      amount: Number
+    }]
+  },
   owner: {
+    id: {
+      type: ObjectId
+    },
     name: {
       type: String,
       tf: 'ownerFullName'

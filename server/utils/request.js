@@ -19,6 +19,8 @@ exports.prepareQuery = (query, availableQueries) => {
 
 exports.dehyphenize = query => query.trim().replace(/-/g, ' ').toUpperCase()
 
+exports.isId = id => id.match(/^[0-9a-fA-F]{24}$/)
+
 exports.success = value => {
   return {status: 'success', data: value}
 }
