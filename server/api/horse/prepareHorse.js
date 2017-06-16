@@ -1,3 +1,5 @@
+const {hyphenize} = require('utils/request')
+
 const colors = {
   'b': 'bay',
   'br': 'brown',
@@ -28,6 +30,7 @@ const genders = {
 const getGender = gender => genders[gender.trim()] || 'unknown'
 
 const prepareHorse = horse => {
+  horse.slug = hyphenize(horse.name)
   horse.runs = horse.performances.length
   horse.wins = horse.performances.filter(
     p => {

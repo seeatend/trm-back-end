@@ -10,6 +10,36 @@ const horseController = require('api/horse/controller')
 
 const convert = require('./convertFields')
 
+colors = [
+  '#FFF2C7',
+  '#12242f',
+  '#794440',
+  '#004890',
+  '#006351',
+  '#1fb259',
+  '#959ca1',
+  '#a0cced',
+  '#6db43e',
+  '#b30337',
+  '#b3a1cd',
+  '#f78e1e',
+  '#fac8ca',
+  '#542989',
+  '#ee2e23',
+  '#0068b3',
+  '#ffffff',
+  '#fff352'
+]
+
+const getRandomColor = () => {
+  let letters = '0123456789ABCDEF'
+  let color = '#'
+  for (let i = 0; i < 6; i++ ) {
+    color += letters[Math.floor(Math.random() * 16)]
+  }
+  return color
+}
+
 authenticate.then(() => {
   horses.get({
     $top: 20,
@@ -36,10 +66,11 @@ authenticate.then(() => {
           throw new Error(`Horse owner is undefined(${horseData.name})`)
         }
 
-        return syndicateController.findBrutal(horseData.owner.name)
+        return syndicateController.findBrutal(horseData.owner.name, colors.pop() || getRandomColor())
       }).then(syndicate => {
         syndicateData = syndicate
         horseData.owner._id = syndicate._id
+        horseData.owner.color = syndicate.color
         let timeFormId = horse.horseCode.trim()
 
         return horseController.updateBrutal(

@@ -8,12 +8,16 @@ module.exports = (ownership) => {
     let owner = elem.horse.owner
     let syndicateName = owner.name;
     if (!syndicates[syndicateName]) {
-      syndicates[syndicateName] = []
+      syndicates[syndicateName] = {
+        horses: []
+      }
     }
-    let newHorse = prepareHorse(elem.horse);
+    let newHorse = prepareHorse(elem.horse)
     newHorse.shares = elem.shares
+    syndicates[syndicateName].color = newHorse.owner.color
     delete newHorse.owner._id
-    syndicates[syndicateName].push(
+    delete newHorse.owner.color
+    syndicates[syndicateName].horses.push(
       newHorse
     )
   })
@@ -22,7 +26,8 @@ module.exports = (ownership) => {
     result.push({
       name: key,
       slug: hyphenize(key),
-      horses: value
+      color: value.color,
+      horses: value.horses
     })
   })
   return result

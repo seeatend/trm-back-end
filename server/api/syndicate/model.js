@@ -8,6 +8,9 @@ const Syndicate = new Schema({
     type: String,
     required: true
   },
+  color: {
+    type: String
+  },
   horses: [
     { type: ObjectId, ref: 'Horse' }
   ]

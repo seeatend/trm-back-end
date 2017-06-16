@@ -1,6 +1,6 @@
 const Syndicate = require('./model')
 
-exports.findBrutal = (name) => {
+exports.findBrutal = (name, color) => {
   return new Promise((resolve, reject) => {
     if (name) {
       Syndicate.findOne(
@@ -10,7 +10,7 @@ exports.findBrutal = (name) => {
           resolve(syndicate)
         }
         else {
-          return Syndicate.create({name})
+          return Syndicate.create({name, color})
         }
       }).then(syndicate => {
         if (syndicate) {

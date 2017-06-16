@@ -27,6 +27,9 @@ const horseDefinition = {
     _id: {
       type: ObjectId
     },
+    color: {
+      type: String
+    },
     name: {
       type: String,
       tf: 'ownerFullName'
