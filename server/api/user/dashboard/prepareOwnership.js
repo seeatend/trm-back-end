@@ -14,7 +14,7 @@ module.exports = (ownership) => {
     }
     let newHorse = prepareHorse(elem.horse)
     newHorse.shares = elem.shares
-    syndicates[syndicateName].color = newHorse.owner.color
+    syndicates[syndicateName].color = elem.horse.owner.color
     syndicates[syndicateName].horses.push(
       newHorse
     )

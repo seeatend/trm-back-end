@@ -11,6 +11,19 @@ const objectUtils = {
       }
     })
     return result
+  },
+  cloneObject: (obj) => {
+    let newObj = Object.assign({}, obj)
+    Object.keys(newObj).forEach(key => {
+      let val = newObj[key]
+      if (objectUtils.isObject(val)) {
+        let isObjectId = val._bsontype && val._bsontype === 'ObjectID'
+        if (!isObjectId) {
+          newObj[key] = objectUtils.cloneObject(val)
+        }
+      }
+    })
+    return newObj
   }
 }
 

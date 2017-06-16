@@ -1,4 +1,5 @@
 const {hyphenize} = require('utils/request')
+const {cloneObject} = require('utils/object')
 
 const colors = {
   'b': 'bay',
@@ -30,7 +31,7 @@ const genders = {
 const getGender = gender => genders[gender.trim()] || 'unknown'
 
 const prepareHorse = (horse, remove = []) => {
-  let newHorse = Object.assign({}, horse)
+  let newHorse = cloneObject(horse)
   newHorse.slug = hyphenize(newHorse.name)
   newHorse.runs = newHorse.performances.length
   newHorse.wins = newHorse.performances.filter(
