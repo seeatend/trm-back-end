@@ -51,7 +51,7 @@ const prepareHorse = horse => {
   ).length
   horse.gender = getGender(horse.gender)
   horse.color = getColor(horse.color)
-  const removeProps = ['performances', 'timeFormId']
+  const removeProps = ['performances', 'timeFormId', '__v']
   removeProps.forEach(prop => {
     delete horse[prop]
   })

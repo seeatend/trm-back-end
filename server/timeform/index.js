@@ -4,6 +4,7 @@ const {authenticate, horses, performances} = require('./api')
 require('setup/db')
 
 const {Horse} = require('api/horse/model')
+const Syndicate = require('api/syndicate/model')
 const syndicateController = require('api/syndicate/controller')
 const horseController = require('api/horse/controller')
 
@@ -65,5 +66,6 @@ authenticate.then(() => {
     })
   }).catch(err => {
     console.error(err.message)
+
   })
 })

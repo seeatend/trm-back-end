@@ -17,7 +17,9 @@ exports.prepareQuery = (query, availableQueries) => {
   return result
 }
 
-exports.dehyphenize = query => query.trim().replace(/-/g, ' ').toUpperCase()
+exports.dehyphenize = query => query.trim().replace(/[-]+/g, ' ').toUpperCase()
+
+exports.hyphenize = query => query.trim().replace(/[ ]+/g, '-').toLowerCase()
 
 exports.isId = id => id.match(/^[0-9a-fA-F]{24}$/)
 
