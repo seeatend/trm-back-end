@@ -23,13 +23,6 @@ const horseDefinition = {
     type: String,
     tf: 'horseColour'
   },
-  shares: {
-    total: Number,
-    owners: [{
-      _id: ObjectId,
-      amount: Number
-    }]
-  },
   owner: {
     _id: {
       type: ObjectId
@@ -66,6 +59,7 @@ const horseDefinition = {
     }
   },
   performances: [{
+    _id: false,
     date: {
       type: Date,
       tf: 'meetingDate'

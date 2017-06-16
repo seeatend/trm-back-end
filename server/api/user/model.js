@@ -11,10 +11,19 @@ const User = new Schema({
     type: String,
     required: true
   },
-  horses: [{
-    id: ObjectId,
+  ownership: [{
+    _id: false,
+    horse: {
+      type: ObjectId,
+      ref: 'Horse'
+    },
     shares: {
-      owned: Number
+      owned: {
+        type: Number
+      },
+      total: {
+        type: Number
+      }
     }
   }]
 })
