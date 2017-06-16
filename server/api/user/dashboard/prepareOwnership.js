@@ -15,8 +15,6 @@ module.exports = (ownership) => {
     let newHorse = prepareHorse(elem.horse)
     newHorse.shares = elem.shares
     syndicates[syndicateName].color = newHorse.owner.color
-    delete newHorse.owner._id
-    delete newHorse.owner.color
     syndicates[syndicateName].horses.push(
       newHorse
     )

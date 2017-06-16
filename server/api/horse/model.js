@@ -3,7 +3,7 @@ const {Schema} = mongoose
 const {ObjectId} = Schema.Types
 
 const horseDefinition = {
-  timeFormId: {
+  timeformId: {
     type: String,
     tf: 'horseCode'
   },
@@ -22,6 +22,30 @@ const horseDefinition = {
   color: {
     type: String,
     tf: 'horseColour'
+  },
+  featuredImage: {
+    type: String
+  },
+  description: {
+    type: String
+  },
+  style: {
+    type: String
+  },
+  timeformComments: {
+    flat: {
+      type: String,
+      tf: 'productionCommentFlat'
+    },
+    jump: {
+      type: String,
+      tf: 'productionCommentJump'
+    }
+  },
+  manager: {
+    name: {
+      type: String
+    }
   },
   owner: {
     _id: {

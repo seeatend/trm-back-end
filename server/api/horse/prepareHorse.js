@@ -29,10 +29,11 @@ const genders = {
 
 const getGender = gender => genders[gender.trim()] || 'unknown'
 
-const prepareHorse = horse => {
-  horse.slug = hyphenize(horse.name)
-  horse.runs = horse.performances.length
-  horse.wins = horse.performances.filter(
+const prepareHorse = (horse, remove = []) => {
+  let newHorse = Object.assign({}, horse)
+  newHorse.slug = hyphenize(newHorse.name)
+  newHorse.runs = newHorse.performances.length
+  newHorse.wins = newHorse.performances.filter(
     p => {
       if (p.position) {
         return p.position.official === 1
@@ -42,7 +43,7 @@ const prepareHorse = horse => {
       }
     }
   ).length
-  horse.places = horse.performances.filter(
+  newHorse.places = newHorse.performances.filter(
     p => {
       if (p.position) {
         return p.position.official === 2 || p.position.official === 3
@@ -52,13 +53,19 @@ const prepareHorse = horse => {
       }
     }
   ).length
-  horse.gender = getGender(horse.gender)
-  horse.color = getColor(horse.color)
-  const removeProps = ['performances', 'timeFormId', '__v']
+  if (newHorse.gender) {
+    newHorse.gender = getGender(newHorse.gender)
+  }
+  if (newHorse.color) {
+    newHorse.color = getColor(newHorse.color)
+  }
+  delete newHorse.owner._id
+  delete newHorse.owner.color
+  const removeProps = remove.concat(['performances'])
   removeProps.forEach(prop => {
-    delete horse[prop]
+    delete newHorse[prop]
   })
-  return horse
+  return newHorse
 }
 
 module.exports = prepareHorse

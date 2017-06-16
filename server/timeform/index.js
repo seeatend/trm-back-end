@@ -71,10 +71,10 @@ authenticate.then(() => {
         syndicateData = syndicate
         horseData.owner._id = syndicate._id
         horseData.owner.color = syndicate.color
-        let timeFormId = horse.horseCode.trim()
+        let timeformId = horse.horseCode.trim()
 
         return horseController.updateBrutal(
-          {timeFormId: timeFormId},
+          {timeformId},
           horseData
         )
       }).then(savedHorse => {

@@ -11,7 +11,10 @@ exports.getHorse = (req, res) => {
     query.name = dehyphenize(query.name)
     Horse.findOne(
       query,
-      {__v: false}
+      {
+        __v: false,
+        timeformId: false,
+      }
     ).then(horse => {
       if (horse) {
         this.horse = prepareHorse(horse.toObject())
