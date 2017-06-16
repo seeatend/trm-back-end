@@ -6,6 +6,7 @@
     "list": "forever list",
     "stop": "forever stop 0",
     "logs": "forever logs 0",
+    "demo": "NODE_PATH=./server node server/scripts/demo",
     "timeform": "NODE_PATH=./server node server/timeform",
     "timeform-test": "NODE_PATH=./server mocha -t 10000 ./server/timeform/test.js",
     "test-server": "NODE_PATH=./server NODE_ENV=test node server",

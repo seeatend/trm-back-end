@@ -3,26 +3,16 @@ const Message = require('./model')
 
 const availableQueries = ['horseId']
 
-exports.getMessage = (req, res) => {
-  let query = prepareQuery(req.query, availableQueries)
-  if (query) {
-    Message.find(
-      prepareQuery(req.query, availableQueries),
-      {__v: false, _id: false, horseId: false},
-      {
-        limit: 20,
-        sort: {createdAt: -1}
-      }
-    ).then(message => {
-      res.json(success(message))
-    }).catch(err => {
-      console.log(err)
-      res.error(error(err))
-    })
-  }
-  else {
-    res.error(error())
-  }
+exports.getMessage = (query) => {
+  query = prepareQuery(query, availableQueries) || {}
+  return Message.find(
+    query,
+    {__v: false, _id: false, horseId: false},
+    {
+      limit: 20,
+      sort: {createdAt: -1}
+    }
+  )
 }
 
 const validateAttachment = (body) => {

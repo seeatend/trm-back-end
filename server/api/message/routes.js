@@ -4,6 +4,7 @@ const mime = require('mime')
 const path = require('path')
 const mkdirp = require('mkdirp')
 const config = require('config')
+const {success, error} = require('utils/request')
 
 const {extension} = require('utils/file')
 
@@ -52,7 +53,16 @@ const processAttachment = (req, res, next) => {
 }
 
 messageRouter.route('/message')
-  .get(messageController.getMessage)
+  .get((req, res) => {
+    messageController.getMessage(
+      req.query
+    ).then(message => {
+      res.json(success(message))
+    }).catch(err => {
+      res.json(error(err.message))
+      console.log(err.message)
+    })
+  })
   .post(processAttachment, messageController.createMessage)
 
 module.exports = messageRouter

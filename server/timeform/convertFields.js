@@ -1,5 +1,5 @@
-const { isObject } = require('utils/object')
-const { horseDefinition } = require('api/horse/model')
+const {isObject} = require('utils/object')
+const {horseDefinition} = require('api/horse/model')
 
 const selectFields = (body, fields) => {
   const result = {}
@@ -12,7 +12,10 @@ const selectFields = (body, fields) => {
         }
       }
       else {
-        result[key] = selectFields(body, value)
+        const newValue = selectFields(body, value);
+        if (Object.keys(newValue).length > 0) {
+          result[key] = newValue
+        }
       }
     }
   })

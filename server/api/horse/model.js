@@ -1,8 +1,9 @@
 const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const {Schema} = mongoose
+const {ObjectId} = Schema.Types
 
 const horseDefinition = {
-  timeFormId: {
+  timeformId: {
     type: String,
     tf: 'horseCode'
   },
@@ -22,7 +23,37 @@ const horseDefinition = {
     type: String,
     tf: 'horseColour'
   },
+  featuredImage: {
+    type: String
+  },
+  description: {
+    type: String
+  },
+  style: {
+    type: String
+  },
+  timeformComments: {
+    flat: {
+      type: String,
+      tf: 'productionCommentFlat'
+    },
+    jump: {
+      type: String,
+      tf: 'productionCommentJump'
+    }
+  },
+  manager: {
+    name: {
+      type: String
+    }
+  },
   owner: {
+    _id: {
+      type: ObjectId
+    },
+    color: {
+      type: String
+    },
     name: {
       type: String,
       tf: 'ownerFullName'
@@ -55,6 +86,7 @@ const horseDefinition = {
     }
   },
   performances: [{
+    _id: false,
     date: {
       type: Date,
       tf: 'meetingDate'

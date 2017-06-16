@@ -11,6 +11,9 @@ const objectUtils = {
       }
     })
     return result
+  },
+  cloneObject: (obj) => {
+    return JSON.parse(JSON.stringify(obj))
   }
 }
 
