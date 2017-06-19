@@ -1,4 +1,29 @@
 const Syndicate = require('./model')
+const {prepareQuery} = require('utils/request')
+
+const allowedGetParams = ['name']
+
+const getSyndicate = (query) => {
+  let searchQuery = prepareQuery(query, allowedGetParams)
+  return new Promise((resolve, reject) => {
+    if (searchQuery) {
+      Syndicate.findOne(
+        searchQuery,
+        {__v: false, _id: false, owner: false}
+      ).then(syndicate => {
+        if (syndicate) {
+          resolve(syndicate)
+        }
+        else {
+          reject('Not found')
+        }
+      })
+    }
+    else {
+      reject('Wrong query params')
+    }
+  })
+}
 
 const updateSyndicate = (owner, data = {}) => {
   return new Promise((resolve, reject) => {
@@ -35,5 +60,6 @@ const updateSyndicate = (owner, data = {}) => {
 }
 
 module.exports = {
-  updateSyndicate
+  updateSyndicate,
+  getSyndicate
 }
