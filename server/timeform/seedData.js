@@ -63,6 +63,13 @@ module.exports = [
     name: 'Buttercup (FR)'
   },
   {
+    name: 'ELATION (IRE)',
+    owner: {
+      name: 'Highclere'
+    },
+    img: 'elation.jpg'
+  },
+  {
     name: 'HAVRE DE PAIX (FR)',
     style: 'flat',
     description: `By Le Havre (IRE) by Noverre out of Marie Rheinberg by Surako. Won 4 races at 2 and 3 from 7 furlongs to 1 mile 2.5 furlongs including Prix du Jockey Club GrI and placed 2nd Poule d'Essai des Poulains GrI. Retired to stud in 2010 and sire of the winners of 59 races including AVENIR CERTAIN (Poule d'Essai des Pouliches GrI, Prix de Diane GrI), AUVRAY (Prix de Chaudenay GrII, Prix de Lutece GrIII), CRISOLLES (2nd Prix de la Nonette GrII, 3rd Prix Vanteaux GrIII).`,

@@ -42,74 +42,79 @@ module.exports = (horse, additionalData = {}) => {
   console.log(`Processing: ${horse.horseName}`)
   let horseData, syndicateData
 
-  performances.get({
-    $filter: `horseCode eq '${horse.horseCode}'`
-  }).then(performances => {
-    console.log(`Performances for: ${horse.horseName}`)
+  return new Promise((resolve, reject) => {
+    performances.get({
+      $filter: `horseCode eq '${horse.horseCode}'`
+    }).then(performances => {
+      console.log(`Performances for: ${horse.horseName}`)
 
-    horseData = convert.horse(horse)
+      horseData = convert.horse(horse)
 
-    let performancesData = []
-    performances.forEach(performance => {
-      performancesData.push(convert.performance(performance))
-    })
-
-    horseData.performances = performancesData
-
-    if (!horseData.owner || !horseData.owner.name) {
-      throw new Error(`Horse owner is undefined(${horseData.name})`)
-    }
-
-
-    return syndicateController.updateBrutal(
-      horseData.owner.name, {
-        color: colors.pop() || getRandomColor(),
-        name: additionalData.syndicateName || horseData.owner.name
-      }
-    )
-  }).then(syndicate => {
-    syndicateData = syndicate
-    horseData.owner._id = syndicate._id
-    horseData.owner.color = syndicate.color
-    let timeformId = horse.horseCode.trim()
-    if (additionalData) {
-      additionalData.name = additionalData.name.toUpperCase()
-    }
-    horseData = Object.assign(horseData, additionalData)
-    let multerMockData
-    if (additionalData.img) {
-      let img = additionalData.img
-      let mime = extension(img)
-      if (mime === 'jpg') { mime = 'jpeg' }
-      multerMockData = {
-        fieldname: 'featuredImage',
-        originalname: img,
-        mimetype: `image/${mime}`,
-        filename: img,
-        path: path.resolve('./uploads/tmp', img),
-      }
-    }
-
-    return horseController.updateBrutal(
-      {timeformId},
-      horseData,
-      multerMockData
-    )
-  }).then(savedHorse => {
-    console.log(`Saved: ${horse.horseName}`)
-
-    if (savedHorse._id && syndicateData.horses.indexOf(savedHorse._id) < 0) {
-      syndicateData.horses.push(savedHorse._id)
-      return syndicateData.save().then(res => {
-        console.log('Horse added to syndicate')
-      }).catch(err => {
-        console.error(err.message)
+      let performancesData = []
+      performances.forEach(performance => {
+        performancesData.push(convert.performance(performance))
       })
-    }
-    else {
-      console.log('Horse already part of syndicate')
-    }
-  }).catch(err => {
-    console.error(err.message)
+
+      horseData.performances = performancesData
+
+      if (!horseData.owner || !horseData.owner.name) {
+        reject(`Horse owner is undefined(${horseData.name})`)
+      }
+
+      return syndicateController.updateBrutal(
+        horseData.owner.name, {
+          color: colors.pop() || getRandomColor(),
+          name: additionalData.syndicateName || horseData.owner.name
+        }
+      )
+    }).then(syndicate => {
+      syndicateData = syndicate
+      horseData.owner._id = syndicate._id
+      horseData.owner.color = syndicate.color
+      let timeformId = horse.horseCode.trim()
+      if (additionalData) {
+        additionalData.name = additionalData.name.toUpperCase()
+      }
+      horseData = Object.assign(horseData, additionalData)
+      let multerMockData
+      if (additionalData.img) {
+        let img = additionalData.img
+        let mime = extension(img)
+        if (mime === 'jpg') {
+          mime = 'jpeg'
+        }
+        multerMockData = {
+          fieldname: 'featuredImage',
+          originalname: img,
+          mimetype: `image/${mime}`,
+          filename: img,
+          path: path.resolve('./uploads/tmp', img),
+        }
+      }
+
+      return horseController.updateBrutal(
+        {timeformId},
+        horseData,
+        multerMockData
+      )
+    }).then(savedHorse => {
+      console.log(`Saved: ${horse.horseName}`)
+
+      if (savedHorse._id && syndicateData.horses.indexOf(savedHorse._id) < 0) {
+        syndicateData.horses.push(savedHorse._id)
+        return syndicateData.save().then(res => {
+          console.log('Horse added to syndicate')
+          resolve()
+        }).catch(err => {
+          reject(err.message)
+        })
+      }
+      else {
+        console.log('Horse already part of syndicate')
+        resolve()
+      }
+    }).catch(err => {
+      reject(err.message)
+    })
   })
 }
