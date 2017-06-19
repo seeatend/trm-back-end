@@ -1,8 +1,8 @@
 const {performances} = require('./api')
 
 const {Horse} = require('api/horse/model')
-const syndicateController = require('api/syndicate/controller')
-const horseController = require('api/horse/controller')
+const {updateSyndicate} = require('api/syndicate/controller')
+const {updateHorse} = require('api/horse/controller')
 const {extension} = require('utils/file')
 const path = require('path')
 
@@ -61,7 +61,7 @@ module.exports = (horse, additionalData = {}) => {
         reject(`Horse owner is undefined(${horseData.name})`)
       }
 
-      return syndicateController.updateBrutal(
+      return updateSyndicate(
         horseData.owner.name, {
           color: colors.pop() || getRandomColor(),
           name: additionalData.syndicateName || horseData.owner.name
@@ -92,7 +92,7 @@ module.exports = (horse, additionalData = {}) => {
         }
       }
 
-      return horseController.updateBrutal(
+      return updateHorse(
         {timeformId},
         horseData,
         multerMockData

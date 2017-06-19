@@ -1,6 +1,6 @@
 const Syndicate = require('./model')
 
-const updateBrutal = (owner, data = {}) => {
+const updateSyndicate = (owner, data = {}) => {
   return new Promise((resolve, reject) => {
     if (owner) {
       Syndicate.findOne(
@@ -35,5 +35,5 @@ const updateBrutal = (owner, data = {}) => {
 }
 
 module.exports = {
-  updateBrutal
+  updateSyndicate
 }

@@ -51,7 +51,7 @@ const getHorse = (req, res) => {
       res.send(success(horseData))
     }).catch(err => {
       console.error(err)
-      res.send(error(err.message))
+      res.status(404).send(error(err.message))
     })
   }
   else {
@@ -66,12 +66,12 @@ const getHorse = (req, res) => {
       res.json(success(result))
     }).catch(err => {
       console.log(err)
-      res.error(error())
+      res.status(404).json(error())
     })
   }
 }
 
-const updateBrutal = (query, data, file) => {
+const updateHorse = (query, data, file) => {
   if (file) {
     const featuredImage = processFile(file, `horses/${Date.now()}`)
     if (featuredImage.type === 'image') {
@@ -98,5 +98,5 @@ const updateBrutal = (query, data, file) => {
 
 module.exports = {
   getHorse,
-  updateBrutal
+  updateHorse
 }

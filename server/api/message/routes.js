@@ -12,7 +12,7 @@ messageRouter.route('/message')
     ).then(message => {
       res.json(success(message))
     }).catch(err => {
-      res.json(error(err.message))
+      res.status(404).json(error(err.message))
       console.log(err.message)
     })
   })
