@@ -5,10 +5,13 @@ const app = express()
 const path = require('path')
 const port = config.get('server.port')
 const bodyParser = require('body-parser')
+const compression = require('compression')
 
 require('setup/db')
 
 const routes = require('api')
+
+app.use(compression())
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*")
