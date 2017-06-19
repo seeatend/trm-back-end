@@ -3,7 +3,7 @@ const Message = require('./model')
 
 const availableQueries = ['horseId']
 
-exports.getMessage = (query) => {
+const getMessage = (query) => {
   query = prepareQuery(query, availableQueries) || {}
   return Message.find(
     query,
@@ -26,13 +26,13 @@ const validateAttachment = (body) => {
   return validated
 }
 
-exports.createMessage = (req, res) => {
+const createMessage = (req, res) => {
   const {body, files} = req
   const newMessage = new Message(body)
 
   let errors = newMessage.validateSync()
   if (!errors) {
-    const messagePath = `${body.horseId}/${Date.now()}`
+    const messagePath = `messages/${body.horseId}/${Date.now()}`
     const attachment = processFiles(files, messagePath)
     newMessage.attachment = attachment
 
@@ -47,14 +47,19 @@ exports.createMessage = (req, res) => {
       }).catch(err => {
         console.log('error while saving message')
         console.log(err)
-        res.send(error(err))
+        res.status(404).send(error(err))
       })
     }
     else {
-      res.send(error())
+      res.status(404).send(error())
     }
   }
   else {
-    res.send(error())
+    res.status(404).send(error())
   }
+}
+
+module.exports = {
+  getMessage,
+  createMessage
 }

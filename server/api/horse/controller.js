@@ -1,12 +1,12 @@
 const {Horse} = require('./model')
 const User = require('api/user/model')
 const Message = require('api/message/model')
-const {prepareQuery, dehyphenize, success, error} = require('utils/request')
+const {prepareQuery, dehyphenize, success, error, processFile} = require('utils/request')
 const prepareHorse = require('./prepareHorse')
 
 const availableQueries = ['name']
 
-exports.getHorse = (req, res) => {
+const getHorse = (req, res) => {
   let query = prepareQuery(req.query, availableQueries)
   if (query && Object.keys(query).length === 1) {
     query.name = dehyphenize(query.name)
@@ -40,7 +40,7 @@ exports.getHorse = (req, res) => {
         {ownership: true}
       )
     }).then(user => {
-      if (user.ownership) {
+      if (user && user.ownership) {
         let ownership = user.ownership.filter(elem => {
           return elem.horse.toString() === horseData._id.toString()
         })
@@ -51,7 +51,7 @@ exports.getHorse = (req, res) => {
       res.send(success(horseData))
     }).catch(err => {
       console.error(err)
-      res.send(error(err.message))
+      res.status(404).send(error(err.message))
     })
   }
   else {
@@ -66,12 +66,18 @@ exports.getHorse = (req, res) => {
       res.json(success(result))
     }).catch(err => {
       console.log(err)
-      res.error(error())
+      res.status(404).json(error())
     })
   }
 }
 
-exports.updateBrutal = (query, data) => {
+const updateHorse = (query, data, file) => {
+  if (file) {
+    const featuredImage = processFile(file, `horses/${Date.now()}`)
+    if (featuredImage.type === 'image') {
+      data.featuredImage = featuredImage.path
+    }
+  }
   return new Promise((resolve, reject) => {
     Horse.findOneAndUpdate(
       query,
@@ -88,4 +94,9 @@ exports.updateBrutal = (query, data) => {
       reject(err)
     })
   })
+}
+
+module.exports = {
+  getHorse,
+  updateHorse
 }

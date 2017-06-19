@@ -1,11 +1,11 @@
 const {success, error} = require('utils/request')
 
-const userController = require('api/user/controller')
+const {getUser} = require('api/user/controller')
 
 const prepareOwnership = require('./prepareOwnership')
 
-exports.getDashboard = (req, res) => {
-  userController.get(
+const getDashboard = (req, res) => {
+  getUser(
     null,
     {
       __v: false,
@@ -27,6 +27,10 @@ exports.getDashboard = (req, res) => {
     }
   }).catch(err => {
     console.error(err)
-    res.json(error(err.message))
+    res.status(404).json(error(err.message))
   })
+}
+
+module.exports = {
+  getDashboard
 }
