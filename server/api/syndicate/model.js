@@ -8,6 +8,10 @@ const Syndicate = new Schema({
     type: String,
     required: true
   },
+  owner: {
+    type: String,
+    required: true
+  },
   color: {
     type: String
   },

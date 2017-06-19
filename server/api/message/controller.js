@@ -32,7 +32,7 @@ exports.createMessage = (req, res) => {
 
   let errors = newMessage.validateSync()
   if (!errors) {
-    const messagePath = `${body.horseId}/${Date.now()}`
+    const messagePath = `messages/${body.horseId}/${Date.now()}`
     const attachment = processFiles(files, messagePath)
     newMessage.attachment = attachment
 

@@ -3,7 +3,7 @@ const path = require('path')
 const mime = require('mime')
 const {move, generateThumbnail, thumbnailPath} = require('./file')
 
-exports.prepareQuery = (query, availableQueries) => {
+const prepareQuery = (query, availableQueries) => {
   let result = {}
   availableQueries.forEach((elem) => {
     if (query[elem]) {
@@ -17,23 +17,55 @@ exports.prepareQuery = (query, availableQueries) => {
   return result
 }
 
-exports.dehyphenize = query => query.trim().replace(/[-]+/g, ' ').toUpperCase()
+const dehyphenize = query => query.trim().replace(/[-]+/g, ' ').toUpperCase()
 
-exports.hyphenize = query => query.trim().replace(/[ ]+/g, '-').toLowerCase()
+const hyphenize = query => query.trim().replace(/[ ]+/g, '-').toLowerCase()
 
-exports.isId = id => id.match(/^[0-9a-fA-F]{24}$/)
+const isId = id => id.match(/^[0-9a-fA-F]{24}$/)
 
-exports.success = value => {
+const success = value => {
   return {status: 'success', data: value}
 }
 
-exports.error = message => {
+const error = message => {
   if (!message) message = 'Wrong parameters'
   return {status: 'error', message}
 }
 
-exports.processFiles = (files, basePath) => {
-  const result = []
+const processFile = (file, destination) => {
+  const relativePath = `${config.get('storage.path')}/${destination}/${file.filename}`
+  const destinationPath = path.resolve(relativePath)
+  if (mime.lookup(file.originalname) === file.mimetype) {
+    const type = file.mimetype.slice(0, file.mimetype.indexOf('/'))
+
+    let fileObject = {
+      path: `/${relativePath}`,
+      type
+    }
+
+    if (type === 'video') {
+      const relativeThumbnail = `/${path.relative('./', thumbnailPath(destinationPath))}`
+      fileObject.thumbnail = relativeThumbnail
+    }
+
+    move(file.path, destinationPath, () => {
+      if (type === 'video') {
+        generateThumbnail(destinationPath)
+      }
+    })
+
+    return fileObject
+  }
+  else {
+    return {
+      error: true,
+      message: 'mime type doesn\'t match extension'
+    }
+  }
+}
+
+const processFiles = (files, destination) => {
+  const results = []
   if (!Array.isArray(files)) {
     let newFiles = []
     Object.keys(files).forEach(key => {
@@ -42,35 +74,24 @@ exports.processFiles = (files, basePath) => {
     files = newFiles
   }
   files.forEach(file => {
-    const relativePath = `${config.get('storage.path')}/${basePath}/${file.filename}`
-    const destination = path.resolve(relativePath)
-    if (mime.lookup(file.originalname) === file.mimetype) {
-      const type = file.mimetype.slice(0, file.mimetype.indexOf('/'))
-
-      let fileObject = {
-        path: `/${relativePath}`,
-        type
-      }
-
-      if (type === 'video') {
-        const relativeThumbnail = `/${path.relative('./', thumbnailPath(destination))}`
-        fileObject.thumbnail = relativeThumbnail
-      }
-
-      move(file.path, destination, () => {
-        if (type === 'video') {
-          generateThumbnail(destination)
-        }
-      })
-
-      result.push(fileObject)
+    let result = processFile(file, destination)
+    if (result && result.error) {
+      return result
     }
     else {
-      return {
-        error: true,
-        message: 'mime type doesn\'t match extension'
-      }
+      results.push(result)
     }
   })
-  return result
+  return results
+}
+
+module.exports = {
+  prepareQuery,
+  dehyphenize,
+  hyphenize,
+  isId,
+  success,
+  error,
+  processFile,
+  processFiles
 }

@@ -1,16 +1,21 @@
 const Syndicate = require('./model')
 
-exports.findBrutal = (name, color) => {
+const updateBrutal = (owner, data = {}) => {
   return new Promise((resolve, reject) => {
-    if (name) {
+    if (owner) {
       Syndicate.findOne(
-        {name}
+        {owner}
       ).then(syndicate => {
         if (syndicate) {
-          resolve(syndicate)
+          if (Object.keys(data).length > 0) {
+            return Object.assign(syndicate, data).save()
+          }
+          else {
+            resolve(syndicate)
+          }
         }
         else {
-          return Syndicate.create({name, color})
+          return Syndicate.create(Object.assign({owner}, data))
         }
       }).then(syndicate => {
         if (syndicate) {
@@ -24,7 +29,11 @@ exports.findBrutal = (name, color) => {
       })
     }
     else {
-      reject({message: 'Syndicate name is not specified.'})
+      reject({message: 'Syndicate owner is not specified.'})
     }
   })
+}
+
+module.exports = {
+  updateBrutal
 }

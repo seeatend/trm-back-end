@@ -1,4 +1,5 @@
 const request = require('request-promise')
+require('colors')
 
 const apiBaseUrl = 'https://api.timeform.com/HorseRacingApi/odata/'
 
@@ -30,6 +31,7 @@ apiNames.forEach(name => {
   let urlSuffix = name[0].toUpperCase() + name.slice(1)
   exports[name] = {
     get: (query) => {
+      console.log(`/GET ${urlSuffix} q: ${JSON.stringify(query)}`.bgCyan.black)
       return new Promise((resolve, reject) => {
         request.get({
           url: `${apiBaseUrl}/${urlSuffix}`,
