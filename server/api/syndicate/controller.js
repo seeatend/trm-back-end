@@ -1,10 +1,14 @@
 const Syndicate = require('./model')
-const {prepareQuery} = require('utils/request')
+const {prepareQuery, dehyphenize} = require('utils/request')
 
 const allowedGetParams = ['name']
 
 const getSyndicate = (query) => {
-  let searchQuery = prepareQuery(query, allowedGetParams)
+  let searchQuery = prepareQuery(
+    query,
+    allowedGetParams,
+    (key, value) => dehyphenize(value)
+  )
   return new Promise((resolve, reject) => {
     if (searchQuery) {
       Syndicate.findOne(

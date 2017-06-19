@@ -56,6 +56,9 @@ module.exports = (horse, additionalData = {}) => {
       })
 
       horseData.performances = performancesData
+      horseData = Object.assign(horseData, additionalData)
+      horseData.name = horseData.name.toUpperCase()
+      horseData.owner.name = horseData.owner.name.toUpperCase()
 
       if (!horseData.owner || !horseData.owner.name) {
         reject(`Horse owner is undefined(${horseData.name})`)
@@ -64,7 +67,7 @@ module.exports = (horse, additionalData = {}) => {
       return updateSyndicate(
         horseData.owner.name, {
           color: colors.pop() || getRandomColor(),
-          name: additionalData.syndicateName || horseData.owner.name
+          name: horseData.owner.name
         }
       )
     }).then(syndicate => {
@@ -72,10 +75,6 @@ module.exports = (horse, additionalData = {}) => {
       horseData.owner._id = syndicate._id
       horseData.owner.color = syndicate.color
       let timeformId = horse.horseCode.trim()
-      if (additionalData) {
-        additionalData.name = additionalData.name.toUpperCase()
-      }
-      horseData = Object.assign(horseData, additionalData)
       let multerMockData
       if (additionalData.img) {
         let img = additionalData.img

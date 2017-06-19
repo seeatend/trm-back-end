@@ -3,11 +3,11 @@ const path = require('path')
 const mime = require('mime')
 const {move, generateThumbnail, thumbnailPath} = require('./file')
 
-const prepareQuery = (query, availableQueries) => {
+const prepareQuery = (query, availableQueries, transform = val => val) => {
   let result = {}
   availableQueries.forEach((elem) => {
     if (query[elem]) {
-      result[elem] = query[elem]
+      result[elem] = transform(elem, query[elem])
       return result
     }
   })
@@ -17,7 +17,7 @@ const prepareQuery = (query, availableQueries) => {
   return result
 }
 
-const dehyphenize = query => query.trim().replace(/[-]+/g, ' ').toUpperCase()
+const dehyphenize = query => (query || '').trim().replace(/[-]+/g, ' ').toUpperCase()
 
 const hyphenize = query => query.trim().replace(/[ ]+/g, '-').toLowerCase()
 
