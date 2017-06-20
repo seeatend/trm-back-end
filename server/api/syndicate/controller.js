@@ -51,7 +51,8 @@ const getSyndicate = (query) => {
   })
 }
 
-const updateSyndicate = (owner, data = {}, files) => {
+const updateSyndicate = (data = {}, files) => {
+  data = Object.assign({}, data)
   if (files) {
     const filesInfo = processFiles(files, `syndicates/${Date.now()}`)
     if (filesInfo) {
@@ -64,11 +65,11 @@ const updateSyndicate = (owner, data = {}, files) => {
     }
   }
   return new Promise((resolve, reject) => {
-    if (owner) {
-      if (data.name) {
-        data.name = data.name.toUpperCase()
-      }
-      let query = {name: data.name || owner}
+    data.name = data.owner ? data.name || data.owner.name : data.name
+
+    if (data.name) {
+      data.name = data.name.toUpperCase()
+      let query = {name: data.name}
       Syndicate.findOne(
         query
       ).then(syndicate => {
@@ -81,9 +82,7 @@ const updateSyndicate = (owner, data = {}, files) => {
           }
         }
         else {
-          let syndicateData = Object.assign({owner}, data);
-          syndicateData.name = syndicateData.name || syndicateData.owner
-          return Syndicate.create(syndicateData)
+          return Syndicate.create(data)
         }
       }).then(syndicate => {
         if (syndicate) {

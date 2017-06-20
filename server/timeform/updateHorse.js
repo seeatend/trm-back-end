@@ -80,14 +80,17 @@ module.exports = (horse, additionalData = {}) => {
       }
 
       return updateSyndicate(
-        horseData.owner.name,
         Object.assign(
-          {color: colors.pop() || getRandomColor()},
+          {
+            color: colors.pop() || getRandomColor(),
+            owner: horseData.owner
+          },
           syndicateData
         ),
         syndicateFiles
       )
     }).then(syndicate => {
+      console.log('Updated syndicate')
       syndicateData = syndicate
       horseData.owner._id = syndicate._id
       horseData.owner.color = syndicate.color
