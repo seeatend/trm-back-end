@@ -75,7 +75,7 @@ const updateHorse = (query, data, files) => {
   data = Object.assign({}, data)
   if (files) {
     const filesData = processFiles(files, `horses/${Date.now()}`)
-    console.log(filesData)
+
     if (filesData) {
       if (filesData.featuredImage && filesData.featuredImage.length > 0) {
         data.featuredImage = filesData.featuredImage[0].path

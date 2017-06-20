@@ -67,7 +67,7 @@ Throughout the year, Chasemore works closely with Stephen Harrison at Thoroughbr
   {
     name: 'One For Arthur (IRE)',
     syndicate: {
-      name: '2 golf widows',
+      name: 'two golf widows',
       featuredImage: ' 2-golf-widows.jpg',
       description: `Pals Belinda McClung and Deborah Thomson had a cheeky dig at their partners’ expense when they bought a ­racehorse and called their partnership Two Golf Widows.
 But the fellas won’t need any nagging to give their clubs a rest this Saturday.`

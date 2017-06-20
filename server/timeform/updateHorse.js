@@ -57,7 +57,6 @@ module.exports = (horse, additionalData = {}) => {
       horseData.performances = performancesData
       horseData = Object.assign(horseData, additionalData)
       horseData.name = horseData.name.toUpperCase()
-      horseData.owner.name = horseData.owner.name.toUpperCase()
 
       if (!horseData.owner || !horseData.owner.name) {
         reject(`Horse owner is undefined(${horseData.name})`)
@@ -66,6 +65,7 @@ module.exports = (horse, additionalData = {}) => {
       let syndicateFiles = []
       let syndicateData = {}
       if (horseData.syndicate) {
+        horseData.owner.name = horseData.syndicate.name || horseData.owner.name
         syndicateData = horseData.syndicate
         if (syndicateData.featuredImage) {
           syndicateFiles.push(mockFileUpload(
@@ -78,6 +78,7 @@ module.exports = (horse, additionalData = {}) => {
           ))
         }
       }
+      horseData.owner.name = horseData.owner.name.toUpperCase()
 
       return updateSyndicate(
         Object.assign(
