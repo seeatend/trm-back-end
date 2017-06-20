@@ -33,11 +33,11 @@ const createMessage = (req, res) => {
   let errors = newMessage.validateSync()
   if (!errors) {
     const messagePath = `messages/${body.horseId}/${Date.now()}`
-    const attachment = processFiles(files, messagePath)
-    newMessage.attachment = attachment
+    const filesInfo = processFiles(files, messagePath)
+    newMessage.attachment = filesInfo.attachment
 
-    if (attachment.error) {
-      res.error(error(attachment.message))
+    if (filesInfo.error) {
+      res.error(error(filesInfo.message))
     }
     else if (validateAttachment(newMessage)) {
       newMessage.save(

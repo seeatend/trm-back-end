@@ -63,10 +63,29 @@ module.exports = (horse, additionalData = {}) => {
         reject(`Horse owner is undefined(${horseData.name})`)
       }
 
+      let syndicateFiles = []
+      let syndicateData = {}
+      if (horseData.syndicate) {
+        syndicateData = horseData.syndicate
+        if (syndicateData.featuredImage) {
+          syndicateFiles.push(mockFileUpload(
+            'featuredImage', syndicateData.featuredImage
+          ))
+        }
+        if (syndicateData.logo) {
+          syndicateFiles.push(mockFileUpload(
+            'logo', syndicateData.logo
+          ))
+        }
+      }
+
       return updateSyndicate(
-        horseData.owner.name, Object.assign({
-          color: colors.pop() || getRandomColor()
-        }, horseData.syndicate)
+        horseData.owner.name,
+        Object.assign(
+          {color: colors.pop() || getRandomColor()},
+          syndicateData
+        ),
+        syndicateFiles
       )
     }).then(syndicate => {
       syndicateData = syndicate

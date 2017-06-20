@@ -11,8 +11,7 @@ module.exports = [
     img: 'bruyne.jpg',
     syndicate: {
       name: 'Middleham Park',
-      featuredImage: 'kitt.jpg',
-      logo: 'logo.jpg'
+      featuredImage: 'middleham-park.jpg'
     }
   },
   {
@@ -21,7 +20,9 @@ module.exports = [
     description: `This filly is a real queen. She is out of the Stakes winning mare Cartimandua and by Cacique who covers a limited book of mares, but he has a fantastic strike rate with those foals he does get on the ground. He has produced 21% black type performers from foals of racing age and having raced two of his best progeny; Dominant and Census, we are extremely happy to be adding this stunning filly into our syndicates. Contentment ran three times as a two-year-old and was unlucky not to break her maiden having bumped into the subsequent Oh So Sharp Stakes (Gr 3) winner Poet’s Vanity when second at Salisbury. She is a filly with plenty of class about her and is an exciting prospect for 2017.`,
     img: 'contenment.jpg',
     syndicate: {
-      name: 'Highclere'
+      name: 'Highclere',
+      featuredImage: 'highclere.jpg',
+      logo: 'highclere-logo.jpg'
     }
   },
   {
@@ -32,13 +33,15 @@ module.exports = [
     },
     img: 'kitt.png',
     syndicate: {
-      name: 'Chasemore Farm'
+      name: 'Chasemore Farm',
+      featuredImage: 'chasemore-farm.jpg'
     }
   },
   {
     name: 'Dartmouth',
     syndicate: {
-      name: 'The Queen'
+      name: 'The Queen',
+      featuredImage: 'queen.jpg'
     },
     style: 'flat',
     manager: {
@@ -50,7 +53,8 @@ module.exports = [
   {
     name: 'One For Arthur (IRE)',
     syndicate: {
-      name: 'two golf widows'
+      name: '2 golf widows',
+      featuredImage: ' 2-golf-widows.jpg'
     },
     style: 'jumps',
     description: `One For Arthur (foaled 24 February 2009) is an Irish-bred Thoroughbred racehorse who competes in National Hunt racing. In 2017 he became the second horse trained in Scotland to win the Grand National.`,
@@ -75,6 +79,9 @@ module.exports = [
     name: 'HAVRE DE PAIX (FR)',
     style: 'flat',
     description: `By Le Havre (IRE) by Noverre out of Marie Rheinberg by Surako. Won 4 races at 2 and 3 from 7 furlongs to 1 mile 2.5 furlongs including Prix du Jockey Club GrI and placed 2nd Poule d'Essai des Poulains GrI. Retired to stud in 2010 and sire of the winners of 59 races including AVENIR CERTAIN (Poule d'Essai des Pouliches GrI, Prix de Diane GrI), AUVRAY (Prix de Chaudenay GrII, Prix de Lutece GrIII), CRISOLLES (2nd Prix de la Nonette GrII, 3rd Prix Vanteaux GrIII).`,
-    img: 'paix.jpg'
+    img: 'paix.jpg',
+    syndicate: {
+      featuredImage: 'menuisier.jpg'
+    }
   }
 ]

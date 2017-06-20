@@ -1,6 +1,6 @@
 const Syndicate = require('./model')
 const {getMessage} = require('api/message/controller')
-const {prepareQuery, dehyphenize} = require('utils/request')
+const {prepareQuery, dehyphenize, processFiles} = require('utils/request')
 
 const allowedGetParams = ['name']
 
@@ -51,10 +51,23 @@ const getSyndicate = (query) => {
   })
 }
 
-const updateSyndicate = (owner, data = {}) => {
+const updateSyndicate = (owner, data = {}, files) => {
+  if (files) {
+    const filesInfo = processFiles(files, `syndicates/${Date.now()}`)
+    if (filesInfo) {
+      if (filesInfo.featuredImage && filesInfo.featuredImage.length > 0) {
+        data.featuredImage = filesInfo.featuredImage[0].path
+      }
+      if (filesInfo.logo && filesInfo.logo.length > 0) {
+        data.logo = filesInfo.logo[0].path
+      }
+    }
+  }
   return new Promise((resolve, reject) => {
     if (owner) {
-      if (data.name) { data.name = data.name.toUpperCase()}
+      if (data.name) {
+        data.name = data.name.toUpperCase()
+      }
       let query = {name: data.name || owner}
       Syndicate.findOne(
         query

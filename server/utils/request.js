@@ -79,7 +79,8 @@ const processFiles = (files, destination) => {
       return result
     }
     else {
-      results.push(result)
+      if (!results[file.fieldname]) { results[file.fieldname] = []}
+      results[file.fieldname].push(result)
     }
   })
   return results
