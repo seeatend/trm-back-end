@@ -1,4 +1,5 @@
 const Syndicate = require('./model')
+const {getMessage} = require('api/message/controller')
 const {prepareQuery, dehyphenize} = require('utils/request')
 
 const allowedGetParams = ['name']
@@ -11,16 +12,37 @@ const getSyndicate = (query) => {
   )
   return new Promise((resolve, reject) => {
     if (searchQuery) {
+      let syndicate
       Syndicate.findOne(
         searchQuery,
         {__v: false, _id: false, owner: false}
-      ).then(syndicate => {
+      ).lean().then(_syndicate => {
+        syndicate = _syndicate
         if (syndicate) {
-          resolve(syndicate)
+          let promises = []
+          syndicate.horses.forEach(horseId => {
+            promises.push(getMessage({
+              horseId
+            }))
+          })
+          return Promise.all(promises)
         }
         else {
           reject('Not found')
         }
+      }).then(messages => {
+        let messagesData = []
+        messages.forEach(m => {
+          messagesData = messagesData.concat(m)
+        })
+        messagesData = messagesData.sort((a, b) => {
+          return a.createdAt < b.createdAt
+        })
+        syndicate.messages = messagesData
+        delete syndicate.horses
+        resolve(syndicate)
+      }).catch(err => {
+        resolve(err.message)
       })
     }
     else {

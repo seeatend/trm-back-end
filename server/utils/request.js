@@ -3,7 +3,7 @@ const path = require('path')
 const mime = require('mime')
 const {move, generateThumbnail, thumbnailPath} = require('./file')
 
-const prepareQuery = (query, availableQueries, transform = val => val) => {
+const prepareQuery = (query, availableQueries, transform = (key, val) => val) => {
   let result = {}
   availableQueries.forEach((elem) => {
     if (query[elem]) {
