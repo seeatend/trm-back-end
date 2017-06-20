@@ -15,7 +15,7 @@ const getSyndicate = (query) => {
       let syndicate
       Syndicate.findOne(
         searchQuery,
-        {__v: false, _id: false, owner: false}
+        {__v: false, _id: false}
       ).lean().then(_syndicate => {
         syndicate = _syndicate
         if (syndicate) {
@@ -42,7 +42,7 @@ const getSyndicate = (query) => {
         delete syndicate.horses
         resolve(syndicate)
       }).catch(err => {
-        resolve(err.message)
+        reject(err)
       })
     }
     else {
@@ -54,8 +54,10 @@ const getSyndicate = (query) => {
 const updateSyndicate = (owner, data = {}) => {
   return new Promise((resolve, reject) => {
     if (owner) {
+      if (data.name) { data.name = data.name.toUpperCase()}
+      let query = {name: data.name || owner}
       Syndicate.findOne(
-        {owner}
+        query
       ).then(syndicate => {
         if (syndicate) {
           if (Object.keys(data).length > 0) {
@@ -66,7 +68,9 @@ const updateSyndicate = (owner, data = {}) => {
           }
         }
         else {
-          return Syndicate.create(Object.assign({owner}, data))
+          let syndicateData = Object.assign({owner}, data);
+          syndicateData.name = syndicateData.name || syndicateData.owner
+          return Syndicate.create(syndicateData)
         }
       }).then(syndicate => {
         if (syndicate) {

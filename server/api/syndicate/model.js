@@ -5,8 +5,13 @@ require('api/horse/model')
 
 const Syndicate = new Schema({
   name: {
-    type: String,
-    required: true
+    type: String
+  },
+  featuredImage: {
+    type: String
+  },
+  logo: {
+    type: String
   },
   owner: {
     type: String,

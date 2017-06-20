@@ -8,17 +8,19 @@ module.exports = [
     description: `The two-year-old colt created a good impression when winning the Woodcote Stakes at Epsom last week and connections have a trip to Ascot firmly on the agenda
 “Ryan Moore was very complimentary about him,” said Middleham Park director of racing Tim Palin.
 “He said he needed six furlongs and if we wanted to step him up in class, the Coventry would be the logical next step.`,
-    owner: {
-      name: 'Middleham Park'
-    },
-    img: 'bruyne.jpg'
+    img: 'bruyne.jpg',
+    syndicate: {
+      name: 'Middleham Park',
+      featuredImage: 'kitt.jpg',
+      logo: 'logo.jpg'
+    }
   },
   {
     name: 'Contentment',
     style: 'flat',
     description: `This filly is a real queen. She is out of the Stakes winning mare Cartimandua and by Cacique who covers a limited book of mares, but he has a fantastic strike rate with those foals he does get on the ground. He has produced 21% black type performers from foals of racing age and having raced two of his best progeny; Dominant and Census, we are extremely happy to be adding this stunning filly into our syndicates. Contentment ran three times as a two-year-old and was unlucky not to break her maiden having bumped into the subsequent Oh So Sharp Stakes (Gr 3) winner Poet’s Vanity when second at Salisbury. She is a filly with plenty of class about her and is an exciting prospect for 2017.`,
     img: 'contenment.jpg',
-    owner: {
+    syndicate: {
       name: 'Highclere'
     }
   },
@@ -29,13 +31,13 @@ module.exports = [
       name: 'Andrew Black'
     },
     img: 'kitt.png',
-    owner: {
+    syndicate: {
       name: 'Chasemore Farm'
     }
   },
   {
     name: 'Dartmouth',
-    owner: {
+    syndicate: {
       name: 'The Queen'
     },
     style: 'flat',
@@ -47,8 +49,8 @@ module.exports = [
   },
   {
     name: 'One For Arthur (IRE)',
-    owner: {
-      name: '2 golf widows'
+    syndicate: {
+      name: 'two golf widows'
     },
     style: 'jumps',
     description: `One For Arthur (foaled 24 February 2009) is an Irish-bred Thoroughbred racehorse who competes in National Hunt racing. In 2017 he became the second horse trained in Scotland to win the Grand National.`,
@@ -64,7 +66,7 @@ module.exports = [
   },
   {
     name: 'ELATION (IRE)',
-    owner: {
+    syndicate: {
       name: 'Highclere'
     },
     img: 'elation.jpg'

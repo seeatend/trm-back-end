@@ -3,8 +3,7 @@ const {performances} = require('./api')
 const {Horse} = require('api/horse/model')
 const {updateSyndicate} = require('api/syndicate/controller')
 const {updateHorse} = require('api/horse/controller')
-const {extension} = require('utils/file')
-const path = require('path')
+const {mockFileUpload} = require('utils/mock')
 
 const convert = require('./convertFields')
 
@@ -65,10 +64,9 @@ module.exports = (horse, additionalData = {}) => {
       }
 
       return updateSyndicate(
-        horseData.owner.name, {
-          color: colors.pop() || getRandomColor(),
-          name: horseData.owner.name
-        }
+        horseData.owner.name, Object.assign({
+          color: colors.pop() || getRandomColor()
+        }, horseData.syndicate)
       )
     }).then(syndicate => {
       syndicateData = syndicate
@@ -77,18 +75,9 @@ module.exports = (horse, additionalData = {}) => {
       let timeformId = horse.horseCode.trim()
       let multerMockData
       if (additionalData.img) {
-        let img = additionalData.img
-        let mime = extension(img)
-        if (mime === 'jpg') {
-          mime = 'jpeg'
-        }
-        multerMockData = {
-          fieldname: 'featuredImage',
-          originalname: img,
-          mimetype: `image/${mime}`,
-          filename: img,
-          path: path.resolve('./uploads/tmp', img),
-        }
+        multerMockData = mockFileUpload(
+          'featuredImage', additionalData.img
+        )
       }
 
       return updateHorse(
@@ -105,7 +94,7 @@ module.exports = (horse, additionalData = {}) => {
           console.log('Horse added to syndicate')
           resolve()
         }).catch(err => {
-          reject(err.message)
+          reject(err)
         })
       }
       else {
@@ -113,7 +102,7 @@ module.exports = (horse, additionalData = {}) => {
         resolve()
       }
     }).catch(err => {
-      reject(err.message)
+      reject(err)
     })
   })
 }
