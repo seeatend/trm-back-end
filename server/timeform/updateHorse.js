@@ -24,7 +24,7 @@ colors = [
   '#542989',
   '#ee2e23',
   '#0068b3',
-  '#ffffff',
+  '#e7e7e7',
   '#fff352'
 ]
 
@@ -95,17 +95,22 @@ module.exports = (horse, additionalData = {}) => {
       horseData.owner._id = syndicate._id
       horseData.owner.color = syndicate.color
       let timeformId = horse.horseCode.trim()
-      let multerMockData
+      let horseFiles = []
       if (additionalData.img) {
-        multerMockData = mockFileUpload(
+        horseFiles.push(mockFileUpload(
           'featuredImage', additionalData.img
-        )
+        ))
+      }
+      if (additionalData.thumbnail) {
+        horseFiles.push(mockFileUpload(
+          'thumbnailImage', additionalData.thumbnail
+        ))
       }
 
       return updateHorse(
         {timeformId},
         horseData,
-        multerMockData
+        horseFiles
       )
     }).then(savedHorse => {
       console.log(`Saved: ${horse.horseName}`)

@@ -26,6 +26,9 @@ const horseDefinition = {
   featuredImage: {
     type: String
   },
+  thumbnailImage: {
+    type: String
+  },
   description: {
     type: String
   },

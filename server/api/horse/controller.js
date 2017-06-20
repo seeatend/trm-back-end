@@ -1,7 +1,7 @@
 const {Horse} = require('./model')
 const User = require('api/user/model')
 const Message = require('api/message/model')
-const {prepareQuery, dehyphenize, success, error, processFile} = require('utils/request')
+const {prepareQuery, dehyphenize, success, error, processFiles} = require('utils/request')
 const prepareHorse = require('./prepareHorse')
 
 const availableQueries = ['name']
@@ -71,13 +71,21 @@ const getHorse = (req, res) => {
   }
 }
 
-const updateHorse = (query, data, file) => {
-  if (file) {
-    const featuredImage = processFile(file, `horses/${Date.now()}`)
-    if (featuredImage.type === 'image') {
-      data.featuredImage = featuredImage.path
+const updateHorse = (query, data, files) => {
+  data = Object.assign({}, data)
+  if (files) {
+    const filesData = processFiles(files, `horses/${Date.now()}`)
+    console.log(filesData)
+    if (filesData) {
+      if (filesData.featuredImage && filesData.featuredImage.length > 0) {
+        data.featuredImage = filesData.featuredImage[0].path
+      }
+      if (filesData.thumbnailImage && filesData.thumbnailImage.length > 0) {
+        data.thumbnailImage = filesData.thumbnailImage[0].path
+      }
     }
   }
+
   return new Promise((resolve, reject) => {
     Horse.findOneAndUpdate(
       query,
