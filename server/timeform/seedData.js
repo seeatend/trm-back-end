@@ -12,6 +12,7 @@ module.exports = [
     thumbnail: 'CARD_bruyne.jpg',
     syndicate: {
       name: 'Middleham Park',
+      logo: 'middleham-park-logo.png',
       featuredImage: 'middleham-park.jpg',
       description: `2016 was a record breaking year for us. Not only did we pass the landmark figure of 800 WINNERS since we were formed, but we earned over £1,200,000.00 in prize money-the highest amount we have ever achieved. We won the most pattern races of any year, with numerous placings also earning 'black type'. Let's not forget the St Leger runner up spot from Ventura Storm and to win our third Group 1 was certainly the highlight!
 Tim Palin fell in love with racing in 1983 – all from placing a 25p each way bet on Teenoso in the Derby! He became a teacher in his 20’s and often went racing at the weekends and whilst looking on from outside the paddock, contemplated whether he would ever be lucky enough to be standing on the hallowed turf of the parade ring as an owner.`
@@ -41,6 +42,7 @@ A large part of our success has been due to the selection process employed for p
     thumbnail: 'CARD_kitt.jpg',
     syndicate: {
       name: 'Chasemore Farm',
+      logo: 'chasemore-farm-logo.png',
       featuredImage: 'chasemore-farm.jpg',
       description: `Andrew and Jane Black took over Chasemore Farm in 2007 with the stud farm becoming fully operational in September 2011. Situated two miles from the village of Cobham in Surrey, Chasemore Farm comprises 340 acres of rolling grassland. The well-drained undulating hills provide the perfect environment for raising thoroughbreds to achieve their maximum potential.
 All of our clients benefit from superb boarding facilities and the care from the highly professional and experienced team.

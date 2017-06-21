@@ -5,6 +5,9 @@ const {move, generateThumbnail, thumbnailPath} = require('./file')
 const fs = require('fs-extra')
 
 const prepareQuery = (query, availableQueries, transform = (key, val) => val) => {
+  if (!query) {
+    throw new Error(`Query is not defined ${JSON.stringify(availableQueries)}`)
+  }
   let result = {}
   availableQueries.forEach((elem) => {
     if (query[elem]) {
@@ -13,7 +16,7 @@ const prepareQuery = (query, availableQueries, transform = (key, val) => val) =>
     }
   })
   if (Object.keys(result).length === 0) {
-    result = null
+    throw new Error(`No matching queries ${JSON.stringify(availableQueries)}`)
   }
   return result
 }

@@ -13,7 +13,8 @@
     "api-test": "NODE_PATH=./server mocha --require ./server/test/start.js --recursive $(find server/test -name '*.js')",
     "e2e": "run-p test-server api-test",
     "flush": "NODE_PATH=./server node server/scripts/flush",
-    "populate": "NODE_PATH=./server run-s flush timeform demo",
+    "populate": "NODE_PATH=./server run-s flush timeform demo messages",
+    "messages": "NODE_PATH=./server node server/scripts/messages",
     "test": "NODE_PATH=./server mocha -w --opts mocha.opts --recursive $(find server -name '*.spec.js')"
   },
   "dependencies": {

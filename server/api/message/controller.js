@@ -26,43 +26,44 @@ const validateAttachment = (body) => {
   return validated
 }
 
-const createMessage = (req, res) => {
-  const {body, files} = req
+const createMessage = (body, files) => {
   const newMessage = new Message(body)
 
   let errors = newMessage.validateSync()
-  if (!errors) {
-    const messagePath = `messages/${body.horseId}/${Date.now()}`
-    processFiles(
-      files, messagePath
-    ).then(filesInfo => {
+  return new Promise((resolve, reject) => {
+    if (!errors) {
+      const messagePath = `messages/${body.horseId}/${Date.now()}`
+      processFiles(
+        files, messagePath
+      ).then(filesInfo => {
 
-      if (filesInfo) {
-        newMessage.attachment = filesInfo.attachment
-      }
+        if (filesInfo) {
+          newMessage.attachment = filesInfo.attachment
+        }
 
-      if (validateAttachment(newMessage)) {
-        newMessage.save(
-        ).then(message => {
-          console.log(`message received: ${message._id}`)
-          res.send(success())
-        }).catch(err => {
-          console.log('error while saving message')
-          console.log(err)
-          res.status(404).send(error(err))
-        })
-      }
-      else {
-        res.status(404).send(error())
-      }
-    }).catch(err => {
-      console.log(err.message)
-      res.status(404).send(error())
-    })
-  }
-  else {
-    res.status(404).send(error())
-  }
+        if (validateAttachment(newMessage)) {
+          newMessage.save(
+          ).then(message => {
+            console.log(`message received: ${message._id}`)
+            resolve()
+          }).catch(err => {
+            console.log('error while saving message')
+            console.log(err)
+            reject(err)
+          })
+        }
+        else {
+          reject()
+        }
+      }).catch(err => {
+        console.log(err.message)
+        reject(err)
+      })
+    }
+    else {
+      reject(err)
+    }
+  })
 }
 
 module.exports = {

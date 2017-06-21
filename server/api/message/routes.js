@@ -25,6 +25,15 @@ messageRouter.route('/message')
       },
       acceptedTypes: ['video', 'image', 'audio']
     }),
-    messageController.createMessage)
+    (req, res) => {
+      const {body, files} = req
+      messageController.createMessage(
+        body, files
+      ).then(() => {
+        res.send(success())
+      }).catch(err => {
+        res.status(404).send(error())
+      })
+    })
 
 module.exports = messageRouter
