@@ -37,12 +37,11 @@ const createMessage = (req, res) => {
       files, messagePath
     ).then(filesInfo => {
 
-      newMessage.attachment = filesInfo.attachment
-
-      if (filesInfo.error) {
-        res.error(error(filesInfo.message))
+      if (filesInfo) {
+        newMessage.attachment = filesInfo.attachment
       }
-      else if (validateAttachment(newMessage)) {
+
+      if (validateAttachment(newMessage)) {
         newMessage.save(
         ).then(message => {
           console.log(`message received: ${message._id}`)
