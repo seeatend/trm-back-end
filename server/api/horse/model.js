@@ -28,8 +28,7 @@ const horseDefinition = {
     default: '/assets/placeholder/featuredImage.jpg'
   },
   thumbnailImage: {
-    type: String,
-    default: '/assets/placeholder/thumbnailImage.jpg'
+    type: String
   },
   description: {
     type: String
