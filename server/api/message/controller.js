@@ -33,26 +33,33 @@ const createMessage = (req, res) => {
   let errors = newMessage.validateSync()
   if (!errors) {
     const messagePath = `messages/${body.horseId}/${Date.now()}`
-    const filesInfo = processFiles(files, messagePath)
-    newMessage.attachment = filesInfo.attachment
+    processFiles(
+      files, messagePath
+    ).then(filesInfo => {
 
-    if (filesInfo.error) {
-      res.error(error(filesInfo.message))
-    }
-    else if (validateAttachment(newMessage)) {
-      newMessage.save(
-      ).then(message => {
-        console.log(`message received: ${message._id}`)
-        res.send(success())
-      }).catch(err => {
-        console.log('error while saving message')
-        console.log(err)
-        res.status(404).send(error(err))
-      })
-    }
-    else {
+      newMessage.attachment = filesInfo.attachment
+
+      if (filesInfo.error) {
+        res.error(error(filesInfo.message))
+      }
+      else if (validateAttachment(newMessage)) {
+        newMessage.save(
+        ).then(message => {
+          console.log(`message received: ${message._id}`)
+          res.send(success())
+        }).catch(err => {
+          console.log('error while saving message')
+          console.log(err)
+          res.status(404).send(error(err))
+        })
+      }
+      else {
+        res.status(404).send(error())
+      }
+    }).catch(err => {
+      console.log(err.message)
       res.status(404).send(error())
-    }
+    })
   }
   else {
     res.status(404).send(error())

@@ -2,6 +2,7 @@ const config = require('config')
 const path = require('path')
 const mime = require('mime')
 const {move, generateThumbnail, thumbnailPath} = require('./file')
+const fs = require('fs-extra')
 
 const prepareQuery = (query, availableQueries, transform = (key, val) => val) => {
   let result = {}
@@ -35,37 +36,41 @@ const error = message => {
 const processFile = (file, destination) => {
   const relativePath = `${config.get('storage.path')}/${destination}/${file.filename}`
   const destinationPath = path.resolve(relativePath)
-  if (mime.lookup(file.originalname) === file.mimetype) {
-    const type = file.mimetype.slice(0, file.mimetype.indexOf('/'))
+  return new Promise((resolve, reject) => {
+    if (mime.lookup(file.originalname) === file.mimetype) {
+      const type = file.mimetype.slice(0, file.mimetype.indexOf('/'))
 
-    let fileObject = {
-      path: `/${relativePath}`,
-      type
-    }
-
-    if (type === 'video') {
-      const relativeThumbnail = `/${path.relative('./', thumbnailPath(destinationPath))}`
-      fileObject.thumbnail = relativeThumbnail
-    }
-
-    move(file.path, destinationPath, () => {
-      if (type === 'video') {
-        generateThumbnail(destinationPath)
+      let fileObject = {
+        fieldName: file.fieldname,
+        path: `/${relativePath}`,
+        type
       }
-    })
 
-    return fileObject
-  }
-  else {
-    return {
-      error: true,
-      message: 'mime type doesn\'t match extension'
+      fs.move(
+        file.path, destinationPath
+      ).then(() => {
+        if (type === 'video') {
+          generateThumbnail(
+            destinationPath
+          ).then(thumbnailPath => {
+            fileObject.thumbnail = `/${path.relative('./', thumbnailPath)}`
+            resolve(fileObject)
+          }).catch(reject)
+        }
+        else {
+          resolve(fileObject)
+        }
+      }).catch(reject)
+
+      return fileObject
     }
-  }
+    else {
+      reject({message: 'mime type doesn\'t match extension'})
+    }
+  })
 }
 
 const processFiles = (files, destination) => {
-  const results = []
   if (!Array.isArray(files)) {
     let newFiles = []
     Object.keys(files).forEach(key => {
@@ -73,17 +78,31 @@ const processFiles = (files, destination) => {
     })
     files = newFiles
   }
-  files.forEach(file => {
-    let result = processFile(file, destination)
-    if (result && result.error) {
-      return result
+  return new Promise((resolve, reject) => {
+    if (!files || files && files.length === 0) {
+      resolve(null)
+      return
     }
-    else {
-      if (!results[file.fieldname]) { results[file.fieldname] = []}
-      results[file.fieldname].push(result)
-    }
+    let promises = []
+    files.forEach(file => {
+      promises.push(processFile(file, destination))
+    })
+
+    Promise.all(
+      promises
+    ).then(fileObjects => {
+      let results = {}
+      fileObjects.forEach(fileObject => {
+        let fieldName = fileObject.fieldName
+        delete fileObject.fieldName
+        if (!results[fieldName]) {
+          results[fieldName] = []
+        }
+        results[fieldName].push(fileObject)
+      })
+      resolve(results)
+    }).catch(reject)
   })
-  return results
 }
 
 module.exports = {
