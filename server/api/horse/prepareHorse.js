@@ -60,6 +60,7 @@ const prepareHorse = (horse, remove = []) => {
   if (newHorse.color) {
     newHorse.color = getColor(newHorse.color)
   }
+  newHorse.owner.slug = hyphenize(newHorse.owner.name)
   delete newHorse.owner._id
   delete newHorse.owner.color
   const removeProps = remove.concat(['performances'])

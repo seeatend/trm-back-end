@@ -7,7 +7,7 @@ const {mockFileUpload} = require('utils/mock')
 
 const convert = require('./convertFields')
 
-colors = [
+const colors = [
   '#FFF2C7',
   '#12242f',
   '#794440',
