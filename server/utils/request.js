@@ -37,8 +37,8 @@ const error = message => {
 }
 
 const processFile = (file, destination) => {
-  const relativePath = `${config.get('storage.path')}/${destination}/${file.filename}`
-  const destinationPath = path.resolve(relativePath).replace(/\s/g, '-')
+  const relativePath = `${config.get('storage.path')}/${destination}/${file.filename}`.replace(/\s/g, '-')
+  const destinationPath = path.resolve(relativePath)
   return new Promise((resolve, reject) => {
     if (mime.lookup(file.originalname) === file.mimetype) {
       const type = file.mimetype.slice(0, file.mimetype.indexOf('/'))

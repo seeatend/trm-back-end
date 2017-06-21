@@ -24,7 +24,7 @@ module.exports = [
     horseName: 'ELATION (ire)',
     messages: [
       {
-        attachment: 'elation 11.jpg',
+        attachment: 'elation-11.jpg',
         text: `Brenton Avdulla, who has partnered this son of Lawman to all three of his wins in Australia, punched the air in elation strides after the line. This victory will solidify Libran's favouritisim for The Sydney Cup (Gr 1) on Saturday 9th April, which has been his end of season target since shipping to Australia from the UK last autumn.`
       },
       {
