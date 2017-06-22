@@ -6,7 +6,8 @@ const fs = require('fs-extra')
 
 const prepareQuery = (query, availableQueries, transform = (key, val) => val) => {
   if (!query) {
-    throw new Error(`Query is not defined ${JSON.stringify(availableQueries)}`)
+    console.error(`Query is not defined ${JSON.stringify(availableQueries)}`)
+    return false
   }
   let result = {}
   availableQueries.forEach((elem) => {
@@ -16,7 +17,8 @@ const prepareQuery = (query, availableQueries, transform = (key, val) => val) =>
     }
   })
   if (Object.keys(result).length === 0) {
-    throw new Error(`No matching queries ${JSON.stringify(availableQueries)}`)
+    console.error(`No matching queries ${JSON.stringify(availableQueries)}`)
+    return false
   }
   return result
 }

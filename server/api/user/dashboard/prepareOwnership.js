@@ -1,5 +1,5 @@
 const {hyphenize} = require('utils/request')
-const prepareHorse = require('api/horse/prepareHorse')
+const {prepareHorse} = require('api/horse/utils')
 
 module.exports = (ownership) => {
   let result = []

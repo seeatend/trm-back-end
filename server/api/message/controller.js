@@ -4,9 +4,9 @@ const Message = require('./model')
 const availableQueries = ['horseId']
 
 const getMessage = (query) => {
-  query = prepareQuery(query, availableQueries) || {}
+  let _query = prepareQuery(query, availableQueries)
   return Message.find(
-    query,
+    _query,
     {__v: false, _id: false, horseId: false},
     {
       limit: 20,

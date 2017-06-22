@@ -54,8 +54,7 @@ const getSyndicate = (query) => {
 const updateSyndicate = (data = {}, files) => {
   data = Object.assign({}, data)
 
-  return new Promise((resolve, reject) => {
-    processFiles(
+  return processFiles(
       files, `syndicates/${Date.now()}`
     ).then(filesInfo => {
       if (filesInfo) {
@@ -74,7 +73,7 @@ const updateSyndicate = (data = {}, files) => {
         return Syndicate.findOne(query)
       }
       else {
-        reject({message: 'Syndicate owner is not specified.'})
+        return Promise.reject({message: 'Syndicate owner is not specified.'})
       }
     }).then(syndicate => {
       if (syndicate) {
@@ -82,7 +81,7 @@ const updateSyndicate = (data = {}, files) => {
           return Object.assign(syndicate, data).save()
         }
         else {
-          resolve(syndicate)
+          return Promise.resolve(syndicate)
         }
       }
       else {
@@ -90,13 +89,12 @@ const updateSyndicate = (data = {}, files) => {
       }
     }).then(syndicate => {
       if (syndicate) {
-        resolve(syndicate)
+        return Promise.resolve(syndicate)
       }
       else {
-        reject({message: 'Could not create syndicate.'})
+        return Promise.reject({message: 'Could not create syndicate.'})
       }
-    }).catch(reject)
-  })
+    }).catch(Promise.reject)
 }
 
 module.exports = {

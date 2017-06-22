@@ -1,15 +1,14 @@
-const {Horse} = require('./model')
+const {Horse} = require('api/horse/model')
 const User = require('api/user/model')
 const Message = require('api/message/model')
-const {prepareQuery, dehyphenize, success, error, processFiles} = require('utils/request')
-const prepareHorse = require('./prepareHorse')
+const {prepareQuery, dehyphenize, success, error} = require('utils/request')
+const {prepareHorse} = require('api/horse/utils')
 
 const availableQueries = ['name']
 
-const getHorse = (req, res) => {
-  let query = prepareQuery(req.query, availableQueries)
-  if (query && Object.keys(query).length === 1) {
-    query.name = dehyphenize(query.name)
+module.exports = getHorse = (req, res) => {
+  let query = prepareQuery(req.query, availableQueries, dehyphenize)
+  if (query) {
     let horseData
     Horse.findOne(
       query,
@@ -69,39 +68,4 @@ const getHorse = (req, res) => {
       res.status(404).json(error())
     })
   }
-}
-
-const updateHorse = (query, data, files) => {
-  data = Object.assign({}, data)
-  return new Promise((resolve, reject) => {
-    processFiles(
-      files, `horses/${Date.now()}`
-    ).then(filesData => {
-      if (filesData) {
-        if (filesData.featuredImage && filesData.featuredImage.length > 0) {
-          data.featuredImage = filesData.featuredImage[0].path
-        }
-        if (filesData.thumbnailImage && filesData.thumbnailImage.length > 0) {
-          data.thumbnailImage = filesData.thumbnailImage[0].path
-        }
-      }
-      return Horse.findOneAndUpdate(
-        query,
-        data,
-        {upsert: true, new: true}
-      )
-    }).then(horse => {
-      if (horse) {
-        resolve(horse)
-      }
-      else {
-        reject({message: 'Could not update horse.'})
-      }
-    }).catch(reject)
-  })
-}
-
-module.exports = {
-  getHorse,
-  updateHorse
 }
