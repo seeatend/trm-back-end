@@ -1,7 +1,7 @@
 const config = require('config')
 const path = require('path')
 const mime = require('mime')
-const {move, generateThumbnail, thumbnailPath} = require('./file')
+const {generateThumbnail, thumbnailPath} = require('./file')
 const fs = require('fs-extra')
 
 const prepareQuery = (query, availableQueries, transform = val => val) => {

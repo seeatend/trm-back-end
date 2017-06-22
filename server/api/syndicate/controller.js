@@ -8,7 +8,7 @@ const getSyndicate = (query) => {
   let searchQuery = prepareQuery(
     query,
     allowedGetParams,
-    (key, value) => dehyphenize(value)
+    dehyphenize
   )
   return new Promise((resolve, reject) => {
     if (searchQuery) {
