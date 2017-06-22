@@ -33,4 +33,7 @@ authenticate.then(() => {
     console.error(err.message)
     process.exit(err.code)
   })
+}).catch(err => {
+  console.error(err.message)
+  process.exit(err.code)
 })

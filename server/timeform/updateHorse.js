@@ -3,12 +3,11 @@ const {performances} = require('./api')
 const {Horse} = require('api/horse/model')
 const {updateSyndicate} = require('api/syndicate/controller')
 const {updateHorse} = require('api/horse/controller')
-const {extension} = require('utils/file')
-const path = require('path')
+const {mockFileUpload} = require('utils/mock')
 
 const convert = require('./convertFields')
 
-colors = [
+const colors = [
   '#FFF2C7',
   '#12242f',
   '#794440',
@@ -25,7 +24,7 @@ colors = [
   '#542989',
   '#ee2e23',
   '#0068b3',
-  '#ffffff',
+  '#e7e7e7',
   '#fff352'
 ]
 
@@ -56,46 +55,63 @@ module.exports = (horse, additionalData = {}) => {
       })
 
       horseData.performances = performancesData
+      horseData = Object.assign(horseData, additionalData)
+      horseData.name = horseData.name.toUpperCase()
 
       if (!horseData.owner || !horseData.owner.name) {
         reject(`Horse owner is undefined(${horseData.name})`)
       }
 
-      return updateSyndicate(
-        horseData.owner.name, {
-          color: colors.pop() || getRandomColor(),
-          name: additionalData.syndicateName || horseData.owner.name
+      let syndicateFiles = []
+      let syndicateData = {}
+      if (horseData.syndicate) {
+        horseData.owner.name = horseData.syndicate.name || horseData.owner.name
+        syndicateData = horseData.syndicate
+        if (syndicateData.featuredImage) {
+          syndicateFiles.push(mockFileUpload(
+            'featuredImage', syndicateData.featuredImage
+          ))
         }
+        if (syndicateData.logo) {
+          syndicateFiles.push(mockFileUpload(
+            'logo', syndicateData.logo
+          ))
+        }
+      }
+      horseData.owner.name = horseData.owner.name.toUpperCase()
+
+      return updateSyndicate(
+        Object.assign(
+          {
+            color: colors.pop() || getRandomColor(),
+            owner: horseData.owner
+          },
+          syndicateData
+        ),
+        syndicateFiles
       )
     }).then(syndicate => {
+      console.log('Updated syndicate')
       syndicateData = syndicate
       horseData.owner._id = syndicate._id
       horseData.owner.color = syndicate.color
       let timeformId = horse.horseCode.trim()
-      if (additionalData) {
-        additionalData.name = additionalData.name.toUpperCase()
-      }
-      horseData = Object.assign(horseData, additionalData)
-      let multerMockData
+      let horseFiles = []
       if (additionalData.img) {
-        let img = additionalData.img
-        let mime = extension(img)
-        if (mime === 'jpg') {
-          mime = 'jpeg'
-        }
-        multerMockData = {
-          fieldname: 'featuredImage',
-          originalname: img,
-          mimetype: `image/${mime}`,
-          filename: img,
-          path: path.resolve('./uploads/tmp', img),
-        }
+        horseFiles.push(mockFileUpload(
+          'featuredImage', additionalData.img
+        ))
+      }
+      if (additionalData.thumbnail) {
+        horseFiles.push(mockFileUpload(
+          'thumbnailImage', additionalData.thumbnail
+        ))
       }
 
       return updateHorse(
         {timeformId},
         horseData,
-        multerMockData
+        horseFiles
       )
     }).then(savedHorse => {
       console.log(`Saved: ${horse.horseName}`)
@@ -106,7 +122,7 @@ module.exports = (horse, additionalData = {}) => {
           console.log('Horse added to syndicate')
           resolve()
         }).catch(err => {
-          reject(err.message)
+          reject(err)
         })
       }
       else {
@@ -114,7 +130,7 @@ module.exports = (horse, additionalData = {}) => {
         resolve()
       }
     }).catch(err => {
-      reject(err.message)
+      reject(err)
     })
   })
 }

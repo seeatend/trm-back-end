@@ -60,6 +60,10 @@ const prepareHorse = (horse, remove = []) => {
   if (newHorse.color) {
     newHorse.color = getColor(newHorse.color)
   }
+  if (!newHorse.thumbnailImage) {
+    newHorse.thumbnailImage = '/assets/placeholder/thumbnailImage.jpg'
+  }
+  newHorse.owner.slug = hyphenize(newHorse.owner.name)
   delete newHorse.owner._id
   delete newHorse.owner.color
   const removeProps = remove.concat(['performances'])

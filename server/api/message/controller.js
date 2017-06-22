@@ -26,37 +26,44 @@ const validateAttachment = (body) => {
   return validated
 }
 
-const createMessage = (req, res) => {
-  const {body, files} = req
+const createMessage = (body, files) => {
   const newMessage = new Message(body)
 
   let errors = newMessage.validateSync()
-  if (!errors) {
-    const messagePath = `messages/${body.horseId}/${Date.now()}`
-    const attachment = processFiles(files, messagePath)
-    newMessage.attachment = attachment
+  return new Promise((resolve, reject) => {
+    if (!errors) {
+      const messagePath = `messages/${body.horseId}/${Date.now()}`
+      processFiles(
+        files, messagePath
+      ).then(filesInfo => {
 
-    if (attachment.error) {
-      res.error(error(attachment.message))
-    }
-    else if (validateAttachment(newMessage)) {
-      newMessage.save(
-      ).then(message => {
-        console.log(`message received: ${message._id}`)
-        res.send(success())
+        if (filesInfo) {
+          newMessage.attachment = filesInfo.attachment
+        }
+
+        if (validateAttachment(newMessage)) {
+          newMessage.save(
+          ).then(message => {
+            console.log(`message received: ${message._id}`)
+            resolve()
+          }).catch(err => {
+            console.log('error while saving message')
+            console.log(err)
+            reject(err)
+          })
+        }
+        else {
+          reject()
+        }
       }).catch(err => {
-        console.log('error while saving message')
-        console.log(err)
-        res.status(404).send(error(err))
+        console.log(err.message)
+        reject(err)
       })
     }
     else {
-      res.status(404).send(error())
+      reject(err)
     }
-  }
-  else {
-    res.status(404).send(error())
-  }
+  })
 }
 
 module.exports = {

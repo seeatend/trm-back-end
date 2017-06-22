@@ -24,6 +24,10 @@ const horseDefinition = {
     tf: 'horseColour'
   },
   featuredImage: {
+    type: String,
+    default: '/assets/placeholder/featuredImage.jpg'
+  },
+  thumbnailImage: {
     type: String
   },
   description: {

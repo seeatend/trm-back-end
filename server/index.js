@@ -27,6 +27,8 @@ app.use(bodyParser.json())
 const storagePath = config.get('storage.path')
 app.use(`/${storagePath}`, express.static(storagePath))
 
+app.use('/assets', express.static('public'))
+
 app.use(`/api/v${config.get('api.version')}`, routes)
 
 app.use('/api/*', (req, res) => {
