@@ -4,7 +4,7 @@ const mime = require('mime')
 const {move, generateThumbnail, thumbnailPath} = require('./file')
 const fs = require('fs-extra')
 
-const prepareQuery = (query, availableQueries, transform = (key, val) => val) => {
+const prepareQuery = (query, availableQueries, transform = val => val) => {
   if (!query) {
     console.error(`Query is not defined ${JSON.stringify(availableQueries)}`)
     return false
@@ -12,7 +12,7 @@ const prepareQuery = (query, availableQueries, transform = (key, val) => val) =>
   let result = {}
   availableQueries.forEach((elem) => {
     if (query[elem]) {
-      result[elem] = transform(elem, query[elem])
+      result[elem] = transform(query[elem], elem)
       return result
     }
   })

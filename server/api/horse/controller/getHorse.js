@@ -1,17 +1,19 @@
 const {Horse} = require('api/horse/model')
 const User = require('api/user/model')
 const Message = require('api/message/model')
-const {prepareQuery, dehyphenize, success, error} = require('utils/request')
+const {prepareQuery, dehyphenize} = require('utils/request')
 const {prepareHorse} = require('api/horse/utils')
 
 const availableQueries = ['name']
 
-module.exports = getHorse = (req, res) => {
-  let query = prepareQuery(req.query, availableQueries, dehyphenize)
-  if (query) {
+module.exports = getHorse = (query) => {
+  console.log(query)
+  let _query = prepareQuery(query, availableQueries, dehyphenize)
+  console.log(_query)
+  if (_query) {
     let horseData
-    Horse.findOne(
-      query,
+    return Horse.findOne(
+      _query,
       {
         __v: false,
         timeformId: false,
@@ -30,7 +32,7 @@ module.exports = getHorse = (req, res) => {
         )
       }
       else {
-        throw new Error('Not found')
+        return Promise.reject({message: 'Not found'})
       }
     }).then(messages => {
       horseData.messages = messages
@@ -47,25 +49,19 @@ module.exports = getHorse = (req, res) => {
           horseData.shares = ownership[0].shares
         }
       }
-      res.send(success(horseData))
-    }).catch(err => {
-      console.error(err)
-      res.status(404).send(error(err.message))
-    })
+      return Promise.resolve(horseData)
+    }).catch(Promise.reject)
   }
   else {
-    Horse.find(
+    return Horse.find(
       {}, {__v: false},
       {lean: true}
     ).then(horses => {
-      const result = []
+      const results = []
       horses.forEach(horse => {
-        result.push(prepareHorse(horse))
+        results.push(prepareHorse(horse))
       })
-      res.json(success(result))
-    }).catch(err => {
-      console.log(err)
-      res.status(404).json(error())
-    })
+      return Promise.resolve(results)
+    }).catch(Promise.reject)
   }
 }
