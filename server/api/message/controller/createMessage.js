@@ -13,42 +13,18 @@ const validateAttachment = (body) => {
   return validated
 }
 
-module.exports = (body, files) => {
+module.exports = (body) => {
   const newMessage = new Message(body)
 
   let errors = newMessage.validateSync()
-  return new Promise((resolve, reject) => {
-    if (!errors) {
-      const messagePath = `messages/${body.horseId}/${Date.now()}`
-      processFiles(
-        files, messagePath
-      ).then(filesInfo => {
-
-        if (filesInfo) {
-          newMessage.attachment = filesInfo.attachment
-        }
-
-        if (validateAttachment(newMessage)) {
-          newMessage.save(
-          ).then(message => {
-            console.log(`message received: ${message._id}`)
-            resolve()
-          }).catch(err => {
-            console.log('error while saving message')
-            console.log(err)
-            reject(err)
-          })
-        }
-        else {
-          reject()
-        }
-      }).catch(err => {
-        console.log(err.message)
-        reject(err)
-      })
-    }
-    else {
-      reject(err)
-    }
-  })
+  if (!errors && validateAttachment(newMessage)) {
+    return newMessage.save(
+    ).then(message => {
+      console.log(`message received: ${message._id}`)
+      return Promise.resolve
+    }).catch(Promise.reject)
+  }
+  else {
+    return Promise.reject
+  }
 }

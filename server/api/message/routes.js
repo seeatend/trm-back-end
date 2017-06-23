@@ -23,12 +23,12 @@ messageRouter.route('/message')
         type: 'array',
         limit: 15
       },
-      acceptedTypes: ['video', 'image', 'audio']
+      acceptedTypes: ['video', 'image', 'audio'],
+      destination: 'messages'
     }),
     (req, res) => {
-      const {body, files} = req
       createMessage(
-        body, files
+        req.body
       ).then(() => {
         res.send(success())
       }).catch(err => {

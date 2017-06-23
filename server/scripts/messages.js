@@ -1,11 +1,12 @@
 require('dotenv').config()
 require('setup/db')
 
-let fs = require('fs-extra')
+const fs = require('fs-extra')
 
-let {Horse} = require('api/horse/model')
-let {createMessage} = require('api/message/controller')
+const {Horse} = require('api/horse/model')
+const {createMessage} = require('api/message/controller')
 const {mockFileUpload} = require('utils/mock')
+const {processMulterFiles} = require('utils/request')
 
 const messages = require('./messageData')
 
@@ -27,15 +28,15 @@ const _createMessage = (horseName, _data) => {
         `messages/${data.attachment}`
       ))
     }
+    data.attachment = processMulterFiles(files)
   }
   console.log(`Creating message for ${horseName}`)
-  // console.log(files)
   return Horse.findOne(
     {name: horseName.toUpperCase()},
     {_id: true}
   ).then(horse => {
     data.horseId = horse._id
-    return createMessage(data, files)
+    return createMessage(data)
   })
 }
 
