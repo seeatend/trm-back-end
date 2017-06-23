@@ -1,23 +1,23 @@
 const {Horse} = require('api/horse/model')
 const {processFiles} = require('utils/request')
 
-module.exports = updateHorse = (query, _data, files) => {
-  let data = Object.assign({}, _data)
+module.exports = updateHorse = (query, data, files) => {
+  let _data = Object.assign({}, data)
 
   return processFiles(
     files, `horses/${Date.now()}`
   ).then(filesData => {
     if (filesData) {
       if (filesData.featuredImage && filesData.featuredImage.length > 0) {
-        data.featuredImage = filesData.featuredImage[0].path
+        _data.featuredImage = filesData.featuredImage[0].path
       }
       if (filesData.thumbnailImage && filesData.thumbnailImage.length > 0) {
-        data.thumbnailImage = filesData.thumbnailImage[0].path
+        _data.thumbnailImage = filesData.thumbnailImage[0].path
       }
     }
     return Horse.findOneAndUpdate(
       query,
-      data,
+      _data,
       {upsert: true, new: true}
     )
   }).then(horse => {

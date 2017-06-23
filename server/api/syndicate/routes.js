@@ -2,11 +2,11 @@ const express = require('express')
 const {success, error} = require('utils/request')
 
 const router = express.Router({mergeParams: true})
-const controller = require('./controller')
+const {getSyndicate} = require('./controller')
 
 router.route('/syndicate')
   .get((req, res) => {
-    controller.getSyndicate(
+    getSyndicate(
       req.query
     ).then(syndicate => {
       res.send(success(syndicate))

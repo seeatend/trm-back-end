@@ -3,11 +3,11 @@ const {success, error} = require('utils/request')
 const handleUpload = require('utils/handleUpload')
 
 const messageRouter = express.Router({mergeParams: true})
-const messageController = require('./controller')
+const {getMessage, createMessage} = require('./controller')
 
 messageRouter.route('/message')
   .get((req, res) => {
-    messageController.getMessage(
+    getMessage(
       req.query
     ).then(message => {
       res.json(success(message))
@@ -27,7 +27,7 @@ messageRouter.route('/message')
     }),
     (req, res) => {
       const {body, files} = req
-      messageController.createMessage(
+      createMessage(
         body, files
       ).then(() => {
         res.send(success())

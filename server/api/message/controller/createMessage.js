@@ -1,19 +1,6 @@
-const {prepareQuery, processFiles, success, error} = require('utils/request')
-const Message = require('./model')
+const {processFiles, error} = require('utils/request')
+const Message = require('api/message/model')
 
-const availableQueries = ['horseId']
-
-const getMessage = (query) => {
-  let _query = prepareQuery(query, availableQueries)
-  return Message.find(
-    _query,
-    {__v: false, _id: false, horseId: false},
-    {
-      limit: 20,
-      sort: {createdAt: -1}
-    }
-  )
-}
 
 const validateAttachment = (body) => {
   let validated = false
@@ -26,7 +13,7 @@ const validateAttachment = (body) => {
   return validated
 }
 
-const createMessage = (body, files) => {
+module.exports = (body, files) => {
   const newMessage = new Message(body)
 
   let errors = newMessage.validateSync()
@@ -64,9 +51,4 @@ const createMessage = (body, files) => {
       reject(err)
     }
   })
-}
-
-module.exports = {
-  getMessage,
-  createMessage
 }

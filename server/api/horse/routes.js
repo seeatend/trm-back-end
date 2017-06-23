@@ -1,12 +1,12 @@
 const express = require('express')
 
 const router = express.Router({mergeParams: true})
-const controller = require('./controller')
+const {getHorse} = require('./controller')
 const {error, success} = require('utils/request')
 
 router.route('/horse')
   .get((req, res) => {
-    controller.getHorse(
+    getHorse(
       req.query
     ).then(result => {
       res.send(success(result))

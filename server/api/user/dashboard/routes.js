@@ -1,9 +1,9 @@
 const express = require('express')
 
 const router = express.Router({mergeParams: true})
-const controller = require('./controller')
+const {getDashboard} = require('./controller')
 
 router.route('/dashboard')
-  .get(controller.getDashboard)
+  .get(getDashboard)
 
 module.exports = router
