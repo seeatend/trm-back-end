@@ -3,11 +3,11 @@ const Message = require('api/message/model')
 
 const availableQueries = ['horseId']
 
-module.exports = (query) => {
-  let _query = prepareQuery(query, availableQueries)
-  if (_query) {
+module.exports = (body) => {
+  let query = prepareQuery(body, availableQueries)
+  if (query) {
     return Message.find(
-      _query,
+      query,
       {__v: false, horseId: false},
       {
         limit: 20,

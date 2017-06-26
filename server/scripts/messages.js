@@ -28,15 +28,21 @@ const _createMessage = (horseName, _data) => {
         `messages/${data.attachment}`
       ))
     }
-    data.attachment = processMulterFiles(files)
   }
   console.log(`Creating message for ${horseName}`)
-  return Horse.findOne(
-    {name: horseName.toUpperCase()},
-    {_id: true}
-  ).then(horse => {
-    data.horseId = horse._id
-    return createMessage(data)
+  return processMulterFiles(
+    files, 'array', 'attachment', 'messages'
+  ).then(files => {
+    if (files && files.length > 0) {
+      data.attachment = files
+    }
+    return Horse.findOne(
+      {name: horseName.toUpperCase()},
+      {_id: true}
+    ).then(horse => {
+      data.horseId = horse._id
+      return createMessage(data)
+    }).catch(Promise.reject)
   })
 }
 

@@ -6,13 +6,13 @@ const {prepareHorse} = require('api/horse/utils')
 
 const availableQueries = ['name']
 
-module.exports = getHorse = (query) => {
-  let _query = prepareQuery(query, availableQueries, dehyphenize)
+module.exports = getHorse = (body) => {
+  let query = prepareQuery(body, availableQueries, dehyphenize)
 
-  if (_query) {
+  if (query) {
     let horseData
     return Horse.findOne(
-      _query,
+      query,
       {__v: false, timeformId: false}
     ).then(horse => {
       if (horse) {

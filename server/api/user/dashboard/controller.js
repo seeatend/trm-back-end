@@ -1,11 +1,9 @@
-const {success, error} = require('utils/request')
-
 const {getUser} = require('api/user/controller')
 
 const prepareOwnership = require('./prepareOwnership')
 
-const getDashboard = (req, res) => {
-  getUser(
+const getDashboard = () => {
+  return getUser(
     null,
     {
       __v: false,
@@ -20,15 +18,12 @@ const getDashboard = (req, res) => {
   ).lean().then(user => {
     if (user) {
       user.ownership = prepareOwnership(user.ownership)
-      res.json(success(user))
+      return Promise.resolve(user)
     }
     else {
-      throw new Error('User not found.')
+      return Promise.reject({message: 'User not found.'})
     }
-  }).catch(err => {
-    console.error(err)
-    res.status(404).json(error(err.message))
-  })
+  }).catch(Promise.reject)
 }
 
 module.exports = {

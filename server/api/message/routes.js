@@ -1,21 +1,12 @@
 const express = require('express')
-const {success, error} = require('utils/request')
+const {applyController} = require('utils/api')
 const handleUpload = require('utils/handleUpload')
 
 const messageRouter = express.Router({mergeParams: true})
 const {getMessage, createMessage} = require('./controller')
 
 messageRouter.route('/message')
-  .get((req, res) => {
-    getMessage(
-      req.query
-    ).then(message => {
-      res.json(success(message))
-    }).catch(err => {
-      res.status(404).json(error(err.message))
-      console.log(err.message)
-    })
-  })
+  .get(applyController(getMessage))
   .post(
     handleUpload({
       field: {
@@ -26,14 +17,7 @@ messageRouter.route('/message')
       acceptedTypes: ['video', 'image', 'audio'],
       destination: 'messages'
     }),
-    (req, res) => {
-      createMessage(
-        req.body
-      ).then(() => {
-        res.send(success())
-      }).catch(err => {
-        res.status(404).send(error())
-      })
-    })
+    applyController(createMessage)
+  )
 
 module.exports = messageRouter

@@ -4,17 +4,17 @@ const {prepareQuery, dehyphenize, processFiles} = require('utils/request')
 
 const allowedGetParams = ['name']
 
-const getSyndicate = (query) => {
-  let searchQuery = prepareQuery(
-    query,
+const getSyndicate = (body) => {
+  let query = prepareQuery(
+    body,
     allowedGetParams,
     dehyphenize
   )
   return new Promise((resolve, reject) => {
-    if (searchQuery) {
+    if (query) {
       let syndicate
       Syndicate.findOne(
-        searchQuery,
+        query,
         {__v: false, _id: false}
       ).lean().then(_syndicate => {
         syndicate = _syndicate

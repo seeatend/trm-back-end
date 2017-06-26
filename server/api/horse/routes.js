@@ -2,18 +2,9 @@ const express = require('express')
 
 const router = express.Router({mergeParams: true})
 const {getHorse} = require('./controller')
-const {error, success} = require('utils/request')
+const {applyController} = require('utils/api')
 
 router.route('/horse')
-  .get((req, res) => {
-    getHorse(
-      req.query
-    ).then(result => {
-      res.send(success(result))
-    }).catch(err => {
-      console.log(err)
-      res.status(404).send(error(err.message))
-    })
-  })
+  .get(applyController(getHorse))
 
 module.exports = router
