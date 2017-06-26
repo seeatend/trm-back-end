@@ -1,3 +1,4 @@
+require('setup')
 const config = require('config')
 const express = require('express')
 const morgan = require('morgan')
@@ -7,7 +8,6 @@ const port = config.get('server.port')
 const bodyParser = require('body-parser')
 const compression = require('compression')
 
-require('setup/db')
 
 const routes = require('api')
 
@@ -25,7 +25,9 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
 
 const storagePath = config.get('storage.path')
-app.use(`/${storagePath}`, express.static(storagePath))
+app.use(`/${storagePath}`, express.static(storagePath), (req, res) => {
+  res.status(404).send('could not find the file')
+})
 
 app.use('/assets', express.static('public'))
 
