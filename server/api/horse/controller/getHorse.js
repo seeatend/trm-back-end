@@ -20,7 +20,7 @@ module.exports = getHorse = (body) => {
 
         return Message.find(
           {horseId: horse._id},
-          {_id: false, __v: false, horseId: false},
+          {__v: false, horseId: false},
           {
             limit: 20,
             sort: {createdAt: -1}
