@@ -6,7 +6,7 @@ const {prepareHorse} = require('api/horse/utils')
 
 const availableQueries = ['name']
 
-module.exports = getHorse = (body) => {
+module.exports = (body) => {
   let query = prepareQuery(body, availableQueries, dehyphenize)
 
   if (query) {

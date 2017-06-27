@@ -39,10 +39,12 @@ const _createMessage = (horseName, _data) => {
     return Horse.findOne(
       {name: horseName.toUpperCase()},
       {_id: true}
-    ).then(horse => {
-      data.horseId = horse._id
-      return createMessage(data)
-    }).catch(Promise.reject)
+    )
+  }).then(horse => {
+    data.horseId = horse._id
+    return createMessage(data)
+  }).catch((err) => {
+    console.log(err)
   })
 }
 

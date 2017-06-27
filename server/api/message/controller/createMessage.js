@@ -20,10 +20,10 @@ module.exports = (body) => {
     return newMessage.save(
     ).then(message => {
       console.log(`message received: ${message._id}`)
-      return Promise.resolve
-    }).catch(Promise.reject)
+      return Promise.resolve()
+    })
   }
   else {
-    return Promise.reject
+    return Promise.reject()
   }
 }

@@ -1,6 +1,8 @@
 const mongoose = require('mongoose')
 const {Schema} = mongoose
 const {ObjectId} = Schema.Types
+const mongoosastic = require('mongoosastic')
+const esClient = require('utils/esClient')
 
 const horseDefinition = {
   timeformId: {
@@ -9,7 +11,7 @@ const horseDefinition = {
   },
   name: {
     type: String,
-    tf: 'horseName'
+    tf: 'horseName',
   },
   age: {
     type: String,
@@ -98,13 +100,30 @@ const horseDefinition = {
     position: {
       official: {
         type: Number,
+        es_type: 'double',
         tf: 'positionOfficial'
       }
     }
   }]
 }
 
-const Horse = mongoose.model('Horse', new Schema(horseDefinition))
+let horseSchema = new Schema(horseDefinition)
+
+horseSchema.plugin(mongoosastic, {esClient})
+
+const Horse = mongoose.model('Horse', horseSchema)
+
+Horse.createMapping(function (err, mapping) {
+  if (err) {
+    console.log('error creating mapping (you can safely ignore this)')
+
+    console.log(err)
+  } else {
+    console.log('mapping created!')
+    console.log(mapping)
+  }
+})
+
 
 module.exports = {
   horseDefinition,

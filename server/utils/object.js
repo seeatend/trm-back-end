@@ -2,6 +2,9 @@ const objectUtils = {
   isObject: (obj) => {
     return obj != null && typeof obj === 'object' && Array.isArray(obj) === false
   },
+  isFunction: (elem) => {
+    return elem && {}.toString.call(elem) === '[object Function]';
+  },
   removePrivate: (obj) => {
     const result = {}
     Object.keys(obj).forEach(key => {

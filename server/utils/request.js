@@ -115,19 +115,21 @@ const processMulterFiles = (files, type, name, destination) => {
     files, `${destination}/${Date.now()}-${parseInt(Math.random() * 100)}`
   ).then(filesInfos => {
     let result
-    let fieldInfo = filesInfos[name]
-    if (fieldInfo && fieldInfo.length > 0) {
-      switch (type) {
-        case 'single':
-          result = fieldInfo[0]
-          break
-        case 'array':
-          result = fieldInfo
-          break
+    if (filesInfos) {
+      let fieldInfo = filesInfos[name]
+      if (fieldInfo && fieldInfo.length > 0) {
+        switch (type) {
+          case 'single':
+            result = fieldInfo[0]
+            break
+          case 'array':
+            result = fieldInfo
+            break
+        }
       }
     }
     return Promise.resolve(result)
-  }).catch(Promise.reject)
+  })
 }
 
 module.exports = {
