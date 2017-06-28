@@ -1,12 +1,34 @@
 const User = require('./model')
 
-const getUser = (query, omit) => {
-  return User.findOne(
+const getUser = ({filter = {__v: false, _id: false}, populate = true, omit}) => {
+  let result = User.findOne(
     {name: 'demo'},
-    {__v: false, _id: false}
-  ).populate('ownership.horse', omit)
+    filter
+  )
+  return populate ? result.populate('ownership.horse', omit) : result
+}
+
+const getShares = (query) => {
+  if (query.horseId) {
+    return getUser({
+      filter: {ownership: true},
+      populate: false
+    }).then(user => {
+      if (user && user.ownership) {
+        let ownership = user.ownership.filter(elem => {
+          return elem.horse.toString() === query.horseId.toString()
+        })
+        if (ownership.length > 0 && ownership[0]) {
+          return Promise.resolve(ownership[0].shares)
+        }
+      }
+      return Promise.reject({message: 'You are not logged in'})
+    })
+  }
+  else return Promise.reject({message: 'Query does not match'})
 }
 
 module.exports = {
-  getUser
+  getUser,
+  getShares
 }

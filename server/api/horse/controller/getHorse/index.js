@@ -1,6 +1,5 @@
-const User = require('api/user/model')
-
 const {getMessage} = require('api/message/controller')
+const {getShares} = require('api/user/controller')
 const getHorse = require('./getHorse')
 
 module.exports = (body, options = {}) => {
@@ -18,25 +17,17 @@ module.exports = (body, options = {}) => {
       )
     }
   }).then(messages => {
-    result.messages = messages || []
+    result.messages = messages
     if (!options.shares) {
       return Promise.resolve()
     }
     else {
-      return User.findOne(
-        {name: 'demo'},
-        {ownership: true}
-      )
-    }
-  }).then(user => {
-    if (user && user.ownership) {
-      let ownership = user.ownership.filter(elem => {
-        return elem.horse.toString() === result._id.toString()
+      return getShares({
+        horseId: result._id
       })
-      if (ownership.length > 0 && ownership[0]) {
-        result.shares = ownership[0].shares
-      }
     }
+  }).then(shares => {
+    result.shares = shares
     return Promise.resolve(result)
   })
 }

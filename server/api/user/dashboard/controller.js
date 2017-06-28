@@ -3,9 +3,8 @@ const {getUser} = require('api/user/controller')
 const prepareOwnership = require('./prepareOwnership')
 
 const getDashboard = () => {
-  return getUser(
-    null,
-    {
+  return getUser({
+    omit: {
       __v: false,
       timeformId: false,
       timeformComments: false,
@@ -15,7 +14,7 @@ const getDashboard = () => {
       sire: false,
       dam: false
     }
-  ).lean().then(user => {
+  }).lean().then(user => {
     if (user) {
       user.ownership = prepareOwnership(user.ownership)
       return Promise.resolve(user)
