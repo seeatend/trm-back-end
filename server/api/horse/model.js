@@ -1,8 +1,7 @@
 const mongoose = require('mongoose')
 const {Schema} = mongoose
 const {ObjectId} = Schema.Types
-const mongooseAlgolia = require('mongoose-algolia')
-const algoliaClient = require('utils/algoliaClient')
+const {applyAlgolia} = require('utils/algolia')
 
 const horseDefinition = {
   timeformId: {
@@ -100,7 +99,6 @@ const horseDefinition = {
     position: {
       official: {
         type: Number,
-        es_type: 'double',
         tf: 'positionOfficial'
       }
     }
@@ -109,14 +107,9 @@ const horseDefinition = {
 
 let horseSchema = new Schema(horseDefinition)
 
-horseSchema.plugin(mongooseAlgolia, {
-  appId: 'HNO1OL85C6',
-  apiKey: '5f295514ff804ecae3614dfbc4ac2de5',
-  indexName: 'devHorses', //The name of the index in Algolia, you can also pass in a function
-  selector: [
-    'name'
-  ].join(' '), //You can decide which field that are getting synced to Algolia (same as selector in mongoose)
-  debug: true // Default: false -> If true operations are logged out in your console
+let horseIndex = applyAlgolia(horseSchema, {
+  indexName: 'Horses',
+  selector: ['name']
 })
 
 const Horse = mongoose.model('Horse', horseSchema)
@@ -125,8 +118,6 @@ Horse.SetAlgoliaSettings({
   searchableAttributes: ['name'] //Sets the settings for this schema, see [Algolia's Index settings parameters](https://www.algolia.com/doc/api-client/javascript/settings#set-settings) for more info.
 })
 Horse.SyncToAlgolia() //Clears the Algolia index for this schema and synchronizes all documents to Algolia (based on the settings defined in your plugin settings)
-
-const horseIndex = algoliaClient.initIndex('devHorses')
 
 module.exports = {
   horseDefinition,

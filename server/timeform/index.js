@@ -1,4 +1,3 @@
-require('dotenv').config()
 require('setup')
 const {authenticate, horses} = require('./api')
 
