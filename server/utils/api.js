@@ -1,12 +1,13 @@
 const {success, error} = require('utils/request')
 const {isFunction} = require('utils/object')
 
-const applyController = (controller) => {
+const applyController = (controller, options) => {
   return (req, res) => {
     let data = Object.keys(req.query).length > 0 ? req.query : req.body
     if (isFunction(controller)) {
       controller(
-        data
+        data,
+        options
       ).then(result => {
         res.send(success(result))
       }).catch(err => {

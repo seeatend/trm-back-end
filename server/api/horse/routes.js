@@ -5,6 +5,9 @@ const {getHorse} = require('./controller')
 const {applyController} = require('utils/api')
 
 router.route('/horse')
-  .get(applyController(getHorse))
+  .get(applyController(getHorse, {
+    messages: true,
+    shares: true
+  }))
 
 module.exports = router
