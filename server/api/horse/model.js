@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const {Schema} = mongoose
 const {ObjectId} = Schema.Types
+const {applyAlgolia} = require('utils/algolia')
 
 const horseDefinition = {
   timeformId: {
@@ -9,7 +10,7 @@ const horseDefinition = {
   },
   name: {
     type: String,
-    tf: 'horseName'
+    tf: 'horseName',
   },
   age: {
     type: String,
@@ -104,9 +105,22 @@ const horseDefinition = {
   }]
 }
 
-const Horse = mongoose.model('Horse', new Schema(horseDefinition))
+let horseSchema = new Schema(horseDefinition)
+
+let horseIndex = applyAlgolia(horseSchema, {
+  indexName: 'Horses',
+  selector: ['name']
+})
+
+const Horse = mongoose.model('Horse', horseSchema)
+
+Horse.SetAlgoliaSettings({
+  searchableAttributes: ['name'] //Sets the settings for this schema, see [Algolia's Index settings parameters](https://www.algolia.com/doc/api-client/javascript/settings#set-settings) for more info.
+})
+Horse.SyncToAlgolia() //Clears the Algolia index for this schema and synchronizes all documents to Algolia (based on the settings defined in your plugin settings)
 
 module.exports = {
   horseDefinition,
+  horseIndex,
   Horse
 }

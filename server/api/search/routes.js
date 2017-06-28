@@ -1,13 +1,10 @@
 const express = require('express')
 
 const router = express.Router({mergeParams: true})
-const {getHorse} = require('./controller')
+const {searchHorse} = require('api/horse/controller')
 const {applyController} = require('utils/api')
 
-router.route('/horse')
-  .get(applyController(getHorse, {
-    messages: true,
-    shares: true
-  }))
+router.route('/search')
+  .get(applyController(searchHorse))
 
 module.exports = router

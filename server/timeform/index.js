@@ -1,5 +1,4 @@
-require('dotenv').config()
-require('setup/db')
+require('setup')
 const {authenticate, horses} = require('./api')
 
 const fs = require('fs-extra')
