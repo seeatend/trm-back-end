@@ -6,26 +6,31 @@ module.exports = {
     return Horse.find(
       {}
     ).limit(10).then(horses => {
-      const ownership = []
+      let ownership = []
+      let promises = []
       horses.forEach(horse => {
+        let shares = {
+          owned: parseInt(Math.random() * 9) + 1,
+          total: parseInt(Math.random() * 15) + 15
+        };
         ownership.push({
           horse: horse._id,
-          shares: {
-            owned: parseInt(Math.random() * 9) + 1,
-            total: parseInt(Math.random() * 15) + 15
-          }
+          shares
         })
+        horse.shares = shares
+        promises.push(horse.save())
       })
-      const user = {
+      let user = {
         name: 'demo',
         type: 'member',
         ownership
       }
-      return User.findOneAndUpdate(
+      promises.push(User.findOneAndUpdate(
         {name: user.name},
         user,
         {upsert: true, new: true}
-      )
+      ))
+      return Promise.all(promises)
     })
   },
 

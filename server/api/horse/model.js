@@ -52,6 +52,18 @@ const horseDefinition = {
       type: String
     }
   },
+  shares: {
+    owned: {
+      type: Number
+    },
+    total: {
+      type: Number
+    }
+  },
+  cost: {
+    share: Number,
+    initial: Number
+  },
   owner: {
     _id: {
       type: ObjectId
@@ -109,7 +121,11 @@ let horseSchema = new Schema(horseDefinition)
 
 let horseIndex = applyAlgolia(horseSchema, {
   indexName: 'Horses',
-  selector: ['name']
+  selector: [
+    'name',
+    'shares',
+    'cost'
+  ]
 })
 
 const Horse = mongoose.model('Horse', horseSchema)

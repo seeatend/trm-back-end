@@ -4,6 +4,7 @@ const {Horse} = require('api/horse/model')
 const {updateSyndicate} = require('api/syndicate/controller')
 const {updateHorse} = require('api/horse/controller')
 const {mockFileUpload} = require('utils/mock')
+const {randomInteger} = require('utils/math')
 
 const convert = require('./convertFields')
 
@@ -95,6 +96,10 @@ module.exports = (horse, additionalData = {}) => {
       syndicateData = syndicate
       horseData.owner._id = syndicate._id
       horseData.owner.color = syndicate.color
+      horseData.cost = {
+        share: randomInteger(500, 1500) * 5,
+        initial: randomInteger(2100, 4500) * 5
+      }
       let timeformId = horse.horseCode.trim()
       let horseFiles = []
       if (additionalData.img) {
