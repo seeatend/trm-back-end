@@ -22,6 +22,13 @@ const generateConditions = filter => {
             results.push(`${field} <= ${condition.range.max}`)
           }
         }
+        else if (condition.value !== undefined) {
+          let value = condition.value
+          let valueAlgolia = value
+          if (value === true) valueAlgolia = 1
+          if (value === false) valueAlgolia = 0
+          results.push(`${field}=${valueAlgolia}`)
+        }
       }
     })
   }
