@@ -125,8 +125,12 @@ let horseIndex = applyAlgolia(horseSchema, {
     'sharesAvailable',
     'shareCost'
   ],
+  filter: [
+    'age'
+  ],
   selector: [
-    'name'
+    'name',
+    'age'
   ],
   virtuals: {
     sharesAvailable: horse => ((horse.shares.total - horse.shares.owned)/horse.shares.total),

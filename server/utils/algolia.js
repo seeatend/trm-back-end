@@ -8,6 +8,26 @@ const algoliaClient = algoliasearch(appId, apiKey)
 
 const isProduction = process.env.NODE_ENV === 'prod'
 
+const generateConditions = filter => {
+  let results = []
+  if (filter && filter.length > 0) {
+    filter.forEach(condition => {
+      if (condition.field) {
+        let field = condition.field
+        if (condition.range) {
+          if (condition.range.min) {
+            results.push(`${field} >= ${condition.range.min}`)
+          }
+          if (condition.range.max) {
+            results.push(`${field} <= ${condition.range.max}`)
+          }
+        }
+      }
+    })
+  }
+  return results
+}
+
 const applyAlgolia = (schema, options = {}) => {
   let sort = options.sort
   delete options.sort
@@ -48,24 +68,29 @@ const applyAlgolia = (schema, options = {}) => {
 
   let replicaIndexes = {}
 
+  let attributesForFaceting = options.filter.map(field => (`filterOnly(${field})`))
+
   index.setSettings({
-    replicas: replicaNames
+    replicas: replicaNames,
+    attributesForFaceting
   })
 
   replicaNames.forEach((name, i) => {
     let replicaInfo = replicaInfos[i]
     let replicaIndex = algoliaClient.initIndex(name)
+
     replicaIndex.setSettings({
       ranking: [
         `${replicaInfo.order}(${replicaInfo.field})`,
         'typo', 'geo', 'words', 'filters', 'proximity', 'attribute', 'exact', 'custom'
-      ]
+      ],
+      attributesForFaceting
     })
     replicaIndexes[name] = replicaIndex
   })
 
   let searchHelper = {
-    search: ({query, sort}) => {
+    search: ({query, filter, sort}) => {
       let searchIndex
       if (sort) {
         searchIndex = replicaIndexes[getIndexName(sort)]
@@ -74,7 +99,12 @@ const applyAlgolia = (schema, options = {}) => {
         searchIndex = index
       }
       if (searchIndex) {
-        return searchIndex.search(query)
+        let filterConditions = generateConditions(filter)
+        let filters = filterConditions.join(' AND ');
+        return searchIndex.search({
+          query,
+          filters
+        })
       }
       else {
         return Promise.reject({message: 'Unsupported sorting strategy'})
