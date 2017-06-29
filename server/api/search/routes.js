@@ -5,6 +5,6 @@ const {searchHorse} = require('api/horse/controller')
 const {applyController} = require('utils/api')
 
 router.route('/search')
-  .get(applyController(searchHorse))
+  .post(applyController(searchHorse))
 
 module.exports = router
