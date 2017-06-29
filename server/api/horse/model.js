@@ -13,7 +13,7 @@ const horseDefinition = {
     tf: 'horseName',
   },
   age: {
-    type: String,
+    type: Number,
     tf: 'horseAge'
   },
   gender: {
@@ -51,6 +51,18 @@ const horseDefinition = {
     name: {
       type: String
     }
+  },
+  shares: {
+    owned: {
+      type: Number
+    },
+    total: {
+      type: Number
+    }
+  },
+  cost: {
+    share: Number,
+    initial: Number
   },
   owner: {
     _id: {
@@ -109,7 +121,17 @@ let horseSchema = new Schema(horseDefinition)
 
 let horseIndex = applyAlgolia(horseSchema, {
   indexName: 'Horses',
-  selector: ['name']
+  sort: [
+    'sharesAvailable',
+    'shareCost'
+  ],
+  selector: [
+    'name'
+  ],
+  virtuals: {
+    sharesAvailable: horse => ((horse.shares.total - horse.shares.owned)/horse.shares.total),
+    shareCost: horse => (horse.cost.share)
+  }
 })
 
 const Horse = mongoose.model('Horse', horseSchema)

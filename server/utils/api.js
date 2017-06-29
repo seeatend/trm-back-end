@@ -11,6 +11,7 @@ const applyController = (controller, options) => {
       ).then(result => {
         res.send(success(result))
       }).catch(err => {
+        console.error(err)
         if (err && err.message)
           res.status(404).send(error(err.message))
         else

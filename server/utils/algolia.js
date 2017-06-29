@@ -9,19 +9,80 @@ const algoliaClient = algoliasearch(appId, apiKey)
 const isProduction = process.env.NODE_ENV === 'prod'
 
 const applyAlgolia = (schema, options = {}) => {
+  let sort = options.sort
+  delete options.sort
+
   if (Array.isArray(options.selector)) {
+    if (options.virtuals) {
+      options.selector = options.selector.concat(Object.keys(options.virtuals))
+    }
     options.selector = options.selector.join(' ')
   }
   options.appId = appId
   options.apiKey = apiKey
 
-  options.indexName = `${isProduction ? 'prod' : 'dev'}${options.indexName}`
+  let indexName = `${isProduction ? 'prod' : 'dev'}${options.indexName}`;
+
+  options.indexName = indexName
 
   options.debug = true
 
   schema.plugin(mongooseAlgolia, options)
 
-  return algoliaClient.initIndex(options.indexName)
+  let index = algoliaClient.initIndex(indexName)
+
+  let replicaInfos = []
+  let replicaNames = []
+
+  let getIndexName = ({field, order}) => (`${indexName}-${field}-${order}`)
+
+  // Create sorting replicas
+  sort.forEach(field => {
+    replicaInfos.push({field, order: 'desc'})
+    replicaInfos.push({field, order: 'asc'})
+  })
+
+  replicaInfos.forEach(replicaInfo => {
+    replicaNames.push(getIndexName(replicaInfo))
+  })
+
+  let replicaIndexes = {}
+
+  index.setSettings({
+    replicas: replicaNames
+  })
+
+  replicaNames.forEach((name, i) => {
+    let replicaInfo = replicaInfos[i]
+    let replicaIndex = algoliaClient.initIndex(name)
+    replicaIndex.setSettings({
+      ranking: [
+        `${replicaInfo.order}(${replicaInfo.field})`,
+        'typo', 'geo', 'words', 'filters', 'proximity', 'attribute', 'exact', 'custom'
+      ]
+    })
+    replicaIndexes[name] = replicaIndex
+  })
+
+  let searchHelper = {
+    search: ({query, sort}) => {
+      let searchIndex
+      if (sort) {
+        searchIndex = replicaIndexes[getIndexName(sort)]
+      }
+      else {
+        searchIndex = index
+      }
+      if (searchIndex) {
+        return searchIndex.search(query)
+      }
+      else {
+        return Promise.reject({message: 'Unsupported sorting strategy'})
+      }
+    }
+  }
+
+  return searchHelper
 }
 
 module.exports = {
