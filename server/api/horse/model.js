@@ -60,8 +60,11 @@ const horseDefinition = {
       type: Number
     }
   },
+  racingType: {
+    type: String
+  },
   cost: {
-    share: Number,
+    monthly: Number,
     initial: Number
   },
   owner: {
@@ -123,20 +126,25 @@ let horseIndex = applyAlgolia(horseSchema, {
   indexName: 'Horses',
   sort: [
     'sharesAvailable',
-    'shareCost'
+    'monthlyCost'
   ],
   filter: [
     'age',
-    'hasBeenRaced'
+    'hasBeenRaced',
+    'monthlyCost',
+    'initialCost',
+    'racingType'
   ],
   selector: [
     'name',
-    'age'
+    'age',
+    'racingType'
   ],
   virtuals: {
     sharesAvailable: horse => ((horse.shares.total - horse.shares.owned)/horse.shares.total),
-    shareCost: horse => (horse.cost.share),
-    hasBeenRaced: horse => (horse.performances.length > 0)
+    monthlyCost: horse => (horse.cost.monthly),
+    initialCost: horse => (horse.cost.initial),
+    hasBeenRaced: horse => (horse.performances.length > 0),
   }
 })
 

@@ -1,6 +1,8 @@
 const algoliasearch = require('algoliasearch')
 const mongooseAlgolia = require('mongoose-algolia')
 
+const {isString, isBoolean} = require('utils/object')
+
 const appId = process.env.ALGOLIA_APP_ID
 const apiKey = process.env.ALGOLIA_API_KEY
 
@@ -24,10 +26,12 @@ const generateConditions = filter => {
         }
         else if (condition.value !== undefined) {
           let value = condition.value
-          let valueAlgolia = value
-          if (value === true) valueAlgolia = 1
-          if (value === false) valueAlgolia = 0
-          results.push(`${field}=${valueAlgolia}`)
+          if (isString(value)) {
+            results.push(`${field}:"${value}"`)
+          }
+          else if (isBoolean(value)) {
+            results.push(`${field}=${value ? 1 : 0}`)
+          }
         }
       }
     })
