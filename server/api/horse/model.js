@@ -67,6 +67,14 @@ const horseDefinition = {
     monthly: Number,
     initial: Number
   },
+  ownership: {
+    type: {
+      type: String
+    },
+    years: {
+      type: Number
+    }
+  },
   owner: {
     _id: {
       type: ObjectId
@@ -133,7 +141,9 @@ let horseIndex = applyAlgolia(horseSchema, {
     'hasBeenRaced',
     'monthlyCost',
     'initialCost',
-    'racingType'
+    'racingType',
+    'ownershipType',
+    'numberOfYears'
   ],
   selector: [
     'name',
@@ -145,6 +155,8 @@ let horseIndex = applyAlgolia(horseSchema, {
     monthlyCost: horse => (horse.cost.monthly),
     initialCost: horse => (horse.cost.initial),
     hasBeenRaced: horse => (horse.performances.length > 0),
+    ownershipType: horse => (horse.ownership.type),
+    numberOfYears: horse => (horse.ownership.years)
   }
 })
 
