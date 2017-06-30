@@ -124,11 +124,11 @@ let horseSchema = new Schema(horseDefinition)
 
 let horseIndex = applyAlgolia(horseSchema, {
   indexName: 'Horses',
-  sort: [
+  sortBy: [
     'sharesAvailable',
     'monthlyCost'
   ],
-  filter: [
+  filterBy: [
     'age',
     'hasBeenRaced',
     'monthlyCost',

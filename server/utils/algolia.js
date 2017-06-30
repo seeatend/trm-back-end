@@ -40,8 +40,8 @@ const generateConditions = filter => {
 }
 
 const applyAlgolia = (schema, options = {}) => {
-  let sort = options.sort
-  delete options.sort
+  let sortBy = options.sortBy
+  delete options.sortBy
 
   if (Array.isArray(options.selector)) {
     if (options.virtuals) {
@@ -68,7 +68,7 @@ const applyAlgolia = (schema, options = {}) => {
   let getIndexName = ({field, order}) => (`${indexName}-${field}-${order}`)
 
   // Create sorting replicas
-  sort.forEach(field => {
+  sortBy.forEach(field => {
     replicaInfos.push({field, order: 'desc'})
     replicaInfos.push({field, order: 'asc'})
   })
@@ -79,7 +79,10 @@ const applyAlgolia = (schema, options = {}) => {
 
   let replicaIndexes = {}
 
-  let attributesForFaceting = options.filter.map(field => (`filterOnly(${field})`))
+  let attributesForFaceting
+  if (options.filterBy) {
+    attributesForFaceting = options.filterBy.map(field => (`filterOnly(${field})`))
+  }
 
   index.setSettings({
     replicas: replicaNames,
