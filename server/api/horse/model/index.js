@@ -1,8 +1,6 @@
-const horseDefinition = require('./definition')
-const {Horse, horseIndex} = require('./configure')
-
 module.exports = {
-  horseDefinition,
-  horseIndex,
-  Horse
+  horseDefinition: require('./definition'),
+  horseSearchSettings: require('./searchSettings'),
+  horseHelper: require('./helper'),
+  Horse: require('./model')
 }
