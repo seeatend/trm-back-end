@@ -96,8 +96,15 @@ module.exports = (horse, additionalData = {}) => {
       syndicateData = syndicate
       horseData.owner._id = syndicate._id
       horseData.owner.color = syndicate.color
+      horseData.racingType = Math.random() > .6 ? 'National Hunt' : Math.random() > .3 ? 'Flat Racing' : 'Dual Purpose'
+      horseData.ownership = {
+        type: Math.random() > .5 ? 'Fixed Period' : 'Open Ended Period'
+      }
+      if (horseData.ownership.type === 'Open Ended Period') {
+        horseData.ownership.years = randomInteger(1, 6)
+      }
       horseData.cost = {
-        share: randomInteger(500, 1500) * 5,
+        monthly: randomInteger(500, 1500) * 5,
         initial: randomInteger(2100, 4500) * 5
       }
       let timeformId = horse.horseCode.trim()
