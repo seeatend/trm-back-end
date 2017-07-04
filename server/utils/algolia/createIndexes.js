@@ -1,11 +1,12 @@
 const algoliaClient = require('./algoliaClient')
 const getIndexName = require('./getIndexName')
 
-const isProduction = process.env.NODE_ENV === 'prod'
+const {NODE_ENV} = process.env
 
 module.exports = ({sortBy, filterBy, modelName, setSettings}) => {
   if (!modelName) { throw new Error('Model name is not defined.')}
-  let primaryIndexName = `${isProduction ? 'prod' : 'dev'}${modelName}s`
+
+  let primaryIndexName = `${NODE_ENV || 'dev'}${modelName}s`
 
   let primaryIndex = algoliaClient.initIndex(primaryIndexName)
 

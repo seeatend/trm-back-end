@@ -3,6 +3,7 @@
   "scripts": {
     "start": "NODE_PATH=./server nodemon server",
     "prod": "NODE_PATH=./server NODE_ENV=prod forever --minUptime 1000 --spinSleepTime 1000 start server",
+    "uat": "NODE_PATH=./server NODE_ENV=uat forever --minUptime 1000 --spinSleepTime 1000 start server",
     "list": "forever list",
     "stop": "forever stop 0",
     "logs": "forever logs 0",
@@ -16,6 +17,7 @@
     "populate": "NODE_PATH=./server run-s flush timeform demo messages",
     "messages": "NODE_PATH=./server node server/scripts/messages",
     "setup-search-dev": "NODE_PATH=./server node server/scripts/setupSearch",
+    "setup-search-uat": "NODE_PATH=./server NODE_ENV=uat node server/scripts/setupSearch",
     "setup-search-prod": "NODE_PATH=./server NODE_ENV=prod node server/scripts/setupSearch",
     "test": "NODE_PATH=./server mocha -w --opts mocha.opts --recursive $(find server -name '*.spec.js')"
   },
