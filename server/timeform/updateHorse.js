@@ -108,6 +108,10 @@ module.exports = (horse, additionalData = {}) => {
           monthly: randomInteger(500, 1500) * 5,
           initial: randomInteger(2100, 4500) * 5
         }
+        horseData.shares = {
+          owned: parseInt(Math.random() * 9) + 1,
+          total: parseInt(Math.random() * 15) + 15
+        }
         let timeformId = horse.horseCode.trim()
         let horseFiles = []
         if (additionalData.img) {

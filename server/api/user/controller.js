@@ -21,8 +21,9 @@ const getShares = (query) => {
         if (ownership.length > 0 && ownership[0]) {
           return Promise.resolve(ownership[0].shares)
         }
+        return Promise.resolve()
       }
-      return Promise.reject({message: 'You are not logged in'})
+      return Promise.reject({message: 'Demo user not found'})
     })
   }
   else return Promise.reject({message: 'Query does not match'})

@@ -27,7 +27,7 @@ module.exports = (body, options = {}) => {
       })
     }
   }).then(shares => {
-    result.shares = shares
+    if (shares) result.shares = shares
     return Promise.resolve(result)
   })
 }

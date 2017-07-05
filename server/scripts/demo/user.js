@@ -12,7 +12,7 @@ module.exports = {
         let shares = {
           owned: parseInt(Math.random() * 9) + 1,
           total: parseInt(Math.random() * 15) + 15
-        };
+        }
         ownership.push({
           horse: horse._id,
           shares
