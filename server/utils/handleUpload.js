@@ -3,6 +3,7 @@ const mime = require('mime')
 const path = require('path')
 const config = require('config')
 const {extension} = require('utils/file')
+const {processMulterFiles} = require('utils/request')
 const mkdirp = require('mkdirp')
 
 const storage = multer.diskStorage({
@@ -17,7 +18,7 @@ const storage = multer.diskStorage({
   }
 })
 
-const handleUpload = ({field, acceptedTypes = ['image']}) => {
+const handleUpload = ({field, acceptedTypes = ['image'], destination = 'other'}) => {
   const upload = multer({
     storage: storage,
     fileFilter: (req, file, cb) => {
@@ -40,7 +41,21 @@ const handleUpload = ({field, acceptedTypes = ['image']}) => {
         res.send({error: true, message: 'File upload failed'})
       }
       else {
-        next()
+        const {body, files} = req
+        if (files && files.length > 0) {
+          processMulterFiles(
+            files, field.type, field.name, destination
+          ).then(result => {
+            body[field.name] = result
+            next()
+          }).catch(err => {
+            console.error(err)
+            res.send(err.message)
+          })
+        }
+        else {
+          next()
+        }
       }
     })
   }

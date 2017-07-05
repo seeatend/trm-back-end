@@ -1,15 +1,18 @@
 const mongoose = require('mongoose')
 const {Schema} = mongoose
 const {ObjectId} = Schema.Types
+const passportLocalMongoose = require('passport-local-mongoose')
 
 const User = new Schema({
   name: {
+    type: String
+  },
+  username: {
     type: String,
-    required: true
+    required: String
   },
   type: {
-    type: String,
-    required: true
+    type: String
   },
   ownership: [{
     _id: false,
@@ -27,5 +30,7 @@ const User = new Schema({
     }
   }]
 })
+
+User.plugin(passportLocalMongoose)
 
 module.exports = mongoose.model('User', User)

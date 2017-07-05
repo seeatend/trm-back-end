@@ -1,11 +1,11 @@
 const config = require('config')
 
-require('setup/db')
+require('setup')
 
 const userUtils = require('./user')
 
-userUtils.register().then(user => {
-  console.log(user)
+userUtils.register().then(() => {
+  console.log('USER REGISTERED!')
   process.exit(0)
 }).catch(err => {
   console.error(err.message)

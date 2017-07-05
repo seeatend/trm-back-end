@@ -1,22 +1,24 @@
 const config = require('config')
 const path = require('path')
 const mime = require('mime')
-const {move, generateThumbnail, thumbnailPath} = require('./file')
+const {generateThumbnail, thumbnailPath} = require('./file')
 const fs = require('fs-extra')
 
-const prepareQuery = (query, availableQueries, transform = (key, val) => val) => {
+const prepareQuery = (query, availableQueries, transform = val => val) => {
   if (!query) {
-    throw new Error(`Query is not defined ${JSON.stringify(availableQueries)}`)
+    console.error(`Query is not defined ${JSON.stringify(availableQueries)}`)
+    return false
   }
   let result = {}
   availableQueries.forEach((elem) => {
     if (query[elem]) {
-      result[elem] = transform(elem, query[elem])
+      result[elem] = transform(query[elem], elem)
       return result
     }
   })
   if (Object.keys(result).length === 0) {
-    throw new Error(`No matching queries ${JSON.stringify(availableQueries)}`)
+    console.error(`No matching queries ${JSON.stringify(availableQueries)}`)
+    return false
   }
   return result
 }
@@ -108,6 +110,28 @@ const processFiles = (files, destination) => {
   })
 }
 
+const processMulterFiles = (files, type, name, destination) => {
+  return processFiles(
+    files, `${destination}/${Date.now()}-${parseInt(Math.random() * 100)}`
+  ).then(filesInfos => {
+    let result
+    if (filesInfos) {
+      let fieldInfo = filesInfos[name]
+      if (fieldInfo && fieldInfo.length > 0) {
+        switch (type) {
+          case 'single':
+            result = fieldInfo[0]
+            break
+          case 'array':
+            result = fieldInfo
+            break
+        }
+      }
+    }
+    return Promise.resolve(result)
+  })
+}
+
 module.exports = {
   prepareQuery,
   dehyphenize,
@@ -116,5 +140,6 @@ module.exports = {
   success,
   error,
   processFile,
-  processFiles
+  processFiles,
+  processMulterFiles
 }

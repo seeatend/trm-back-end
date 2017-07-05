@@ -4,6 +4,7 @@ const messageRouter = require('./message/routes')
 const horseRouter = require('./horse/routes')
 const userRouter = require('./user/routes')
 const syndicateRouter = require('./syndicate/routes')
+const searchHorse = require('./search/routes')
 
 const rootRouter = express.Router({mergeParams: true})
 
@@ -11,5 +12,6 @@ rootRouter.use(messageRouter)
 rootRouter.use(horseRouter)
 rootRouter.use(userRouter)
 rootRouter.use(syndicateRouter)
+rootRouter.use(searchHorse)
 
 module.exports = rootRouter

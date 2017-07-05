@@ -89,4 +89,5 @@ module.exports = [
         text: 'A good training ride today at Vitamin yard'
       },
     ]
-  }]
+  }
+]

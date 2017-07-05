@@ -105,5 +105,123 @@ But the fellas won’t need any nagging to give their clubs a rest this Saturday
     syndicate: {
       featuredImage: 'menuisier.jpg'
     }
-  }
+  },
+  {
+    name: 'BIG ORANGE',
+    syndicate: {
+      name: 'W. J. and T. C. O. Gredley',
+    },
+    style: 'jumps',
+    manager: {
+      name: 'T. C. O. Gredley'
+    },
+    description: `will now head to the Ascot Gold Cup and if he continues his world tour could attempt a third Melbourne Cup raid after being fifth to Prince Of Penzance and tenth to Almandin.`,
+    thumbnail: 'CARD_bigorange.jpg'
+  },
+  {
+    name: 'SIZING JOHN',
+    syndicate: {
+      name: 'Ann & Alan Potts Partnership',
+    },
+    style: 'jumps',
+    manager: {
+      name: 'Ann Potts'
+    },
+    description: `useful-looking gelding: smart form over hurdles: top-class chaser: improved since stepped up in trip this season, winning Kinloch Brae Chase at Thurles in January, Irish Gold Cup at Leopardstown in February and Gold Cup at Cheltenham.`,
+    thumbnail: 'CARD_sizingjohn.jpg'
+  },
+  {
+    name: 'SCOLE HARDEN (IRE)',
+    syndicate: {
+      name: 'Mrs Jill Eynon & Mr Robin Eynon',
+    },
+    style: 'jumps',
+    manager: {
+      name: 'Mrs Jill Eynon'
+    },
+    description: `useful-looking gelding: smart form over hurdles: top-class chaser: improved since stepped up in trip this season, winning Kinloch Brae Chase at Thurles in January, Irish Gold Cup at Leopardstown in February and Gold Cup at Cheltenham.`,
+    thumbnail: 'CARD_coleharden.jpg'
+  },
+  {
+    name: 'DOUVAN (FR)',
+    syndicate: {
+      name: 'Mrs S. Ricci',
+    },
+    style: 'jumps',
+    manager: {
+      name: 'Mrs Jill Eynon'
+    },
+    description: `tall, good-topped gelding: top-class form over hurdles: has made up into an even better chaser.`,
+    thumbnail: 'CARD_Douvan.jpg'
+  },
+  {
+    name: 'ALTIOR (IRE)',
+    syndicate: {
+      name: 'Mrs Patricia Pugh',
+    },
+    style: 'jumps',
+    manager: {
+      name: 'Mrs Patricia Pugh'
+    },
+    description: `
+good-topped gelding: top-class form over hurdles: unbeaten in 2015/16 in novices at Chepstow, Ascot, Cheltenham (Grade 2), Kempton and Cheltenham (Supreme Novices', by 7 lengths from Min): even better over fences: unbeaten in 6 starts, namely novice at Kempton.`,
+    thumbnail: 'CARD_altiorv.jpg'
+  },
+  {
+    name: 'WICKLOW BRAVE',
+    syndicate: {
+      name: 'Wicklow Bloodstock (Ireland) Ltd',
+    },
+    style: 'dual purposes',
+    manager: {
+      name: 'LINDA DOYLE'
+    },
+    description: `strong, workmanlike gelding: smart performer: won Irish St Leger at the Curragh (by ½ length from Order of St George) in 2016: fourth in Group 3 at Belmont (2¼ lengths behind Red Cardinal) in June: 11/8, respectable ½-length second of 7 to Rekindling in Curragh Cup last time.`,
+    thumbnail: 'CARD_wicklowbrace.jpg'
+  },
+  {
+    name: 'CLONDAW WARRIOR (IRE)',
+    syndicate: {
+      name: 'Act D Wagg Syndicate',
+    },
+    style: 'dual purposes',
+    description: `strong, workmanlike gelding: smart performer: won Irish St Leger at the Curragh (by ½ length from Order of St George) in 2016: fourth in Group 3 at Belmont (2¼ lengths behind Red Cardinal) in June: 11/8, respectable ½-length second of 7 to Rekindling in Curragh Cup last time.`,
+    thumbnail: 'CARD_CLONDAWWARRIOR.jpg'
+  },
+  {
+    name: 'MINDING (IRE)',
+    syndicate: {
+      name: 'Mr D. Smith, Mrs J. Magnier, Mr M. Tabor',
+    },
+    style: 'flat',
+    manager: {
+      name: 'Mr D. Smith'
+    },
+    description: `high-class performer: successful in 7 Group 1s, including 5 in 2016, namely 1000 Guineas at Newmarket, Oaks at Epsom.`,
+    thumbnail: 'CARD_Minding.jpg'
+  },
+  {
+    name: 'GALILEO GOLD',
+    syndicate: {
+      name: 'Al Shaqab Racing',
+    },
+    style: 'flat',
+    manager: {
+      name: 'Mr D. Shaqab'
+    },
+    description: `Galileo Gold is a British Thoroughbred racehorse. As a two-year-old he won the Vintage Stakes and finished third in the Prix Jean-Luc Lagardere.`,
+    thumbnail: 'CARD_Galileo.jpg'
+  },
+  {
+    name: 'CLOTH OF STARS (IRE)',
+    syndicate: {
+      name: 'Godolphin S.N.C.',
+    },
+    style: 'flat',
+    manager: {
+      name: 'Godolphin'
+    },
+    description: `has won all 3 starts this year, Prix Exbury at Saint-Cloud.`,
+    thumbnail: 'CARD_clothofstars.jpg'
+  },
 ]
