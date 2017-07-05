@@ -20,7 +20,7 @@ module.exports = {
     'racingType'
   ],
   virtuals: {
-    sharesAvailable: horse => ((horse.shares.total - horse.shares.owned)/horse.shares.total),
+    sharesAvailable: horse => (horse.shares ? (horse.shares.total - horse.shares.owned)/horse.shares.total : 0),
     monthlyCost: horse => (horse.cost.monthly),
     initialCost: horse => (horse.cost.initial),
     hasBeenRaced: horse => (horse.performances.length > 0),

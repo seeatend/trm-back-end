@@ -2,6 +2,7 @@ const {horseHelper} = require('api/horse/model')
 const getHorse = require('./getHorse')
 
 module.exports = (body = {}) => {
+  let searchResults
   if (body.query) {
     body.query = body.query.toUpperCase()
   }
@@ -15,20 +16,14 @@ module.exports = (body = {}) => {
         {shares: true}
       ))
     })
+    searchResults = results
     return Promise.all(promises)
   }).then(horses => {
 
     let result = {
-      results: []
+      resultsAmount: searchResults.nbHits,
+      results: horses
     }
-    horses.forEach(horse => {
-      result.results.push({
-        name: horse.name,
-        age: horse.age,
-        sharesAvailable: 1 - horse.shares.owned / horse.shares.total,
-        monthlyCost: horse.cost.monthly
-      })
-    })
     return Promise.resolve(result)
   })
 }
