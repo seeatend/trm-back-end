@@ -28,7 +28,11 @@ module.exports = {
       promises.push(User.findOneAndUpdate(
         {name: user.name},
         user,
-        {upsert: true, new: true}
+        {
+          upsert: true,
+          new: true,
+          runValidators: true
+        }
       ))
       return Promise.all(promises)
     })

@@ -18,7 +18,11 @@ module.exports = updateHorse = (query, data, files) => {
     return Horse.findOneAndUpdate(
       query,
       _data,
-      {upsert: true, new: true}
+      {
+        upsert: true,
+        new: true,
+        runValidators: true
+      }
     )
   }).then(horse => {
     if (horse) {
