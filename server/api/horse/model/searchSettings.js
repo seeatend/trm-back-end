@@ -2,29 +2,32 @@ module.exports = {
   modelName: 'Horse',
   searchableAttributes: ['name'],
   sortBy: [
-    'sharesAvailable',
-    'monthlyCost'
+    'shares.available',
+    'cost.monthly'
   ],
   filterBy: [
     'age',
     'hasBeenRaced',
-    'monthlyCost',
-    'initialCost',
+    'cost',
     'racingType',
-    'ownershipType',
-    'numberOfYears'
+    'ownership'
   ],
+  mappings: {
+    shares: (value) => ({
+      available: (value.total - value.owned) / value.total
+    })
+  },
   selector: [
     'name',
     'age',
-    'racingType'
+    'racingType',
+    'cost',
+    'shares',
+    'ownership',
+    'owner.name',
+    'trainer.name'
   ],
   virtuals: {
-    sharesAvailable: horse => (horse.shares ? (horse.shares.total - horse.shares.owned)/horse.shares.total : 0),
-    monthlyCost: horse => (horse.cost.monthly),
-    initialCost: horse => (horse.cost.initial),
-    hasBeenRaced: horse => (horse.performances.length > 0),
-    ownershipType: horse => (horse.ownership.type),
-    numberOfYears: horse => (horse.ownership.years)
+    hasBeenRaced: horse => (horse.performances ? horse.performances.length > 0 : false),
   }
 }
