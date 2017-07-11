@@ -14,9 +14,13 @@ module.exports = ({sortBy, filterBy, modelName, setSettings}) => {
   let replicaNames = []
 
   // Create sorting replicas
-  sortBy.forEach(field => {
-    replicaInfos.push({field, order: 'desc'})
-    replicaInfos.push({field, order: 'asc'})
+  sortBy.forEach(sortInfo => {
+    sortInfo.order.forEach(order => {
+      replicaInfos.push({
+        field: sortInfo.field,
+        order
+      })
+    })
   })
 
   replicaInfos.forEach(replicaInfo => {
@@ -30,7 +34,7 @@ module.exports = ({sortBy, filterBy, modelName, setSettings}) => {
 
   if (setSettings) {
     if (filterBy) {
-      attributesForFaceting = filterBy.map(field => (`filterOnly(${field})`))
+      attributesForFaceting = filterBy.map(filterInfo => (`filterOnly(${filterInfo.field})`))
     }
     console.log(`Set settings for: ${primaryIndexName}`)
     primaryIndex.setSettings({

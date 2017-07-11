@@ -9,7 +9,13 @@ const RACING_TYPE = [
   'Dual Purpose'
 ]
 
+const RACING_HISTORY = [
+  'Unraced',
+  'Raced'
+]
+
 module.exports = {
   OWNERSHIP_TYPE,
-  RACING_TYPE
+  RACING_TYPE,
+  RACING_HISTORY
 }

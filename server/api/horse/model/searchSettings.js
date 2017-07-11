@@ -1,22 +1,77 @@
+const {
+  OWNERSHIP_TYPE,
+  RACING_TYPE,
+  RACING_HISTORY
+} = require('./constants')
+
 module.exports = {
   modelName: 'Horse',
   searchableAttributes: ['name'],
   sortBy: [
-    'shares.available',
-    'cost.monthly'
+    {
+      field: 'shares.available',
+      displayName: 'Shares',
+      order: ['desc', 'asc']
+    },
+    {
+      field: 'cost.monthly',
+      displayName: 'Price',
+      order: ['desc', 'asc']
+    }
   ],
   filterBy: [
-    'age',
-    'hasBeenRaced',
-    'cost',
-    'racingType',
-    'ownership'
+    {
+      field: 'age',
+      displayName: 'Age of horse',
+      options: [
+        {
+          min: 0,
+          max: 2,
+          displayName: '0-2'
+        },
+        {
+          min: 3,
+          max: 5,
+          displayName: '3-5'
+        },
+        {
+          min: 6,
+          displayName: 'Older horse'
+        }
+      ]
+    },
+    {
+      field: 'racingHistory',
+      displayName: 'Racing history',
+      values: RACING_HISTORY
+    },
+    {
+      field:'cost.monthly',
+      displayName: 'Monthly cost per 1%',
+      values: {
+        min: 1000,
+        max: 30000
+      }
+    },
+    {
+      field: 'racingType',
+      displayName: 'Racing type',
+      values: RACING_TYPE
+    },
+    {
+      field: 'ownership.years',
+      displayName: 'Number of years',
+      default: 2,
+      values: {
+        min: 0
+      }
+    },
+    {
+      field: 'ownership.type',
+      displayName: 'Ownership type',
+      values: OWNERSHIP_TYPE
+    }
   ],
-  mappings: {
-    shares: (value) => ({
-      available: (value.total - value.owned) / value.total
-    })
-  },
   selector: [
     'name',
     'age',
@@ -27,7 +82,12 @@ module.exports = {
     'owner.name',
     'trainer.name'
   ],
+  mappings: {
+    shares: (value) => ({
+      available: (value.total - value.owned) / value.total
+    })
+  },
   virtuals: {
-    hasBeenRaced: horse => (horse.performances ? horse.performances.length > 0 : false),
+    racingHistory: horse => (horse.performances ? horse.performances.length > 0 ? RACING_HISTORY[1] : RACING_HISTORY[0] : RACING_HISTORY[0]),
   }
 }
