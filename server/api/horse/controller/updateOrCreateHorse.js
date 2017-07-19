@@ -1,7 +1,7 @@
 const {Horse} = require('api/horse/model')
 const {processFiles} = require('utils/request')
 
-module.exports = updateHorse = (query, data, files) => {
+module.exports = (query, data, files) => {
   let _data = Object.assign({}, data)
 
   return processFiles(

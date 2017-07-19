@@ -2,7 +2,7 @@ const {Horse} = require('api/horse/model')
 
 const {expect} = require('chai')
 
-const {updateHorse} = require('api/horse/controller')
+const {updateOrCreateHorse} = require('api/horse/controller')
 
 const requiredProps = {
   name: 'To be Nick'
@@ -16,7 +16,7 @@ describe('Horses', () => {
   })
   describe('/update horse', () => {
     it('it should create horse', (done) => {
-      updateHorse(
+      updateOrCreateHorse(
         requiredProps
       ).then(res => {
         expect(res).to.exist
