@@ -16,7 +16,7 @@ module.exports = filter => {
               results.push(`${field} <= ${value.max}`)
             }
           }
-          else if (isString(value)) {
+          else if (isString(value) && value.length > 0) {
             results.push(`${field}:"${value}"`)
           }
           else if (isBoolean(value)) {
