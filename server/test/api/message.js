@@ -1,5 +1,3 @@
-const fs = require('fs')
-
 const Message = require('api/message/model')
 
 const {expect} = require('chai')
