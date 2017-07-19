@@ -1,4 +1,4 @@
-const {isString, isBoolean} = require('utils/object')
+const {isString, isBoolean, isObject} = require('utils/object')
 
 module.exports = filter => {
   let results = []
@@ -6,22 +6,23 @@ module.exports = filter => {
     filter.forEach(condition => {
       if (condition.field) {
         let field = condition.field
-        if (condition.range) {
-          if (condition.range.min) {
-            results.push(`${field} >= ${condition.range.min}`)
-          }
-          if (condition.range.max) {
-            results.push(`${field} <= ${condition.range.max}`)
-          }
-        }
-        else if (condition.value !== undefined) {
+        if (condition.value !== undefined) {
           let value = condition.value
-          if (isString(value)) {
+          if (isObject(value)) {
+            if (value.min) {
+              results.push(`${field} >= ${value.min}`)
+            }
+            if (value.max) {
+              results.push(`${field} <= ${value.max}`)
+            }
+          }
+          else if (isString(value)) {
             results.push(`${field}:"${value}"`)
           }
           else if (isBoolean(value)) {
             results.push(`${field}=${value ? 1 : 0}`)
           }
+
         }
       }
     })
