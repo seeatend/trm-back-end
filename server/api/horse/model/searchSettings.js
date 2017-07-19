@@ -52,8 +52,8 @@ module.exports = {
     'cost.monthly': {
       displayName: 'Monthly cost per 1%',
       values: {
-        min: 1000,
-        max: 30000
+        min: 2500,
+        max: 7500
       }
     },
     'racingType': {
