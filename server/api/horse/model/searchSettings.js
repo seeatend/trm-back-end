@@ -24,17 +24,23 @@ module.exports = {
       displayName: 'Age of horse',
       options: [
         {
-          min: 0,
-          max: 2,
+          values: {
+            min: 0,
+            max: 2
+          },
           displayName: '0-2'
         },
         {
-          min: 3,
-          max: 5,
+          values: {
+            min: 3,
+            max: 5
+          },
           displayName: '3-5'
         },
         {
-          min: 6,
+          values: {
+            min: 6
+          },
           displayName: 'Older horse'
         }
       ]
