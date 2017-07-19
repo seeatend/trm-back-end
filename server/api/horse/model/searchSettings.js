@@ -19,9 +19,8 @@ module.exports = {
       order: ['desc', 'asc']
     }
   ],
-  filterBy: [
-    {
-      field: 'age',
+  filterBy: {
+    'age': {
       displayName: 'Age of horse',
       options: [
         {
@@ -40,38 +39,33 @@ module.exports = {
         }
       ]
     },
-    {
-      field: 'racingHistory',
+    'racingHistory': {
       displayName: 'Racing history',
       values: RACING_HISTORY
     },
-    {
-      field:'cost.monthly',
+    'cost.monthly': {
       displayName: 'Monthly cost per 1%',
       values: {
         min: 1000,
         max: 30000
       }
     },
-    {
-      field: 'racingType',
+    'racingType': {
       displayName: 'Racing type',
       values: RACING_TYPE
     },
-    {
-      field: 'ownership.years',
+    'ownership.years': {
       displayName: 'Number of years',
       default: 2,
       values: {
         min: 0
       }
     },
-    {
-      field: 'ownership.type',
+    'ownership.type': {
       displayName: 'Ownership type',
       values: OWNERSHIP_TYPE
     }
-  ],
+  },
   selector: [
     'name',
     'age',

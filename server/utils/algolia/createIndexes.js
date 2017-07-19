@@ -34,7 +34,7 @@ module.exports = ({sortBy, filterBy, modelName, setSettings}) => {
 
   if (setSettings) {
     if (filterBy) {
-      attributesForFaceting = filterBy.map(filterInfo => (`filterOnly(${filterInfo.field})`))
+      attributesForFaceting = Object.keys(filterBy).map(field => (`filterOnly(${field})`))
     }
     console.log(`Set settings for: ${primaryIndexName}`)
     primaryIndex.setSettings({
