@@ -28,7 +28,7 @@ module.exports = (schema, options = {}) => {
   let searchHelper = {
     search: ({query, filter, sort}) => {
       let searchIndex
-      if (sort) {
+      if (sort && Object.keys(sort).length > 0) {
         searchIndex = replicaIndexes[getIndexName(primaryIndexName, sort.field, sort.order)]
       }
       else {

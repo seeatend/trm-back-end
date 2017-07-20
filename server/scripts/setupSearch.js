@@ -7,9 +7,21 @@ const configureIndex = (model, options) => {
   }))
   model.SetAlgoliaSettings({
     searchableAttributes: options.searchableAttributes
+  }, (err, content) => {
+    if (err) {
+      console.error(err.message)
+    }
+    else {
+      console.log(content)
+    }
   })
 
-  model.SyncToAlgolia()
+  model.SyncToAlgolia(
+  ).then(() => {
+    process.exit(0)
+  }).catch(err => {
+    console.log(err.message)
+  })
 }
 
 const {Horse, horseSearchSettings} = require('api/horse/model')

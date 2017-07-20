@@ -1,30 +1,93 @@
+const {
+  OWNERSHIP_TYPE,
+  RACING_TYPE,
+  RACING_HISTORY
+} = require('./constants')
+
 module.exports = {
   modelName: 'Horse',
   searchableAttributes: ['name'],
   sortBy: [
-    'sharesAvailable',
-    'monthlyCost'
+    {
+      field: 'shares.available',
+      displayName: 'Shares',
+      order: ['desc', 'asc']
+    },
+    {
+      field: 'cost.monthly',
+      displayName: 'Price',
+      order: ['desc', 'asc']
+    }
   ],
-  filterBy: [
-    'age',
-    'hasBeenRaced',
-    'monthlyCost',
-    'initialCost',
-    'racingType',
-    'ownershipType',
-    'numberOfYears'
-  ],
+  filterBy: {
+    'age': {
+      displayName: 'Age of horse',
+      options: [
+        {
+          values: {
+            min: 0,
+            max: 2
+          },
+          displayName: '0-2'
+        },
+        {
+          values: {
+            min: 3,
+            max: 5
+          },
+          displayName: '3-5'
+        },
+        {
+          values: {
+            min: 6
+          },
+          displayName: 'Older horse'
+        }
+      ]
+    },
+    'racingHistory': {
+      displayName: 'Racing history',
+      values: RACING_HISTORY
+    },
+    'cost.monthly': {
+      displayName: 'Monthly cost per 1%',
+      values: {
+        min: 2500,
+        max: 7500
+      }
+    },
+    'racingType': {
+      displayName: 'Racing type',
+      values: RACING_TYPE
+    },
+    'ownership.years': {
+      displayName: 'Number of years',
+      default: 2,
+      values: {
+        min: 0
+      }
+    },
+    'ownership.type': {
+      displayName: 'Ownership type',
+      values: OWNERSHIP_TYPE
+    }
+  },
   selector: [
     'name',
     'age',
-    'racingType'
+    'racingType',
+    'cost',
+    'shares',
+    'ownership',
+    'owner.name',
+    'trainer.name'
   ],
+  mappings: {
+    shares: (value) => ({
+      available: (value.total - value.owned) / value.total
+    })
+  },
   virtuals: {
-    sharesAvailable: horse => (horse.shares ? (horse.shares.total - horse.shares.owned)/horse.shares.total : 0),
-    monthlyCost: horse => (horse.cost.monthly),
-    initialCost: horse => (horse.cost.initial),
-    hasBeenRaced: horse => (horse.performances.length > 0),
-    ownershipType: horse => (horse.ownership.type),
-    numberOfYears: horse => (horse.ownership.years)
+    racingHistory: horse => (horse.performances ? horse.performances.length > 0 ? RACING_HISTORY[1] : RACING_HISTORY[0] : RACING_HISTORY[0]),
   }
 }

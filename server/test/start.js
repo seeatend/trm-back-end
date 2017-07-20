@@ -1,6 +1,6 @@
 process.env.NODE_ENV = 'test'
 
-require('setup/db')
+require('setup')
 
 const config = require('config')
 const port = config.get('server.port')

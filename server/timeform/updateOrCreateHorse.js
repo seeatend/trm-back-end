@@ -2,7 +2,7 @@ const {performances} = require('./api')
 
 const {Horse} = require('api/horse/model')
 const {updateSyndicate} = require('api/syndicate/controller')
-const {updateHorse} = require('api/horse/controller')
+const {updateOrCreateHorse} = require('api/horse/controller')
 const {mockFileUpload} = require('utils/mock')
 const {randomInteger} = require('utils/math')
 
@@ -125,7 +125,7 @@ module.exports = (horse, additionalData = {}) => {
           ))
         }
 
-        return updateHorse(
+        return updateOrCreateHorse(
           {timeformId},
           horseData,
           horseFiles

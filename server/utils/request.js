@@ -76,6 +76,7 @@ const processFile = (file, destination) => {
 }
 
 const processFiles = (files, destination) => {
+  if (!files) return Promise.resolve()
   if (!Array.isArray(files)) {
     let newFiles = []
     Object.keys(files).forEach(key => {
