@@ -8,7 +8,7 @@ const port = config.get('server.port')
 const bodyParser = require('body-parser')
 const compression = require('compression')
 const passport = require('passport')
-const {Strategy} = require('passport-local')
+const {Strategy, ExtractJwt} = require('passport-jwt')
 
 const routes = require('api')
 
@@ -24,20 +24,30 @@ app.use(morgan('dev'))
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
-app.use(require('cookie-parser')())
-app.use(require('express-session')({
-  secret: process.env.PASSPORT_SECRET,
-  resave: true,
-  saveUninitialized: true
-}))
-app.use(passport.initialize())
-app.use(passport.session())
 
-// passport config
 const User = require('api/user/model')
-passport.use(new Strategy(User.authenticate()))
-passport.serializeUser(User.serializeUser())
-passport.deserializeUser(User.deserializeUser())
+// passport config
+passport.use(new Strategy(
+  {
+    jwtFromRequest: ExtractJwt.fromAuthHeader(),
+    secretOrKey: process.env.PASSPORT_SECRET,
+  },
+  (payload, done) => {
+    User.findOne({
+      id: payload.id
+    }).then(user => {
+      if (user) {
+        done(null, user);
+      } else {
+        done(null, false);
+      }
+    }).catch(err => {
+      done(err, false);
+    })
+  }
+))
+
+app.use(passport.initialize())
 
 const storagePath = config.get('storage.path')
 app.use(`/${storagePath}`, express.static(storagePath), (req, res) => {
