@@ -7,14 +7,12 @@ const path = require('path')
 const port = config.get('server.port')
 const bodyParser = require('body-parser')
 const compression = require('compression')
-const passport = require('passport')
-const {Strategy, ExtractJwt} = require('passport-jwt')
 
 const routes = require('api')
 
 app.use(compression())
 
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*")
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
   next()
@@ -25,29 +23,7 @@ app.use(morgan('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 
-const User = require('api/user/model')
-// passport config
-passport.use(new Strategy(
-  {
-    jwtFromRequest: ExtractJwt.fromAuthHeader(),
-    secretOrKey: process.env.PASSPORT_SECRET,
-  },
-  (payload, done) => {
-    User.findOne({
-      id: payload.id
-    }).then(user => {
-      if (user) {
-        done(null, user);
-      } else {
-        done(null, false);
-      }
-    }).catch(err => {
-      done(err, false);
-    })
-  }
-))
-
-app.use(passport.initialize())
+app.use(require('setup/passport')())
 
 const storagePath = config.get('storage.path')
 app.use(`/${storagePath}`, express.static(storagePath), (req, res) => {
