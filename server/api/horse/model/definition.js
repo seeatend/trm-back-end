@@ -1,11 +1,16 @@
 const {ObjectId} = require('mongoose').Schema.Types
+const {
+  OWNERSHIP_TYPE,
+  RACING_TYPE
+} = require('./constants')
 
 module.exports = {
   timeformId: {
     type: String, tf: 'horseCode'
   },
   name: {
-    type: String, tf: 'horseName'
+    type: String, tf: 'horseName',
+    required: true
   },
   age: {
     type: Number, tf: 'horseAge'
@@ -21,7 +26,8 @@ module.exports = {
     default: '/assets/placeholder/featuredImage.jpg'
   },
   thumbnailImage: {
-    type: String
+    type: String,
+    default: '/assets/placeholder/thumbnailImage.jpg'
   },
   description: {
     type: String
@@ -51,7 +57,8 @@ module.exports = {
     }
   },
   racingType: {
-    type: String
+    type: String,
+    enum: RACING_TYPE
   },
   cost: {
     monthly: Number,
@@ -59,10 +66,12 @@ module.exports = {
   },
   ownership: {
     type: {
-      type: String
+      type: String,
+      enum: OWNERSHIP_TYPE
     },
     years: {
-      type: Number
+      type: Number,
+      min: 1
     }
   },
   owner: {

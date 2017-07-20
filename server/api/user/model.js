@@ -9,7 +9,7 @@ const User = new Schema({
   },
   username: {
     type: String,
-    required: String
+    required: true
   },
   type: {
     type: String

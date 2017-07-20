@@ -3,7 +3,7 @@ const {authenticate, horses} = require('./api')
 
 const fs = require('fs-extra')
 
-const updateHorse = require('./updateHorse')
+const updateOrCreateHorse = require('./updateOrCreateHorse')
 const seedData = require('./seedData')
 
 authenticate.then(() => {
@@ -22,7 +22,7 @@ authenticate.then(() => {
     let promises = []
     horses.forEach((horse, i) => {
       let additionalData = seedData[i]
-      promises.push(updateHorse(horse[0], additionalData))
+      promises.push(updateOrCreateHorse(horse[0], additionalData))
     })
     return Promise.all(promises)
   }).then(() => {

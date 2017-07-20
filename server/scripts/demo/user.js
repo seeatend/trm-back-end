@@ -5,7 +5,7 @@ module.exports = {
   register: () => {
     return Horse.find(
       {}
-    ).limit(10).then(horses => {
+    ).then(horses => {
       let ownership = []
       let promises = []
       horses.forEach(horse => {
@@ -28,7 +28,11 @@ module.exports = {
       promises.push(User.findOneAndUpdate(
         {name: user.name},
         user,
-        {upsert: true, new: true}
+        {
+          upsert: true,
+          new: true,
+          runValidators: true
+        }
       ))
       return Promise.all(promises)
     })
