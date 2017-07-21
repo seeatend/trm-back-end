@@ -9,6 +9,16 @@ const EMAIL = {
   }
 }
 
+const PASSWORD = {
+  type: String,
+  required: true,
+  validate: {
+    message: 'Passwords must have at least one capital letter, lower case letter, number and be at least 5 characters long.',
+    validator: /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}/
+  }
+}
+
 module.exports = {
-  EMAIL
+  EMAIL,
+  PASSWORD
 }

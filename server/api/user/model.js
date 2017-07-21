@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const {Schema} = mongoose
 const {ObjectId} = Schema.Types
-const {EMAIL} = require('utils/validation')
+const {EMAIL, PASSWORD} = require('utils/validation')
 const bcrypt = require('bcrypt-as-promised')
 const uniqueValidator = require('mongoose-unique-validator')
 
@@ -11,10 +11,7 @@ const User = new Schema({
     required: true
   },
   email: EMAIL,
-  password: {
-    type: String,
-    required: true
-  },
+  password: PASSWORD,
   type: {
     type: String,
     lowercase: true
