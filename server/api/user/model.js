@@ -1,25 +1,23 @@
 const mongoose = require('mongoose')
 const {Schema} = mongoose
 const {ObjectId} = Schema.Types
+const {EMAIL} = require('utils/validation')
 const bcrypt = require('bcrypt-as-promised')
+const uniqueValidator = require('mongoose-unique-validator')
 
 const User = new Schema({
   username: {
     type: String,
     required: true
   },
-  email: {
-    type: String,
-    lowercase: true,
-    unique: true,
-    required: true
-  },
+  email: EMAIL,
   password: {
     type: String,
     required: true
   },
   type: {
-    type: String
+    type: String,
+    lowercase: true
   },
   ownership: [{
     _id: false,
@@ -37,6 +35,8 @@ const User = new Schema({
     }
   }]
 })
+
+User.plugin(uniqueValidator)
 
 // Hash the user's password before inserting a new user
 User.pre('save', function (next) {
