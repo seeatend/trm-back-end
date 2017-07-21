@@ -29,15 +29,6 @@ const hyphenize = query => query.trim().replace(/[ ]+/g, '-').toLowerCase()
 
 const isId = id => id.match(/^[0-9a-fA-F]{24}$/)
 
-const success = value => {
-  return {status: 'success', data: value}
-}
-
-const error = message => {
-  if (!message) message = 'Wrong parameters'
-  return {status: 'error', message}
-}
-
 const processFile = (file, destination) => {
   const relativePath = `${config.get('storage.path')}/${destination}/${file.filename}`.replace(/\s/g, '-')
   const destinationPath = path.resolve(relativePath)
@@ -138,8 +129,6 @@ module.exports = {
   dehyphenize,
   hyphenize,
   isId,
-  success,
-  error,
   processFile,
   processFiles,
   processMulterFiles
