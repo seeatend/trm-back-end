@@ -1,8 +1,7 @@
-const User = require('api/user/model')
-
 const {expect} = require('chai')
 
 const {registerUser} = require('api/user/register/controller')
+const {removeUser} = require('api/user/controller')
 
 const requiredProps = {
   firstname: 'nick',
@@ -11,11 +10,9 @@ const requiredProps = {
   password: '0loveChrisAlso',
 }
 
-const successMessage = 'User has been created.'
-
 describe('User - register', () => {
   beforeEach((done) => {
-    User.remove({}, () => {
+    removeUser().then(() => {
       done()
     })
   })

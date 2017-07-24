@@ -1,5 +1,9 @@
 const User = require('./model')
 
+const removeUser = (body = {}) => {
+  return User.remove(body)
+}
+
 const getUser = ({filter = {__v: false, _id: false}, populate = true, omit}) => {
   let result = User.findOne(
     {name: 'demo'},
@@ -31,5 +35,6 @@ const getShares = (query) => {
 
 module.exports = {
   getUser,
-  getShares
+  getShares,
+  removeUser
 }
