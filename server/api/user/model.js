@@ -7,10 +7,12 @@ const uniqueValidator = require('mongoose-unique-validator')
 
 const User = new Schema({
   firstname: {
-    type: String
+    type: String,
+    required: true
   },
   surname: {
-    type: String
+    type: String,
+    required: true
   },
   username: {
     type: String

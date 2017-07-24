@@ -5,10 +5,13 @@ const {expect} = require('chai')
 const {registerUser} = require('api/user/register/controller')
 
 const requiredProps = {
-  username: 'nick',
+  firstname: 'nick',
+  surname: 'the french boy',
   email: 'lovehege@nick.com',
-  password: 'lovechrisalso'
+  password: '0loveChrisAlso',
 }
+
+const successMessage = 'User has been created.'
 
 describe('User - register', () => {
   beforeEach((done) => {
@@ -19,11 +22,12 @@ describe('User - register', () => {
   describe('/registerUser', () => {
     it('it should register a member', (done) => {
       registerUser(
-        requiredProps
-      ).then(res => {
-        expect(res).to.exist
-        expect(res.email).to.equal(requiredProps.email)
-        expect(res.type).to.equal('member')
+        requiredProps,
+        {returnUser: true}
+      ).then(user => {
+        expect(user).to.exist
+        expect(user.email).to.equal(requiredProps.email)
+        expect(user.type).to.equal('member')
         done()
       })
     })
@@ -32,18 +36,20 @@ describe('User - register', () => {
       registerUser(
         Object.assign({}, requiredProps, {
           email: 'wrong@email'
-        })
+        }),
+        {returnUser: true}
       ).catch(err => {
         expect(err).to.exist
         done()
       })
     })
 
-    it('it should reject registration with empty username', (done) => {
+    it('it should reject registration with empty firstname', (done) => {
       registerUser(
         Object.assign({}, requiredProps, {
-          username: ''
-        })
+          firstname: ''
+        }),
+        {returnUser: true}
       ).catch(err => {
         expect(err).to.exist
         done()
