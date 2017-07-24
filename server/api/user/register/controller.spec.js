@@ -10,7 +10,7 @@ const requiredProps = {
   password: '0loveChrisAlso',
 }
 
-describe('User - register', () => {
+describe('User/register', () => {
   beforeEach((done) => {
     removeUser().then(() => {
       done()

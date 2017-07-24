@@ -10,16 +10,13 @@
     "demo": "NODE_PATH=./server node server/scripts/demo",
     "timeform": "NODE_PATH=./server node server/timeform",
     "timeform-test": "NODE_PATH=./server mocha -t 10000 ./server/timeform/test.js",
-    "test-server": "NODE_PATH=./server NODE_ENV=test nodemon server",
-    "api-test": "NODE_PATH=./server mocha --require ./server/test/start.js --recursive $(find server/test -name '*.js')",
-    "e2e": "run-p test-server api-test",
     "flush": "NODE_PATH=./server node server/scripts/flush",
     "populate": "NODE_PATH=./server run-s flush timeform demo messages",
     "messages": "NODE_PATH=./server node server/scripts/messages",
     "setup-search-dev": "NODE_PATH=./server node server/scripts/setupSearch",
     "setup-search-uat": "NODE_PATH=./server NODE_ENV=uat node server/scripts/setupSearch",
     "setup-search-prod": "NODE_PATH=./server NODE_ENV=prod node server/scripts/setupSearch",
-    "test": "NODE_PATH=./server mocha -w --opts mocha.opts --recursive $(find server -name '*.spec.js')"
+    "test": "NODE_PATH=./server mocha -w ./server/setup/test.js --recursive $(find server -name '*.spec.js')"
   },
   "dependencies": {
     "algoliasearch": "^3.24.0",
@@ -47,6 +44,7 @@
     "passport": "^0.3.2",
     "passport-jwt": "^2.2.1",
     "request": "^2.81.0",
-    "request-promise": "^4.2.1"
+    "request-promise": "^4.2.1",
+    "watch-run": "^1.2.5"
   }
 }

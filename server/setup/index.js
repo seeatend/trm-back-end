@@ -1,3 +1,2 @@
-global.Promise = require('bluebird')
-require('dotenv').config()
-require('./db')
+require('./base')
+require('./db').createDBConnection()
