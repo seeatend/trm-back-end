@@ -6,9 +6,16 @@ const bcrypt = require('bcrypt-as-promised')
 const uniqueValidator = require('mongoose-unique-validator')
 
 const User = new Schema({
-  username: {
+  firstname: {
     type: String,
     required: true
+  },
+  surname: {
+    type: String,
+    required: true
+  },
+  username: {
+    type: String
   },
   email: EMAIL,
   password: PASSWORD,
