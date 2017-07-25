@@ -2,6 +2,7 @@ const passport = require('passport')
 const User = require('api/user/model')
 const jwt = require('jsonwebtoken')
 const {AUTHENTICATION} = require('data/messages')
+const {NOT_VERIFIED} = require('data/statusCodes')
 
 const loginUser = (body) => {
   let {email, password} = body
@@ -21,20 +22,26 @@ const loginUser = (body) => {
       }
     })
     .then(() => {
-      // Create token if the password matched and no error was thrown
-      let token = jwt.sign({user: user.id}, process.env.PASSPORT_SECRET, {
-        expiresIn: '2 days'
-      })
-      let {firstname, surname, email, username} = user
-      return Promise.resolve({
-        token,
-        user: {
-          firstname,
-          surname,
-          email,
-          username
-        }
-      })
+      if (!user.verification) {
+
+        // Create token if the password matched and no error was thrown
+        let token = jwt.sign({user: user.id}, process.env.PASSPORT_SECRET, {
+          expiresIn: '2 days'
+        })
+        let {firstname, surname, email, username} = user
+        return Promise.resolve({
+          token,
+          user: {
+            firstname,
+            surname,
+            email,
+            username
+          }
+        })
+      }
+      else {
+        return Promise.reject({status: NOT_VERIFIED})
+      }
     })
 }
 
