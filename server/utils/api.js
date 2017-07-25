@@ -12,6 +12,8 @@ const error = (message, errors) => {
 const applyController = (controller, options) => {
   return (req, res) => {
     let data = Object.keys(req.query).length > 0 ? req.query : req.body
+    console.log('Payload:')
+    console.log(data)
     if (isFunction(controller)) {
       controller(
         data,
