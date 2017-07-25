@@ -4,6 +4,7 @@ const {ObjectId} = Schema.Types
 const {EMAIL, PASSWORD} = require('utils/validation')
 const bcrypt = require('bcrypt-as-promised')
 const uniqueValidator = require('mongoose-unique-validator')
+const {AUTHENTICATION} = require('data/messages')
 
 const User = new Schema({
   firstname: {
@@ -75,8 +76,10 @@ User.methods.validatePassword = function (password) {
         return Promise.resolve()
       }
       else {
-        return Promise.reject({message: 'Authentication failed. Passwords did not match.'})
+        return Promise.reject({message: AUTHENTICATION.ERROR})
       }
+    }).catch(() => {
+      return Promise.reject({message: AUTHENTICATION.ERROR})
     })
 }
 

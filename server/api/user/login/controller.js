@@ -1,6 +1,7 @@
 const passport = require('passport')
 const User = require('api/user/model')
 const jwt = require('jsonwebtoken')
+const {AUTHENTICATION} = require('data/messages')
 
 const loginUser = (body) => {
   let {email, password} = body
@@ -12,9 +13,7 @@ const loginUser = (body) => {
     .then(_user => {
       user = _user
       if (!user || !user.email) {
-        return Promise.reject({
-          message: 'Authentication failed. User not found.'
-        })
+        return Promise.reject({message: AUTHENTICATION.ERROR})
       }
       else {
         // Check if password matches
@@ -26,9 +25,15 @@ const loginUser = (body) => {
       let token = jwt.sign({user: user.id}, process.env.PASSPORT_SECRET, {
         expiresIn: '2 days'
       })
+      let {firstname, surname, email, username} = user
       return Promise.resolve({
-        message: 'Authentication successfull',
-        token
+        token,
+        user: {
+          firstname,
+          surname,
+          email,
+          username
+        }
       })
     })
 }
