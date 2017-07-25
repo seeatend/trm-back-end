@@ -17,6 +17,9 @@ const User = new Schema({
   username: {
     type: String
   },
+  verification: {
+    type: String
+  },
   email: EMAIL,
   password: PASSWORD,
   type: {

@@ -23,7 +23,7 @@ const loginUser = (body) => {
     })
     .then(() => {
       // Create token if the password matched and no error was thrown
-      let token = jwt.sign(user, process.env.PASSPORT_SECRET, {
+      let token = jwt.sign({user: user.id}, process.env.PASSPORT_SECRET, {
         expiresIn: '2 days'
       })
       return Promise.resolve({
