@@ -6,21 +6,27 @@ const authenticate = () => {
   return passport.authenticate('jwt', {session: false})
 }
 
+const prepareUserData = (user = {}) => {
+  let {firstname, surname, email, username} = user
+
+  return {
+    firstname,
+    surname,
+    email,
+    username
+  }
+
+}
+
 const generateToken = user => {
   if (!user.verification) {
     // Create token if the password matched and no error was thrown
     let token = jwt.sign({user: user.id}, process.env.PASSPORT_SECRET, {
-      expiresIn: '2 days'
+      expiresIn: '5 days'
     })
-    let {firstname, surname, email, username} = user
     return Promise.resolve({
       token,
-      user: {
-        firstname,
-        surname,
-        email,
-        username
-      }
+      user: prepareUserData(user)
     })
   }
   else {
@@ -30,5 +36,6 @@ const generateToken = user => {
 
 module.exports = {
   generateToken,
+  prepareUserData,
   authenticate
 }

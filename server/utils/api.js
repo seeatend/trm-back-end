@@ -10,10 +10,10 @@ const error = ({message, errors, status} = {}) => {
   return {status: status || ERROR, message, errors}
 }
 
-const applyController = (controller, options) => {
+const applyController = (controller, options = {}) => {
   return (req, res) => {
-    let data = Object.keys(req.query).length > 0 ? req.query : req.body
-    console.log('Payload:', data)
+    let data = (Object.keys(req.query).length > 0 ? req.query : req.body) || {}
+    options.user = req.user
     if (isFunction(controller)) {
       controller(
         data,
