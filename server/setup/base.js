@@ -4,5 +4,10 @@ Object.defineProperty(global, 'nodeEnv', {
 Object.defineProperty(global, 'isDev', {
   get: () => (nodeEnv === 'dev' || nodeEnv === 'local')
 })
+global.devLog = message => {
+  if (isDev) {
+    console.log(message)
+  }
+}
 global.Promise = require('bluebird')
 require('dotenv').config()

@@ -13,6 +13,7 @@ const error = ({message, errors, status} = {}) => {
 const applyController = (controller, options = {}) => {
   return (req, res) => {
     let data = (Object.keys(req.query).length > 0 ? req.query : req.body) || {}
+    global.devLog(data)
     options.user = req.user
     if (isFunction(controller)) {
       controller(
