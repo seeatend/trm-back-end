@@ -1,12 +1,10 @@
 const algoliaClient = require('./algoliaClient')
 const getIndexName = require('./getIndexName')
 
-const {NODE_ENV} = process.env
-
 module.exports = ({sortBy, filterBy, modelName, setSettings}) => {
   if (!modelName) { throw new Error('Model name is not defined.')}
 
-  let primaryIndexName = `${NODE_ENV}${modelName}s`
+  let primaryIndexName = `${nodeEnv}${modelName}s`
 
   let primaryIndex = algoliaClient.initIndex(primaryIndexName)
 
