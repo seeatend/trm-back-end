@@ -14,14 +14,16 @@ const registerUser = (body, {returnUser} = {}) => {
       return Promise.resolve(user)
     }
     else {
-      let verificationUrl = `http://localhost:3000/user/verify/${verification}`
+      let verificationUrl = `http://localhost:8080/user/verify/${verification}`
 
-      sendMail({
+      let mailData = {
         from: 'info@theracingmanager.com',
-        to: 'nick@vitaminlondon.com',
+        to: email,
+        cc: 'nick@vitaminlondon.com',
         subject: `${firstname}, please confirm your account.`,
         html: verificationUrl,
-      })
+      }
+      sendMail(mailData)
 
       return Promise.resolve({message: 'User has been created.'})
     }
