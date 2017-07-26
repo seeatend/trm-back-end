@@ -19,9 +19,11 @@ const registerUser = (body, {returnUser} = {}) => {
       let mailData = {
         from: 'info@theracingmanager.com',
         to: email,
-        cc: 'nick@vitaminlondon.com',
         subject: `${firstname}, please confirm your account.`,
         html: verificationUrl,
+      }
+      if (isDev) {
+        mailData.to = 'nick@vitaminlondon.com'
       }
       sendMail(mailData)
 
