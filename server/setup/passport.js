@@ -10,15 +10,15 @@ passport.use(new Strategy(
   },
   (payload, done) => {
     User.findOne({
-      id: payload.id
+      _id: payload.user
     }).then(user => {
-      if (user) {
-        done(null, user);
+      if (user && !user.verification) {
+        done(null, user)
       } else {
-        done(null, false);
+        done(null, false)
       }
     }).catch(err => {
-      done(err, false);
+      done(err, false)
     })
   }
 ))

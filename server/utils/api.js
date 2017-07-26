@@ -1,17 +1,19 @@
 const {isFunction} = require('utils/object')
+const {SUCCESS, ERROR} = require('data/statusCodes')
 
 const success = data => {
-  return {status: 'success', data}
+  return {status: SUCCESS, data}
 }
 
-const error = (message, errors) => {
-  if (!message) message = 'Wrong parameters'
-  return {status: 'error', message, errors}
+const error = ({message, errors, status} = {}) => {
+  if (!message && !status) message = 'Wrong parameters'
+  return {status: status || ERROR, message, errors}
 }
 
-const applyController = (controller, options) => {
+const applyController = (controller, options = {}) => {
   return (req, res) => {
-    let data = Object.keys(req.query).length > 0 ? req.query : req.body
+    let data = (Object.keys(req.query).length > 0 ? req.query : req.body) || {}
+    options.user = req.user
     if (isFunction(controller)) {
       controller(
         data,
@@ -19,7 +21,7 @@ const applyController = (controller, options) => {
       ).then(result => {
         res.send(success(result))
       }).catch(err => {
-        if (err && err.message) {
+        if (err && (err.message || err.status)) {
           let errors
           if (err.errors) {
             errors = {}
@@ -28,7 +30,11 @@ const applyController = (controller, options) => {
               errors[key] = [val.message]
             })
           }
-          res.status(404).send(error(err.message, errors))
+          res.status(404).send(error({
+            message: err.message,
+            errors,
+            status: err.status
+          }))
         }
         else
           res.status(404).send(error())
