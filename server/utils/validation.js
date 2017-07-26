@@ -11,13 +11,13 @@ const EMAIL = {
   }
 }
 
-let PASSWORD_REG = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}/
+let PASSWORD_REG = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/
 
 const PASSWORD = {
   type: String,
   required: true,
   validate: {
-    message: 'Passwords must have at least one capital letter, lower case letter, number and be at least 5 characters long.',
+    message: 'Passwords must have at least one capital letter, lower case letter, number and be at least 6 characters long.',
     validator: PASSWORD_REG
   }
 }

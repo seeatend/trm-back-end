@@ -2,6 +2,8 @@ const User = require('api/user/model')
 const {generateToken} = require('utils/authentication')
 
 const verifyUser = (body) => {
+  if (!body.token) return Promise.reject()
+
   return User.findOneAndUpdate({
     verification: body.token
   }, {

@@ -1,7 +1,7 @@
 {
   "main": "server/index.js",
   "scripts": {
-    "start": "NODE_PATH=./server nodemon server",
+    "start": "NODE_PATH=./server nodemon --inspect server",
     "prod": "NODE_PATH=./server NODE_ENV=prod forever --minUptime 1000 --spinSleepTime 1000 start server",
     "uat": "NODE_PATH=./server NODE_ENV=uat forever --minUptime 1000 --spinSleepTime 1000 start server",
     "list": "forever list",
