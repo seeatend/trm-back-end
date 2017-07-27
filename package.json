@@ -3,18 +3,18 @@
   "scripts": {
     "start": "forever --minUptime 1000 --spinSleepTime 1000 start server",
     "restart": "run-s stop start",
-    "dev": "nodemon --inspect server",
+    "dev": "nodemon --inspect=3100 server",
     "setup-search": "node server/scripts/setupSearch",
     "test": "mocha -w ./server/setup/test.js --recursive $(find server -name '*.spec.js')",
     "list": "forever list",
     "stop": "forever stop 0",
     "logs": "forever logs 0",
     "flush": "node server/scripts/flush",
-    "timeform": "node server/timeform",
+    "timeform": "node server/scripts/timeform",
     "demo": "node server/scripts/demo",
     "messages": "node server/scripts/messages",
     "populate": "run-s flush timeform demo messages",
-    "timeform-test": "mocha -t 10000 ./server/timeform/test.js"
+    "timeform-test": "mocha -t 10000 ./server/script/timeform/test.js"
   },
   "dependencies": {
     "algoliasearch": "^3.24.0",
