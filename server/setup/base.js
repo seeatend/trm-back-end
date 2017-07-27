@@ -9,5 +9,6 @@ global.devLog = message => {
     console.log(message)
   }
 }
+require('babel-register')
 global.Promise = require('bluebird')
 require('dotenv').config()
