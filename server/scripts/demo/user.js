@@ -21,12 +21,14 @@ module.exports = {
         promises.push(horse.save())
       })
       let user = {
-        name: 'demo',
+        firstname: 'demo',
+        surname: 'demo',
+        password: 'Demo123',
         type: 'member',
         ownership
       }
       promises.push(User.findOneAndUpdate(
-        {name: user.name},
+        {firstname: user.firstname},
         user,
         {
           upsert: true,

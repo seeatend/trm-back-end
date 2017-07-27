@@ -6,7 +6,7 @@ const removeUser = (body = {}) => {
 
 const getUser = ({filter = {__v: false, _id: false}, populate = true, omit}) => {
   let result = User.findOne(
-    {name: 'demo'},
+    {firstname: 'demo'},
     filter
   )
   return populate ? result.populate('ownership.horse', omit) : result
