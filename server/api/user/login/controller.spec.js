@@ -4,7 +4,7 @@ const {registerUser, createUser} = require('api/user/register/controller')
 const {loginUser} = require('api/user/login/controller')
 const {verifyUser} = require('api/user/verify/controller')
 const {removeUser} = require('api/user/controller')
-const {AUTHENTICATION, REGISTER} = require('data/messages')
+const {AUTHENTICATION, REGISTER, EMAIL} = require('data/messages')
 const {NOT_VERIFIED} = require('data/statusCodes')
 
 const registerProps = {
@@ -54,11 +54,11 @@ describe('User/login', () => {
         registerProps
       ).then(res => {
         expect(res.message).to.equal(REGISTER.SUCCESS)
-        return loginUser(
-          loginProps
+        return registerUser(
+          registerProps
         )
       }).catch(err => {
-        expect(err.status).to.equal(NOT_VERIFIED)
+        expect(err.errors.email.message).to.equal(EMAIL.DUPLICATE)
         done()
       })
     })

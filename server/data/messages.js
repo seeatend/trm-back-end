@@ -12,6 +12,6 @@ module.exports = {
   },
   FIRSTNAME: {
     REQUIRED: 'Please provide your first name',
-    ERROR: ''
+    ERROR: 'Please enter a valid name; It can contain capital letters, hyphens and a min 2 characters'
   }
 }

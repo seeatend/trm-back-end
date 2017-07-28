@@ -1,6 +1,6 @@
 const {REGISTER, EMAIL, FIRSTNAME} = require('data/messages')
 
-let FIRSTNAME_REG = /^(?=[a-zA-Z-\s]{2,}$)^[a-zA-Z\s]+(-[a-zA-Z\s]+)*$/
+const FIRSTNAME_REG = /^(?=[a-zA-Z-\s]{2,}$)^[a-zA-Z\s]+(-[a-zA-Z\s]+)*$/
 
 const FIRSTNAME_VLD = {
   type: String,
@@ -12,7 +12,7 @@ const FIRSTNAME_VLD = {
 }
 
 
-let EMAIL_REG = /^[_a-z0-9-]+(\.[_a-z0-9-]+)*(\+[a-z0-9-]+)?@[a-z0-9-]+(\.[a-z0-9-]{2,})+$/
+const EMAIL_REG = /^[_a-z0-9-]+(\.[_a-z0-9-]+)*(\+[a-z0-9-]+)?@[a-z0-9-]+(\.[a-z0-9-]{2,})+$/
 
 const EMAIL_VLD = {
   type: String,

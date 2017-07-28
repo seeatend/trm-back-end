@@ -19,7 +19,7 @@ const registerUser = body => {
   const {email, firstname} = body
 
   return createUser(body).then(verification => {
-    let baseUrl = isDev ? 'localhost:8080' : 'uat.theracingmanager.com'
+    let baseUrl = isDev ? '52.209.171.180:3000' : 'uat.theracingmanager.com'
     let verificationUrl = `http://${baseUrl}/user/verify/${verification}`
 
     let mailData = {
