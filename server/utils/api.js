@@ -49,5 +49,7 @@ const applyController = (controller, options = {}) => {
 }
 
 module.exports = {
-  applyController
+  applyController,
+  error,
+  success
 }

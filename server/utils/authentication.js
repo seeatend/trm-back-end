@@ -1,9 +1,17 @@
 const passport = require('passport')
 const jwt = require('jsonwebtoken')
 const {NOT_VERIFIED} = require('data/statusCodes')
+const {error} = require('utils/api')
+const {NOT_AUTHORIZED} = require('data/statusCodes')
 
-const authenticate = () => {
-  return passport.authenticate('jwt', {session: false})
+const authenticate = (req, res, next) => {
+  passport.authenticate('jwt', {session: false}, (err, user) => {
+    if (err || !user) {
+      return res.status(401).send(error({status: NOT_AUTHORIZED}))
+    }
+    req.user = user
+    next()
+  })(req, res, next)
 }
 
 const prepareUserData = (user = {}) => {
