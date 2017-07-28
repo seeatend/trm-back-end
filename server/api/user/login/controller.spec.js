@@ -1,7 +1,8 @@
 const {expect} = require('chai')
 
-const {registerUser} = require('api/user/register/controller')
+const {registerUser, createUser} = require('api/user/register/controller')
 const {loginUser} = require('api/user/login/controller')
+const {verifyUser} = require('api/user/verify/controller')
 const {removeUser} = require('api/user/controller')
 const {AUTHENTICATION, REGISTER} = require('data/messages')
 const {NOT_VERIFIED} = require('data/statusCodes')
@@ -58,6 +59,24 @@ describe('User/login', () => {
         )
       }).catch(err => {
         expect(err.status).to.equal(NOT_VERIFIED)
+        done()
+      })
+    })
+
+    it('should login verified user', (done) => {
+      createUser(
+        registerProps
+      ).then(verification => {
+        return verifyUser({
+          token: verification
+        })
+      }).then(res => {
+        expect(res.token).to.be.string
+        return loginUser(
+          loginProps
+        )
+      }).then(res => {
+        expect(res.token).to.be.string
         done()
       })
     })

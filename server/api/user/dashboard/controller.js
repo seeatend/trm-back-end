@@ -20,7 +20,7 @@ const getDashboard = () => {
       return Promise.resolve(user)
     }
     else {
-      return Promise.reject({message: 'User not found.'})
+      return Promise.reject({message: 'Demo user not found.'})
     }
   }).catch(Promise.reject)
 }
