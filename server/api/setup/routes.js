@@ -6,6 +6,6 @@ const {applyController} = require('utils/api')
 const {authenticate} = require('utils/authentication')
 
 router.route('/setup')
-  .get(authenticate(), applyController(getSetup))
+  .get(authenticate, applyController(getSetup))
 
 module.exports = router

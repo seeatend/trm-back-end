@@ -1,5 +1,5 @@
 const User = require('api/user/model')
-const {sendMail} = require('utils/mail')
+const {sendMail} = require('utils/email')
 const randomString = require('randomstring')
 
 const registerUser = (body, {returnUser} = {}) => {
@@ -14,16 +14,23 @@ const registerUser = (body, {returnUser} = {}) => {
       return Promise.resolve(user)
     }
     else {
-      let verificationUrl = `http://localhost:8080/user/verify/${verification}`
+      let baseUrl = isDev ? 'localhost:8080' : 'uat.theracingmanager.com'
+      let verificationUrl = `http://${baseUrl}/user/verify/${verification}`
 
       let mailData = {
-        from: 'info@theracingmanager.com',
+        from: 'noreply@theracingmanager.com',
         to: email,
-        subject: `${firstname}, please confirm your account.`,
-        html: verificationUrl,
+        subject: `The Racing Manager email verification`,
+        template: {
+          name: 'verification',
+          data: {
+            firstname,
+            url: verificationUrl
+          }
+        },
       }
       if (isDev) {
-        mailData.to = 'nick@vitaminlondon.com'
+        mailData.to = `${nodeEnv === 'local' ? 'chris' : 'nick'}@vitaminlondon.com`
       }
       sendMail(mailData)
 
