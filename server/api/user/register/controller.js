@@ -1,6 +1,7 @@
 const User = require('api/user/model')
 const {sendMail} = require('utils/email')
 const randomString = require('randomstring')
+const {REGISTER} = require('data/messages')
 
 const registerUser = (body, {returnUser} = {}) => {
   const {username, email, password, firstname, surname} = body
@@ -34,7 +35,7 @@ const registerUser = (body, {returnUser} = {}) => {
       }
       sendMail(mailData)
 
-      return Promise.resolve({message: 'User has been created.'})
+      return Promise.resolve({message: REGISTER.SUCCESS})
     }
   })
 }

@@ -2,8 +2,9 @@ const {expect} = require('chai')
 
 const {registerUser} = require('api/user/register/controller')
 const {removeUser} = require('api/user/controller')
+const {FIRSTNAME, REGISTER, EMAIL} = require('data/messages')
 
-const requiredProps = {
+const registerProps = {
   firstname: 'nick',
   surname: 'the french boy',
   email: 'lovehege@nick.com',
@@ -17,38 +18,47 @@ describe('User/register', () => {
     })
   })
   describe('/registerUser', () => {
-    it('it should register a member', (done) => {
+    it('should register a member', (done) => {
       registerUser(
-        requiredProps,
-        {returnUser: true}
-      ).then(user => {
-        expect(user).to.exist
-        expect(user.email).to.equal(requiredProps.email)
-        expect(user.type).to.equal('member')
+        registerProps
+      ).then(res => {
+        expect(res.message).to.equal(REGISTER.SUCCESS)
         done()
       })
     })
 
-    it('it should reject registration with wrong email', (done) => {
+    it('should reject registration with wrong email', (done) => {
       registerUser(
-        Object.assign({}, requiredProps, {
+        Object.assign({}, registerProps, {
           email: 'wrong@email'
-        }),
-        {returnUser: true}
+        })
       ).catch(err => {
-        expect(err).to.exist
+        expect(err.errors.email.message).to.equal(EMAIL.ERROR)
         done()
       })
     })
 
-    it('it should reject registration with empty firstname', (done) => {
+    it('should reject user with already registered email', (done) => {
       registerUser(
-        Object.assign({}, requiredProps, {
+        registerProps
+      ).then(res => {
+        expect(res.message).to.equal(REGISTER.SUCCESS)
+        return registerUser(
+          registerProps
+        )
+      }).catch(err => {
+        expect(err.errors.email.message).to.equal(EMAIL.DUPLICATE)
+        done()
+      })
+    })
+
+    it('should reject registration with empty firstname', (done) => {
+      registerUser(
+        Object.assign({}, registerProps, {
           firstname: ''
-        }),
-        {returnUser: true}
+        })
       ).catch(err => {
-        expect(err).to.exist
+        expect(err.errors.firstname.message).to.equal(FIRSTNAME.REQUIRED)
         done()
       })
     })

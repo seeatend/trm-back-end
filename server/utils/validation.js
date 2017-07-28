@@ -1,19 +1,33 @@
+const {REGISTER, EMAIL, FIRSTNAME} = require('data/messages')
+
+let FIRSTNAME_REG = /^(?=[a-zA-Z-\s]{2,}$)^[a-zA-Z\s]+(-[a-zA-Z\s]+)*$/
+
+const FIRSTNAME_VLD = {
+  type: String,
+  required: FIRSTNAME.REQUIRED,
+  validate: {
+    message: FIRSTNAME.ERROR,
+    validator: FIRSTNAME_REG
+  }
+}
+
+
 let EMAIL_REG = /^[_a-z0-9-]+(\.[_a-z0-9-]+)*(\+[a-z0-9-]+)?@[a-z0-9-]+(\.[a-z0-9-]{2,})+$/
 
-const EMAIL = {
+const EMAIL_VLD = {
   type: String,
   lowercase: true,
-  unique: 'This email has been taken.',
+  unique: EMAIL.DUPLICATE,
   required: true,
   validate: {
-    message: 'Please provide email with correct format.',
+    message: EMAIL.ERROR,
     validator: EMAIL_REG
   }
 }
 
 let PASSWORD_REG = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/
 
-const PASSWORD = {
+const PASSWORD_VLD = {
   type: String,
   required: true,
   validate: {
@@ -23,6 +37,7 @@ const PASSWORD = {
 }
 
 module.exports = {
-  EMAIL,
-  PASSWORD
+  FIRSTNAME_VLD,
+  EMAIL_VLD,
+  PASSWORD_VLD
 }
