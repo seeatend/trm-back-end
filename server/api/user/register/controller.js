@@ -63,8 +63,8 @@ const registerUser = body => {
         }
       },
     }
-    if (isDev) {
-      mailData.to = `${isLocal ? 'chris' : 'nick'}@vitaminlondon.com`
+    if (isLocal) {
+      mailData.to = `chris@vitaminlondon.com`
     }
     sendMail(mailData)
 
