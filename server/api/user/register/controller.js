@@ -64,7 +64,7 @@ const registerUser = body => {
       },
     }
     if (isDev) {
-      mailData.to = `${nodeEnv === 'local' ? 'chris' : 'nick'}@vitaminlondon.com`
+      mailData.to = `${isLocal ? 'chris' : 'nick'}@vitaminlondon.com`
     }
     sendMail(mailData)
 
