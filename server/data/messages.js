@@ -1,4 +1,7 @@
 module.exports = {
+  GENERIC: {
+    NOT_FOUND: 'Not found'
+  },
   AUTHENTICATION: {
     ERROR: 'Authentication failed',
     SUCCESS: 'Authentication successful'

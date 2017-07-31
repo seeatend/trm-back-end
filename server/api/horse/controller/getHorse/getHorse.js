@@ -1,7 +1,7 @@
 const {Horse} = require('api/horse/model')
 const {prepareQuery, dehyphenize} = require('utils/request')
 const {prepareHorse} = require('api/horse/utils')
-
+const {GENERIC} = require('data/messages')
 const availableQueries = ['name', '_id']
 
 module.exports = body => {
@@ -18,7 +18,7 @@ module.exports = body => {
         return Promise.resolve(horseData)
       }
       else {
-        return Promise.reject({message: 'Not found'})
+        return Promise.reject({message: GENERIC.NOT_FOUND})
       }
     })
   }

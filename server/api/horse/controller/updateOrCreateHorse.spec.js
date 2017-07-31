@@ -13,7 +13,7 @@ describe('Horse', () => {
     })
   })
   describe('/updateOrCreateHorse', () => {
-    it('it should create horse', (done) => {
+    it('should create horse', (done) => {
       updateOrCreateHorse(
         requiredProps
       ).then(res => {
@@ -23,7 +23,7 @@ describe('Horse', () => {
       })
     })
 
-    it('it should update horse', (done) => {
+    it('should update horse', (done) => {
       let additionalData = {
         trainer: {
           name: 'Hege'
