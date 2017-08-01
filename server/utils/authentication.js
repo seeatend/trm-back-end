@@ -1,13 +1,13 @@
 const passport = require('passport')
 const jwt = require('jsonwebtoken')
-const {NOT_VERIFIED} = require('data/statusCodes')
+const {NOT_VERIFIED, NOT_AUTHORIZED} = require('data/statusCodes')
+const {VERIFICATION, AUTHENTICATION} = require('data/messages')
 const {error} = require('utils/api')
-const {NOT_AUTHORIZED} = require('data/statusCodes')
 
 const authenticate = (req, res, next) => {
   passport.authenticate('jwt', {session: false}, (err, user) => {
     if (err || !user) {
-      return res.status(401).send(error({status: NOT_AUTHORIZED}))
+      return res.status(401).send(error({status: NOT_AUTHORIZED, message: AUTHENTICATION.ERROR}))
     }
     req.user = user
     next()
@@ -38,7 +38,7 @@ const generateToken = user => {
     })
   }
   else {
-    return Promise.reject({status: NOT_VERIFIED})
+    return Promise.reject({status: NOT_VERIFIED, message: VERIFICATION.ERROR})
   }
 }
 

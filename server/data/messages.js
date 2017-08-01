@@ -2,6 +2,9 @@ module.exports = {
   GENERIC: {
     NOT_FOUND: 'Not found'
   },
+  VERIFICATION: {
+    ERROR: 'Please verify your account'
+  },
   AUTHENTICATION: {
     ERROR: 'Authentication failed',
     SUCCESS: 'Authentication successful'
