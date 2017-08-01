@@ -11,7 +11,7 @@ const createUser = body => {
   let user
   return User.create({
     username, email, password, firstname, surname, verification,
-    type: 'Member'
+    type: 'member'
   }).then(_user => {
     user = _user
     if (isDev) {

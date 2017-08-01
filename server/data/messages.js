@@ -14,7 +14,7 @@ module.exports = {
   },
   EMAIL: {
     DUPLICATE: 'This email has been taken',
-    ERROR: 'Please provide email with correct format.'
+    ERROR: 'Please provide email with correct format'
   },
   FIRSTNAME: {
     REQUIRED: 'Please provide your first name',
