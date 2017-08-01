@@ -14,16 +14,15 @@ module.exports = body => {
       query,
       {__v: false, timeformId: false}
     ).lean().then(_horse => {
-      horse = _horse
-      if (horse) {
-        let horseData = prepareHorse(horse)
+      if (_horse) {
+        horse = prepareHorse(_horse)
 
-        return Promise.resolve(horseData)
+        return Promise.resolve()
       }
       else {
         return Promise.reject({message: GENERIC.NOT_FOUND})
       }
-    }).then(horse => {
+    }).then(() => {
       if (!horse.owner) {
         return Promise.resolve()
       }
