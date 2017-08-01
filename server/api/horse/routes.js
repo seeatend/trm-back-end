@@ -6,8 +6,10 @@ const {applyController} = require('utils/api')
 
 router.route('/horse')
   .get(applyController(getHorse, {
-    messages: true,
-    shares: true
+    populate: {
+      messages: true,
+      shares: true
+    }
   }))
 
 module.exports = router

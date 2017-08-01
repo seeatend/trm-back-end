@@ -2,13 +2,13 @@ const {getMessage} = require('api/message/controller')
 const {getShares} = require('api/user/controller')
 const getHorse = require('./getHorse')
 
-module.exports = (body, options = {}) => {
+module.exports = (body, {populate = {}} = {}) => {
   let result
   return getHorse(
     body
   ).then(horse => {
     result = horse
-    if (!options.messages) {
+    if (!populate.messages) {
       return Promise.resolve()
     }
     else {
@@ -18,7 +18,7 @@ module.exports = (body, options = {}) => {
     }
   }).then(messages => {
     result.messages = messages
-    if (!options.shares) {
+    if (!populate.shares) {
       return Promise.resolve()
     }
     else {
