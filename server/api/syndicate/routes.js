@@ -5,6 +5,10 @@ const {getSyndicate} = require('./controller')
 const {applyController} = require('utils/api')
 
 router.route('/syndicate')
-  .get(applyController(getSyndicate))
+  .get(applyController(getSyndicate, {
+    populate: {
+      messages: true
+    }
+  }))
 
 module.exports = router

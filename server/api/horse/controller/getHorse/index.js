@@ -3,7 +3,7 @@ const {getShares} = require('api/user/controller')
 const getHorse = require('./getHorse')
 
 module.exports = (body, options = {}) => {
-  const {populate} = options
+  const {populate = {}} = options
   let result
   return getHorse(
     body

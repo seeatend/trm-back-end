@@ -14,7 +14,7 @@
     "timeform": "node server/scripts/timeform",
     "demo": "node server/scripts/demo",
     "messages": "node server/scripts/messages",
-    "populate": "run-s flush timeform demo messages",
+    "populate": "run-s flush timeform demo messages setup-search",
     "timeform-test": "mocha -t 10000 ./server/script/timeform/test.js"
   },
   "dependencies": {
