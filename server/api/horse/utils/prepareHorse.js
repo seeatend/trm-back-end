@@ -42,7 +42,6 @@ const prepareHorse = (horse, remove = []) => {
   if (newHorse.owner) {
     newHorse.owner.slug = hyphenize(newHorse.owner.name)
     delete newHorse.owner._id
-    delete newHorse.owner.color
   }
   remove.forEach(prop => {
     delete newHorse[prop]
