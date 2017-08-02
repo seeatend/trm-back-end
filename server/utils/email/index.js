@@ -16,6 +16,9 @@ const auth = {
 const mailgun = nodemailer.createTransport(mailgunTransport(auth))
 
 const sendMail = _data => {
+  if (isTest) {
+    return Promise.resolve()
+  }
   let data = Object.assign({}, _data)
   if (data.template) {
     let template = templates[data.template.name]

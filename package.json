@@ -6,6 +6,7 @@
     "dev": "nodemon --inspect=3100 server",
     "setup-search": "node server/scripts/setupSearch",
     "test": "mocha -w ./server/setup/test.js --recursive $(find server -name '*.spec.js')",
+    "test-debug": "mocha --inspect=3100 --debug-brk  -w ./server/setup/test.js --recursive $(find server -name '*.spec.js')",
     "list": "forever list",
     "stop": "forever stop 0",
     "logs": "forever logs 0",
@@ -13,7 +14,7 @@
     "timeform": "node server/scripts/timeform",
     "demo": "node server/scripts/demo",
     "messages": "node server/scripts/messages",
-    "populate": "run-s flush timeform demo messages",
+    "populate": "run-s flush timeform demo messages setup-search",
     "timeform-test": "mocha -t 10000 ./server/script/timeform/test.js"
   },
   "dependencies": {

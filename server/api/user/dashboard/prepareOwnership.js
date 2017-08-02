@@ -6,7 +6,7 @@ module.exports = (ownership) => {
   let syndicates = {}
   ownership.forEach(elem => {
     let owner = elem.horse.owner
-    let syndicateName = owner.name;
+    let syndicateName = owner.name
     if (!syndicates[syndicateName]) {
       syndicates[syndicateName] = {
         horses: []

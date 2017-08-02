@@ -2,14 +2,43 @@ const User = require('api/user/model')
 const {sendMail} = require('utils/email')
 const randomString = require('randomstring')
 const {REGISTER} = require('data/messages')
+const {randomInteger} = require('utils/math')
+const {getRandomHorse} = require('api/horse/controller')
 
 const createUser = body => {
   const {username, email, password, firstname, surname} = body
   const verification = randomString.generate(80)
-
+  let user
   return User.create({
     username, email, password, firstname, surname, verification,
-    type: 'Member'
+    type: 'member'
+  }).then(_user => {
+    user = _user
+    if (isDev) {
+      return getRandomHorse({amount: randomInteger(6, 10)})
+    }
+    else {
+      return Promise.resolve()
+    }
+  }).then(horses => {
+    if (horses) {
+      let ownership = []
+      horses.forEach(horse => {
+        let shares = {
+          owned: parseInt(Math.random() * 9) + 1,
+          total: parseInt(Math.random() * 15) + 15
+        }
+        ownership.push({
+          horse: horse._id,
+          shares
+        })
+      })
+      user.ownership = ownership
+      return user.save()
+    }
+    else {
+      return Promise.resolve()
+    }
   }).then(() => {
     return Promise.resolve(verification)
   })
@@ -34,8 +63,8 @@ const registerUser = body => {
         }
       },
     }
-    if (isDev) {
-      mailData.to = `${nodeEnv === 'local' ? 'chris' : 'nick'}@vitaminlondon.com`
+    if (isLocal) {
+      mailData.to = `chris@vitaminlondon.com`
     }
     sendMail(mailData)
 

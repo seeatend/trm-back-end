@@ -6,7 +6,7 @@ const {
 
 module.exports = {
   modelName: 'Horse',
-  searchableAttributes: ['name'],
+  searchableAttributes: ['name', 'owner.name', 'trainer.name'],
   sortBy: [
     {
       field: 'shares.available',

@@ -1,5 +1,5 @@
 require('dotenv').config()
-require('setup/db')
+require('setup/db').createDBConnection()
 
 const fs = require('fs-extra')
 
@@ -36,8 +36,9 @@ const _createMessage = (horseName, _data) => {
     if (files && files.length > 0) {
       data.attachment = files
     }
+    let query = {name: horseName.toUpperCase()};
     return Horse.findOne(
-      {name: horseName.toUpperCase()},
+      query,
       {_id: true}
     )
   }).then(horse => {
