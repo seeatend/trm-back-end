@@ -10,9 +10,15 @@ const prepareQuery = (query, availableQueries, transform = val => val) => {
     return false
   }
   let result = {}
-  availableQueries.forEach((elem) => {
-    if (query[elem]) {
-      result[elem] = transform(query[elem], elem)
+  availableQueries.forEach((key) => {
+    let val = query[key];
+    if (val) {
+      if (key === '_id') {
+        result[key] = val
+      }
+      else {
+        result[key] = transform(val, key)
+      }
       return result
     }
   })
@@ -23,20 +29,11 @@ const prepareQuery = (query, availableQueries, transform = val => val) => {
   return result
 }
 
-const dehyphenize = query => (query || '').trim().replace(/[-]+/g, ' ').toUpperCase()
+const dehyphenize = query => (query.toString() || '').trim().replace(/[-]+/g, ' ').toUpperCase()
 
-const hyphenize = query => query.trim().replace(/[ ]+/g, '-').toLowerCase()
+const hyphenize = query => query.toString().trim().replace(/[ ]+/g, '-').toLowerCase()
 
 const isId = id => id.match(/^[0-9a-fA-F]{24}$/)
-
-const success = value => {
-  return {status: 'success', data: value}
-}
-
-const error = message => {
-  if (!message) message = 'Wrong parameters'
-  return {status: 'error', message}
-}
 
 const processFile = (file, destination) => {
   const relativePath = `${config.get('storage.path')}/${destination}/${file.filename}`.replace(/\s/g, '-')
@@ -138,8 +135,6 @@ module.exports = {
   dehyphenize,
   hyphenize,
   isId,
-  success,
-  error,
   processFile,
   processFiles,
   processMulterFiles

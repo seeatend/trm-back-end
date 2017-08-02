@@ -1,21 +1,19 @@
-const {Horse} = require('api/horse/model')
-
 const {expect} = require('chai')
 
-const {updateOrCreateHorse} = require('api/horse/controller')
+const {updateOrCreateHorse, removeHorse} = require('api/horse/controller')
 
 const requiredProps = {
   name: 'To Be Nick'
 }
 
-describe('Horses', () => {
+describe('Horse', () => {
   beforeEach((done) => {
-    Horse.remove({}, () => {
+    removeHorse().then(() => {
       done()
     })
   })
   describe('/updateOrCreateHorse', () => {
-    it('it should create horse', (done) => {
+    it('should create horse', (done) => {
       updateOrCreateHorse(
         requiredProps
       ).then(res => {
@@ -25,7 +23,7 @@ describe('Horses', () => {
       })
     })
 
-    it('it should update horse', (done) => {
+    it('should update horse', (done) => {
       let additionalData = {
         trainer: {
           name: 'Hege'

@@ -13,7 +13,11 @@ module.exports = (body = {}) => {
     results.hits.forEach(hit => {
       promises.push(getHorse(
         {_id: hit.objectID},
-        {shares: true}
+        {
+          populate: {
+            shares: true
+          }
+        }
       ))
     })
     searchResults = results
