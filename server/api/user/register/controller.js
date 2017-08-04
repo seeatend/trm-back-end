@@ -4,15 +4,17 @@ const randomString = require('randomstring')
 const {REGISTER} = require('data/messages')
 const {randomInteger} = require('utils/math')
 const {getRandomHorse} = require('api/horse/controller')
+const {removeEmpty} = require('utils/object')
 
 const createUser = body => {
   const {username, email, password, firstname, surname} = body
   const verification = randomString.generate(80)
   let user
-  return User.create({
+
+  return User.create(removeEmpty({
     username, email, password, firstname, surname, verification,
     type: 'member'
-  }).then(_user => {
+  })).then(_user => {
     user = _user
     if (isDev) {
       return getRandomHorse({amount: randomInteger(6, 10)})
