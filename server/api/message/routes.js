@@ -4,10 +4,12 @@ const handleUpload = require('utils/handleUpload')
 
 const messageRouter = express.Router({mergeParams: true})
 const {getMessage, createMessage} = require('./controller')
+const {authenticate} = require('utils/authentication')
 
 messageRouter.route('/message')
   .get(applyController(getMessage))
   .post(
+    authenticate,
     handleUpload({
       field: {
         name: 'attachment',

@@ -6,6 +6,8 @@ const bcrypt = require('bcrypt-as-promised')
 const uniqueValidator = require('mongoose-unique-validator')
 const {AUTHENTICATION} = require('data/messages')
 
+let UserModel
+
 const User = new Schema({
   firstname: FIRSTNAME_VLD,
   surname: {
@@ -13,7 +15,26 @@ const User = new Schema({
     required: true
   },
   username: {
-    type: String
+    type: String,
+    validate: {
+      isAsync: true,
+      validator: (value, done) => {
+        UserModel.findOne(
+          {username: value}
+        ).then(user => {
+          if (user) {
+            done(false)
+          }
+          else {
+            done(true)
+          }
+        }).catch(err => {
+          console.error(err)
+          done(false)
+        })
+      },
+      message: `This username has been taken`
+    }
   },
   verification: {
     type: String
@@ -47,7 +68,7 @@ User.plugin(uniqueValidator)
 User.pre('save', function (next) {
   let user = this
   if (this.isModified('password') || this.isNew) {
-    bcrypt.genSalt(10, function (err, salt) {
+    bcrypt.genSalt(10, (err, salt) => {
       if (err) {
         next(err)
       }
@@ -80,4 +101,6 @@ User.methods.validatePassword = function (password) {
     })
 }
 
-module.exports = mongoose.model('User', User)
+UserModel = mongoose.model('User', User)
+
+module.exports = UserModel
