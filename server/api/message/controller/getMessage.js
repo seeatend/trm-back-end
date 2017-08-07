@@ -2,7 +2,7 @@ const {prepareQuery} = require('utils/request')
 const Message = require('api/message/model')
 const {getUserDisplayName} = require('api/user/utils')
 
-const availableQueries = ['horseId']
+const availableQueries = ['horseId', '_id']
 
 module.exports = (body, {user} = {}) => {
   let query = prepareQuery(body, availableQueries)

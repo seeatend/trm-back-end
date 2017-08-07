@@ -1,3 +1,4 @@
+require('./permissions')
 const express = require('express')
 const {applyController} = require('utils/api')
 const handleUpload = require('utils/handleUpload')
@@ -12,7 +13,7 @@ const routePath = '/message'
 
 router.use(routePath, commentRoute)
 
-router.route('routePath')
+router.route(routePath)
   .get(
     authenticate.read('horse'),
     applyController(getMessage)

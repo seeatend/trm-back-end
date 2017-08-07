@@ -11,7 +11,7 @@ router.route('/comment')
     applyController(getComment)
   )
   .post(
-    authenticate,
+    authenticate.write('message'),
     applyController(createComment)
   )
 
