@@ -2,11 +2,17 @@ const express = require('express')
 const {applyController} = require('utils/api')
 const handleUpload = require('utils/handleUpload')
 
-const messageRouter = express.Router({mergeParams: true})
+const commentRoute = require('./comment/routes')
+
+const router = express.Router({mergeParams: true})
 const {getMessage, createMessage} = require('./controller')
 const {authenticate} = require('utils/authentication')
 
-messageRouter.route('/message')
+const routePath = '/message'
+
+router.use(routePath, commentRoute)
+
+router.route('routePath')
   .get(
     authenticate.read('horse'),
     applyController(getMessage)
@@ -25,4 +31,4 @@ messageRouter.route('/message')
     applyController(createMessage)
   )
 
-module.exports = messageRouter
+module.exports = router

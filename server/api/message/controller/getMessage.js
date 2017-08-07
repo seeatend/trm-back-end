@@ -1,5 +1,6 @@
 const {prepareQuery} = require('utils/request')
 const Message = require('api/message/model')
+const {getUserDisplayName} = require('api/user/utils')
 
 const availableQueries = ['horseId']
 
@@ -20,7 +21,7 @@ module.exports = (body, {user} = {}) => {
         if (message.userId) {
           let user = message.userId
           delete message.userId
-          message.author = user.username || `${user.firstname} ${user.surname}`
+          message.author = getUserDisplayName(user)
         }
         else {
           message.author = 'Anonymous'
