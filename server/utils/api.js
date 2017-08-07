@@ -10,9 +10,11 @@ const error = ({message, errors, status} = {}) => {
   return {status: status || ERROR, message, errors}
 }
 
+const getReqBody = req => (Object.assign(req.body || {}, req.query || {}))
+
 const applyController = (controller, options = {}) => {
   return (req, res) => {
-    let data = (Object.keys(req.query).length > 0 ? req.query : req.body) || {}
+    let data = getReqBody(req)
     global.devLog(data)
     options.user = req.user
     if (isFunction(controller)) {
@@ -31,6 +33,7 @@ const applyController = (controller, options = {}) => {
               errors[key] = [val.message]
             })
           }
+          console.log(err)
           res.status(404).send(error({
             message: err.message,
             errors,
@@ -50,6 +53,7 @@ const applyController = (controller, options = {}) => {
 
 module.exports = {
   applyController,
+  getReqBody,
   error,
   success
 }

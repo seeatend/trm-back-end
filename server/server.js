@@ -25,7 +25,6 @@ if (isDev) {
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 
-app.use(require('setup/passport')())
 
 const storagePath = config.get('storage.path')
 app.use(`/${storagePath}`, express.static(storagePath), (req, res) => {
@@ -33,6 +32,8 @@ app.use(`/${storagePath}`, express.static(storagePath), (req, res) => {
 })
 
 app.use('/assets', express.static('public'))
+
+app.use(require('setup/passport')())
 
 app.use(`/api/v${config.get('api.version')}`, routes)
 
