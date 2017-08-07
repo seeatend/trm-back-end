@@ -3,7 +3,7 @@ const Message = require('api/message/model')
 
 const availableQueries = ['horseId']
 
-module.exports = (body) => {
+module.exports = (body, {user} = {}) => {
   let query = prepareQuery(body, availableQueries)
   if (query) {
     return Message.find(

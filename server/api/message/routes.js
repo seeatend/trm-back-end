@@ -7,9 +7,12 @@ const {getMessage, createMessage} = require('./controller')
 const {authenticate} = require('utils/authentication')
 
 messageRouter.route('/message')
-  .get(applyController(getMessage))
+  .get(
+    authenticate.read('horse'),
+    applyController(getMessage)
+  )
   .post(
-    authenticate,
+    authenticate.write('horse'),
     handleUpload({
       field: {
         name: 'attachment',
