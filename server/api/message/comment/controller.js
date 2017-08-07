@@ -8,6 +8,8 @@ const createComment = (body, {user} = {}) => {
   if (messageId && text && userId) {
     return Comment.create({
       messageId, text, userId
+    }).then(() => {
+      return Promise.resolve()
     })
   }
   else {
