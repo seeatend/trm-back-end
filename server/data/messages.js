@@ -8,8 +8,8 @@ module.exports = {
     ERROR: 'Please verify your account'
   },
   AUTHENTICATION: {
-    ERROR: 'Authentication failed',
-    SUCCESS: 'Authentication successful'
+    ERROR: 'Login failed',
+    SUCCESS: 'Login successful'
   },
   REGISTER: {
     SUCCESS: created('User'),
