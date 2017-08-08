@@ -2,12 +2,11 @@ const {authenticate} = require('utils/authentication')
 const Message = require('api/message/model')
 const horsePermissions = require('api/horse/permissions')
 
-const canWrite = (body, user) => {
+const canReadWrite = (body, user) => {
   let {messageId} = body
   if (messageId) {
     return Message.findOne(
-      {_id: messageId},
-      {horseId: true}
+      {_id: messageId}
     ).then(message => {
       if (message && message.horseId) {
         return horsePermissions.write(
@@ -25,5 +24,6 @@ const canWrite = (body, user) => {
   }
 }
 
-authenticate.registerPermission('write', 'message', canWrite)
+authenticate.registerPermission('read', 'message', canReadWrite)
+authenticate.registerPermission('write', 'message', canReadWrite)
 

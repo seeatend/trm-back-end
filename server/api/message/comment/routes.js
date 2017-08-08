@@ -7,7 +7,7 @@ const {authenticate} = require('utils/authentication')
 
 router.route('/comment')
   .get(
-    authenticate,
+    authenticate.read('message'),
     applyController(getComment)
   )
   .post(
