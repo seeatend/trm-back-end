@@ -1,15 +1,16 @@
 const Comment = require('./model')
 const {getUserDisplayName} = require('api/user/utils')
+const {COMMENT} = require('data/messages')
 
 const createComment = (body, {user} = {}) => {
   const {messageId, text} = body
-  const userId = user._id
 
-  if (messageId && text && userId) {
+  if (user && messageId && text) {
+    const userId = user._id
     return Comment.create({
       messageId, text, userId
     }).then(() => {
-      return Promise.resolve()
+      return Promise.resolve(COMMENT.SUCCESS)
     })
   }
   else {

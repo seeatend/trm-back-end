@@ -39,8 +39,7 @@ describe('Message', () => {
           horseId: createProps[0].horseId
         })
       }).then(res => {
-        expect(res).to.be.an('array')
-        expect(res.length).to.equal(1)
+        expect(res).to.be.an('array').of.length(1)
         expect(res[0].text).to.equal(createProps[0].text)
         done()
       })

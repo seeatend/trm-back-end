@@ -23,8 +23,7 @@ module.exports = (body, options = {}) => {
   let errors = newMessage.validateSync()
   if (!errors && validateAttachment(newMessage)) {
     return newMessage.save(
-    ).then(message => {
-      console.log(`message received: ${message._id}`)
+    ).then(() => {
       return Promise.resolve(MESSAGE.SUCCESS)
     })
   }

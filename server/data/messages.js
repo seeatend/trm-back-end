@@ -24,5 +24,8 @@ module.exports = {
   },
   MESSAGE: {
     SUCCESS: created('Message')
+  },
+  COMMENT: {
+    SUCCESS: created('Comment')
   }
 }
