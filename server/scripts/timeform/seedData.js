@@ -1,5 +1,14 @@
 module.exports = [
   {
+    name: 'NEPTUNE STAR',
+    img: 'HERO_neptunestar1.jpg',
+    thumbnail: 'CARD_neptunestar1.jpg',
+    syndicate: {
+      name: 'SHEEP AS A LAMB',
+      featuredImage: 'HERO_neptunestar3.jpg'
+    }
+  },
+  {
     name: 'DE BRUYNE HORSE',
     style: 'flat',
     manager: {

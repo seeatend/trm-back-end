@@ -50,6 +50,19 @@ authenticate.can = (action, resource) => ([
   }
 ])
 
+authenticate.is = type => [
+  authenticate,
+  (req, res, next) => {
+    let {user} = req
+    if (type && type.length > 0 && user.type === type) {
+      next()
+    }
+    else {
+      _notAuthorized(res)
+    }
+  }
+]
+
 authenticate.write = resource => (authenticate.can('write', resource))
 authenticate.read = resource => (authenticate.can('read', resource))
 
