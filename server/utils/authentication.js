@@ -40,7 +40,7 @@ authenticate.can = (action, resource) => ([
     let body = getReqBody(req)
     let {user} = req
     let middleware = permissions[action][resource]
-    let promises = Promise.resolve
+    let promises = Promise.resolve()
     if (middleware && middleware.length > 0) {
       promises = Promise.all(middleware.map(promise => (promise(body, user))))
     }

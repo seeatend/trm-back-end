@@ -1,5 +1,5 @@
 const Message = require('api/message/model')
-
+const {MESSAGE} = require('data/messages')
 
 const validateAttachment = (body) => {
   let validated = false
@@ -16,14 +16,15 @@ module.exports = (body, options = {}) => {
   const newMessage = new Message(body)
   const {user} = options
 
-  newMessage.userId = user._id
+  if (user) {
+    newMessage.userId = user._id
+  }
 
   let errors = newMessage.validateSync()
   if (!errors && validateAttachment(newMessage)) {
     return newMessage.save(
-    ).then(message => {
-      console.log(`message received: ${message._id}`)
-      return Promise.resolve()
+    ).then(() => {
+      return Promise.resolve(MESSAGE.SUCCESS)
     })
   }
   else {

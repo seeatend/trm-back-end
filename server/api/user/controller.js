@@ -4,12 +4,8 @@ const removeUser = (body = {}) => {
   return User.remove(body)
 }
 
-const getUser = ({filter = {__v: false, _id: false}, populate = true, omit}) => {
-  let result = User.findOne(
-    {firstname: 'demo'},
-    filter
-  )
-  return populate ? result.populate('ownership.horse', omit) : result
+const getUser = (body) => {
+  return User.findOne(body)
 }
 
 const getShares = (query, {user} = {}) => {
