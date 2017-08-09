@@ -1,10 +1,12 @@
-const User = require('api/user/model')
 const {getUser} = require('api/user/controller')
 const {getHorse} = require('api/horse/controller')
-const {isString} = require('utils/object')
 
-const updateUser = (body, {user} = {}) => {
-  const {email, horse} = body
+const updateUser = (body) => {
+  const {email, horse, user, password} = body
+
+  if (!user || !password) return Promise.reject({
+    message: `Provide credentials as 'user' and 'password'.`
+  })
 
   if (!(email && email.length > 0)) {
     return Promise.reject({message: 'Please provide at least one email(comma separated)'})
@@ -19,11 +21,16 @@ const updateUser = (body, {user} = {}) => {
 
   let users
 
-  return Promise.all(
-    emails.map(e => (
-      getUser({email: e.trim()}))
-    )
-  ).then(_users => {
+  return getUser({
+    email: user
+  }).then(user => {
+    return user.validatePassword(password)
+  }).then(() => {
+    return Promise.all(
+      emails.map(e => (
+        getUser({email: e.trim()}))
+      ))
+  }).then(_users => {
     users = _users
     return Promise.all(
       horses.map(h => (getHorse({name: h.toUpperCase()})))
