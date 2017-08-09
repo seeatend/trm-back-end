@@ -1,5 +1,6 @@
 const {getUser} = require('api/user/controller')
 const {getHorse} = require('api/horse/controller')
+const {AUTHENTICATION} = require('data/messages')
 
 const updateUser = (body) => {
   const {email, horse, user, password} = body
@@ -23,6 +24,8 @@ const updateUser = (body) => {
 
   return getUser({
     email: user
+  }).catch(() => {
+    return Promise.reject({message: AUTHENTICATION.ERROR})
   }).then(user => {
     return user.validatePassword(password)
   }).then(() => {
