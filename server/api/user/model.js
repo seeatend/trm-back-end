@@ -18,20 +18,25 @@ const User = new Schema({
     type: String,
     validate: {
       isAsync: true,
-      validator: (value, done) => {
-        UserModel.findOne(
-          {username: value}
-        ).then(user => {
-          if (user) {
+      validator: function(value, done) {
+        if (this.isModified('username') || this.isNew) {
+          UserModel.findOne(
+            {username: value}
+          ).then(user => {
+            if (user) {
+              done(false)
+            }
+            else {
+              done(true)
+            }
+          }).catch(err => {
+            console.error(err)
             done(false)
-          }
-          else {
-            done(true)
-          }
-        }).catch(err => {
-          console.error(err)
-          done(false)
-        })
+          })
+        }
+        else {
+          done(true)
+        }
       },
       message: `This username has been taken`
     }
@@ -99,6 +104,22 @@ User.methods.validatePassword = function (password) {
     }).catch(() => {
       return Promise.reject({message: AUTHENTICATION.ERROR})
     })
+}
+
+User.methods.addShare = function({horse, amount = 1}) {
+  let owned = this.ownership.filter(o => (o.horse.toString() === horse._id.toString()))
+  if (owned.length > 0) {
+    owned[0].shares.owned += 1
+  }
+  else {
+    this.ownership.push({
+      horse: horse._id,
+      shares: {
+        owned: amount,
+        total: horse.shares.total
+      }
+    })
+  }
 }
 
 UserModel = mongoose.model('User', User)

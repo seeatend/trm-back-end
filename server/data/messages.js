@@ -1,6 +1,15 @@
 const created = name => (`${name} has been created`)
+const notFound = type => name => (`Could not find ${type} '${name}'`)
 
 module.exports = {
+  METHODS: {
+    HORSE: {
+      NOT_FOUND: notFound('horse')
+    },
+    USER: {
+      NOT_FOUND: notFound('user')
+    }
+  },
   GENERIC: {
     NOT_FOUND: 'Not found'
   },

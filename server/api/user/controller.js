@@ -1,11 +1,19 @@
 const User = require('./model')
+const {METHODS} = require('data/messages')
 
 const removeUser = (body = {}) => {
   return User.remove(body)
 }
 
 const getUser = (body) => {
-  return User.findOne(body)
+  return User.findOne(
+    body
+  ).then(user => {
+    if (user) return Promise.resolve(user)
+    else return Promise.reject({
+      message: METHODS.USER.NOT_FOUND(body.email)
+    })
+  })
 }
 
 const getShares = (query, {user} = {}) => {

@@ -2,7 +2,7 @@ const {Horse} = require('api/horse/model')
 const {prepareQuery, dehyphenize} = require('utils/request')
 const {prepareHorse} = require('api/horse/utils')
 const {getSyndicate} = require('api/syndicate/controller')
-const {GENERIC} = require('data/messages')
+const {METHODS} = require('data/messages')
 const availableQueries = ['name', '_id']
 
 module.exports = body => {
@@ -20,7 +20,7 @@ module.exports = body => {
         return Promise.resolve()
       }
       else {
-        return Promise.reject({message: GENERIC.NOT_FOUND})
+        return Promise.reject({message: METHODS.HORSE.NOT_FOUND(query.name || query._id)})
       }
     }).then(() => {
       if (!horse.owner) {
