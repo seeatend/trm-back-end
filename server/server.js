@@ -20,6 +20,14 @@ if (isDev) {
   })
   app.use(morgan('dev'))
 }
+else {
+  app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', 'http://uat.theracingmanager.com')
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization')
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS')
+    next()
+  })
+}
 
 
 app.use(bodyParser.json())
