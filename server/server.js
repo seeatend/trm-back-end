@@ -18,7 +18,6 @@ if (isDev) {
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS')
     next()
   })
-  app.use(morgan('dev'))
 }
 else {
   app.use((req, res, next) => {
@@ -28,6 +27,7 @@ else {
     next()
   })
 }
+app.use(morgan('dev'))
 
 
 app.use(bodyParser.json())
