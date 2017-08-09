@@ -3,7 +3,7 @@ const {expect} = require('chai')
 const {getHorse, updateOrCreateHorse, removeHorse} = require('api/horse/controller')
 const {Horse} = require('api/horse/model')
 
-const {GENERIC} = require('data/messages')
+const {METHODS} = require('data/messages')
 
 const requiredProps = {
   name: 'To Be Nick'
@@ -20,7 +20,7 @@ describe('Horse', () => {
       getHorse(
         requiredProps
       ).catch(err => {
-        expect(err.message).to.equal(GENERIC.NOT_FOUND)
+        expect(err.message).to.equal(METHODS.HORSE.NOT_FOUND(requiredProps.name.toUpperCase()))
         done()
       })
     })
