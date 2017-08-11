@@ -1,3 +1,4 @@
+require('./permissions')
 const express = require('express')
 const router = express.Router({mergeParams: true})
 
@@ -7,11 +8,11 @@ const {authenticate} = require('utils/authentication')
 
 router.route('/comment')
   .get(
-    authenticate.read('message'),
+    authenticate.can('get comment'),
     applyController(getComment)
   )
   .post(
-    authenticate.write('message'),
+    authenticate.can('post comment'),
     applyController(createComment)
   )
 

@@ -1,6 +1,7 @@
 const {authenticate} = require('utils/authentication')
+const Message = require('api/message/model')
 
-const canReadWrite = (body, user) => {
+const ownsHorseByHorseId = (body, user) => {
   let {horseId} = body
   if (horseId) {
     let matches = user.ownership.filter(e => (e.horse.toString() === horseId.toString()))
@@ -11,11 +12,48 @@ const canReadWrite = (body, user) => {
   return Promise.reject()
 }
 
-authenticate.registerPermission('write', 'horse', canReadWrite)
-authenticate.registerPermission('read', 'horse', canReadWrite)
+const ownsHorseByMessageId = (body, user) => {
+  let {messageId} = body
+
+  if (messageId) {
+    return Message.findOne(
+      {_id: messageId}
+    ).then(message => {
+      if (message && message.horseId) {
+        return ownsHorseByHorseId(
+          {horseId: message.horseId},
+          user
+        )
+      }
+      else {
+        return Promise.reject()
+      }
+    })
+  }
+  else {
+    return Promise.reject()
+  }
+}
+
+const ownsHorse = (body, user) => {
+  let {horseId, messageId} = body
+  if (horseId) {
+    return ownsHorseByHorseId(body, user)
+  }
+  else if (messageId) {
+    return ownsHorseByMessageId(body, user)
+  }
+  else {
+    return Promise.reject()
+  }
+}
+
+authenticate.registerPermission('get horse', ownsHorseByHorseId)
+authenticate.registerPermission('post horse', ownsHorseByHorseId)
 
 module.exports = {
-  write: canReadWrite,
-  read: canReadWrite
+  ownsHorse,
+  ownsHorseByMessageId,
+  ownsHorseByHorseId
 }
 

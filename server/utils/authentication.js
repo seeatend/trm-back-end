@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken')
 const {NOT_VERIFIED, NOT_AUTHORIZED} = require('data/statusCodes')
 const {VERIFICATION, AUTHENTICATION} = require('data/messages')
 const {error, getReqBody} = require('utils/api')
+const {isString} = require('utils/object')
 
 const _notAuthorized = res => {
   res.status(401).send(error({status: NOT_AUTHORIZED, message: AUTHENTICATION.ERROR}))
@@ -20,31 +21,39 @@ const authenticate = (req, res, next) => {
   })(req, res, next)
 }
 
-let permissions = {
-  write: {},
-  read: {}
-}
+let permissions = {}
 
-authenticate.registerPermission = (action, resource, promise) => {
-  if (['write', 'read'].indexOf(action) >= 0) {
-    if (!permissions[action][resource]) {
-      permissions[action][resource] = []
-    }
-    permissions[action][resource].push(promise)
+authenticate.registerPermission = (action, promise) => {
+  if (!permissions[action]) {
+    permissions[action] = []
   }
+  permissions[action].push(promise)
 }
 
-authenticate.can = (action, resource) => ([
+authenticate.can = (actions = []) => ([
   authenticate,
   (req, res, next) => {
     let body = getReqBody(req)
     let {user} = req
-    let middleware = permissions[action][resource]
-    let promises = Promise.resolve()
-    if (middleware && middleware.length > 0) {
-      promises = Promise.all(middleware.map(promise => (promise(body, user))))
+    let validators = []
+    if (isString(actions)) {
+      actions = [actions]
     }
-    promises
+    if (actions.length === 0) {
+      _notAuthorized(res)
+      throw new Error('Please provide actions')
+    }
+    actions.forEach(action => {
+      let _validators = permissions[action]
+      if (_validators && _validators.length > 0) {
+        validators = validators.concat(_validators)
+      }
+      else {
+        _notAuthorized(res)
+        throw new Error(`There is no validators for action '${action}'`)
+      }
+    })
+    Promise.all(validators.map(validator => (validator(body, user))))
       .then(() => next())
       .catch(() => _notAuthorized(res))
   }
@@ -62,9 +71,6 @@ authenticate.is = type => [
     }
   }
 ]
-
-authenticate.write = resource => (authenticate.can('write', resource))
-authenticate.read = resource => (authenticate.can('read', resource))
 
 const prepareUserData = (user = {}) => {
   let {firstname, surname, email, username} = user

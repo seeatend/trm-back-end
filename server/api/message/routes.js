@@ -15,11 +15,11 @@ router.use(routePath, commentRoute)
 
 router.route(routePath)
 .get(
-  authenticate.read('horse'),
+  authenticate.can('get message'),
   applyController(getMessage)
 )
 .post(
-  authenticate,
+  authenticate.can('post message'),
   handleUpload({
     field: {
       name: 'attachment',
