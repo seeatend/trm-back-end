@@ -10,16 +10,18 @@ const error = ({message, errors, status} = {}) => {
   return {status: status || ERROR, message, errors}
 }
 
-const getReqBody = req => (Object.assign(req.body || {}, req.query || {}))
+const bodyOrQuery = req => (
+  Object.keys(req.body).length > 0 ? req.body : req.query
+)
 
 const applyController = (controller, options = {}) => {
   return (req, res) => {
-    let data = getReqBody(req)
-    global.devLog(data)
+    let body = bodyOrQuery(req)
+    global.devLog(body)
     options.user = req.user
     if (isFunction(controller)) {
       controller(
-        data,
+        body,
         options
       ).then(result => {
         res.send(success(result))
@@ -53,7 +55,7 @@ const applyController = (controller, options = {}) => {
 
 module.exports = {
   applyController,
-  getReqBody,
+  bodyOrQuery,
   error,
   success
 }

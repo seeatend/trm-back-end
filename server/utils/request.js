@@ -4,6 +4,11 @@ const mime = require('mime')
 const {generateThumbnail, thumbnailPath} = require('./file')
 const fs = require('fs-extra')
 
+const assignQueryToBody = (req, res, next) => {
+  Object.assign(req.body, req.query)
+  next()
+}
+
 const prepareQuery = (query, availableQueries, transform = val => val) => {
   if (!query) {
     console.error(`Query is not defined ${JSON.stringify(availableQueries)}`)
@@ -137,5 +142,6 @@ module.exports = {
   isId,
   processFile,
   processFiles,
-  processMulterFiles
+  processMulterFiles,
+  assignQueryToBody
 }

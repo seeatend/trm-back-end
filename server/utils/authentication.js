@@ -2,7 +2,7 @@ const passport = require('passport')
 const jwt = require('jsonwebtoken')
 const {NOT_VERIFIED, NOT_AUTHORIZED} = require('data/statusCodes')
 const {VERIFICATION, AUTHENTICATION} = require('data/messages')
-const {error, getReqBody} = require('utils/api')
+const {error, bodyOrQuery} = require('utils/api')
 const {isString} = require('utils/object')
 
 const _notAuthorized = res => {
@@ -33,7 +33,7 @@ authenticate.registerPermission = (action, promise) => {
 authenticate.can = (actions = []) => ([
   authenticate,
   (req, res, next) => {
-    let body = getReqBody(req)
+    let body = bodyOrQuery(req)
     let {user} = req
     let validators = []
     if (isString(actions)) {

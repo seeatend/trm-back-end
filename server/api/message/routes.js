@@ -8,6 +8,7 @@ const commentRoute = require('./comment/routes')
 const router = express.Router({mergeParams: true})
 const {getMessage, createMessage} = require('./controller')
 const {authenticate} = require('utils/authentication')
+const {assignQueryToBody} = require('utils/request')
 
 const routePath = '/message'
 
@@ -29,6 +30,7 @@ router.route(routePath)
     acceptedTypes: ['video', 'image', 'audio'],
     destination: 'messages'
   }),
+  assignQueryToBody,
   applyController(createMessage)
 )
 
