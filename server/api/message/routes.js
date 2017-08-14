@@ -8,6 +8,7 @@ const commentRoute = require('./comment/routes')
 const router = express.Router({mergeParams: true})
 const {getMessage, createMessage} = require('./controller')
 const {authenticate} = require('utils/authentication')
+const {assignQueryToBody} = require('utils/request')
 
 const routePath = '/message'
 
@@ -15,11 +16,11 @@ router.use(routePath, commentRoute)
 
 router.route(routePath)
 .get(
-  authenticate.read('horse'),
+  authenticate.can('get message'),
   applyController(getMessage)
 )
 .post(
-  authenticate,
+  authenticate.can('post message'),
   handleUpload({
     field: {
       name: 'attachment',
@@ -29,6 +30,7 @@ router.route(routePath)
     acceptedTypes: ['video', 'image', 'audio'],
     destination: 'messages'
   }),
+  assignQueryToBody,
   applyController(createMessage)
 )
 
