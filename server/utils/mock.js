@@ -24,7 +24,7 @@ const mockHandleUpload = ({data, paths, destination}) => {
     }
   })
 
-  if (files.length === 0) return Promise.resolve()
+  if (files.length === 0) return Promise.resolve(data)
 
   return processFiles(
     files, `${destination}/${Date.now()}`
