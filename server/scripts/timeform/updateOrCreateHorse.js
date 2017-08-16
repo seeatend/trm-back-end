@@ -114,23 +114,21 @@ module.exports = (horse, additionalData = {}) => {
           owned: parseInt(Math.random() * 9) + 1,
           total: parseInt(Math.random() * 15) + 15
         }
+
+        return mockHandleUpload({
+          data: horseData,
+          paths: {
+            featuredImage: additionalData.img,
+            thumbnailImage: additionalData.thumbnail
+          },
+          destination: 'horses'
+        })
+      }).then(horseData => {
         let timeformId = horse.horseCode.trim()
-        let horseFiles = []
-        if (additionalData.img) {
-          horseFiles.push(mockFileUpload(
-            'featuredImage', additionalData.img
-          ))
-        }
-        if (additionalData.thumbnail) {
-          horseFiles.push(mockFileUpload(
-            'thumbnailImage', additionalData.thumbnail
-          ))
-        }
 
         return updateOrCreateHorse(
           {timeformId},
-          horseData,
-          horseFiles
+          horseData
         )
       }).then(savedHorse => {
         console.log(`Saved: ${horse.horseName}`)
