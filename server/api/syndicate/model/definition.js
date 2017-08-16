@@ -3,6 +3,7 @@ const {ObjectId} = require('mongoose').Schema.Types
 module.exports = {
   name: {
     type: String,
+    uppercase: true,
     required: true
   },
   featuredImage: {

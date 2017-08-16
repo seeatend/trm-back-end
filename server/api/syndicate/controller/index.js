@@ -1,8 +1,8 @@
 const {Controller} = require('api/utils')
-const Syndicate = require('api/syndicate/model')
+const SyndicateModel = require('api/syndicate/model')
 
 const SyndicateController = new Controller({
-  model: Syndicate,
+  model: SyndicateModel,
   methods: {
     getSyndicate: require('./getSyndicate')
   }

@@ -96,7 +96,7 @@ module.exports = (horse, additionalData = {}) => {
 
         return SyndicateController.updateOrCreate({
           query: {
-            name: data.name
+            name: data.name.toUpperCase()
           },
           data
         })
