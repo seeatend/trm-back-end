@@ -2,7 +2,7 @@ const {performances} = require('./api')
 
 const SyndicateController = require('api/syndicate/controller')
 const {updateOrCreateHorse} = require('api/horse/controller')
-const {mockFileUpload, mockHandleUpload} = require('utils/mock')
+const {mockHandleUpload} = require('utils/mock')
 const {randomInteger} = require('utils/math')
 
 const convert = require('./convertFields')
