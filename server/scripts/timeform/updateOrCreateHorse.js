@@ -1,6 +1,6 @@
 const {performances} = require('./api')
 
-const {updateSyndicate} = require('api/syndicate/controller')
+const SyndicateController = require('api/syndicate/controller')
 const {updateOrCreateHorse} = require('api/horse/controller')
 const {mockFileUpload, mockHandleUpload} = require('utils/mock')
 const {randomInteger} = require('utils/math')
@@ -85,15 +85,21 @@ module.exports = (horse, additionalData = {}) => {
       }).then(syndicateData => {
         horseData.owner.name = horseData.owner.name.toUpperCase()
 
-        return updateSyndicate(
-          Object.assign(
-            {
-              color: getSyndicateColor(),
-              owner: horseData.owner
-            },
-            syndicateData
-          )
+        let data = Object.assign(
+          {
+            color: getSyndicateColor(),
+            owner: horseData.owner
+          },
+          syndicateData
         )
+        data.name = data.owner ? data.name || data.owner.name : data.name
+
+        return SyndicateController.updateOrCreate({
+          query: {
+            name: data.name
+          },
+          data
+        })
       }).then(syndicate => {
         console.log('Updated syndicate')
         syndicateData = syndicate
