@@ -28,7 +28,9 @@ const mockHandleUpload = ({data, paths, destination}) => {
     files, `${destination}/${Date.now()}`
   ).then(filesInfo => {
     if (filesInfo) {
-      Object.assign(data, filesInfo)
+      Object.keys(filesInfo).forEach(key => {
+        data[key] = filesInfo[key].map(e => (e.path))
+      })
     }
     return Promise.resolve(data)
   })
