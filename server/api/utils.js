@@ -1,23 +1,23 @@
 class Controller {
-  constructor({schema, methods}) {
-    this.schema = schema
+  constructor({model, methods}) {
+    this.model = model
     Object.assign(this, methods)
   }
 
   create(body) {
-    this.schema.create(body)
+    return this.model.create(body)
   }
 
   find(query) {
-    return this.schema.find(query)
+    return this.model.find(query)
   }
 
   findOne(query) {
-    return this.schema.findOne(query)
+    return this.model.findOne(query)
   }
 
   findById(id) {
-    return this.schema.findById(id)
+    return this.model.findById(id)
       .then((doc) => {
         if (!doc) {
           return Promise.reject()
@@ -27,7 +27,7 @@ class Controller {
   }
 
   updateById({id, data}) {
-    return this.schema.update({_id: id}, data)
+    return this.model.update({_id: id}, data)
       .then((results) => {
         if (results.n < 1) {
           return Promise.reject()
@@ -37,7 +37,7 @@ class Controller {
   }
 
   removeById(id) {
-    return this.schema.remove({_id: id})
+    return this.model.remove({_id: id})
       .then((doc) => {
         if (!doc) {
           return Promise.reject()
@@ -47,7 +47,7 @@ class Controller {
   }
 
   removeAll() {
-    return this.schema.remove()
+    return this.model.remove()
   }
 }
 

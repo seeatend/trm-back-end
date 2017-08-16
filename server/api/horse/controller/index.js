@@ -2,7 +2,7 @@ const {Controller} = require('api/utils')
 const {Horse} = require('api/horse/model')
 
 const HorseController = new Controller({
-  schema: Horse,
+  model: Horse,
   methods: {
     getHorse: require('./getHorse'),
     getRandomHorse: require('./getRandomHorse'),
