@@ -52,6 +52,8 @@ module.exports = {
     'cost.monthly': {
       displayName: 'Monthly cost per 1%',
       values: {
+        // These numbers come from the fact that it is currently randomized value
+        // TODO: Calculate it using Algolia facades
         min: 2500,
         max: 7500
       }

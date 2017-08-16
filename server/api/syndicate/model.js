@@ -10,6 +10,7 @@ const Syndicate = new Schema({
   },
   featuredImage: {
     type: String,
+    file: true,
     default: '/assets/placeholder/featuredImage.jpg'
   },
   logo: {

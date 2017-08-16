@@ -1,7 +1,6 @@
 const {expect} = require('chai')
 
 const {getHorse, updateOrCreateHorse, removeHorse} = require('api/horse/controller')
-const {Horse} = require('api/horse/model')
 
 const {METHODS} = require('data/messages')
 

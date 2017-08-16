@@ -1,9 +1,8 @@
 const {performances} = require('./api')
 
-const {Horse} = require('api/horse/model')
 const {updateSyndicate} = require('api/syndicate/controller')
 const {updateOrCreateHorse} = require('api/horse/controller')
-const {mockFileUpload} = require('utils/mock')
+const {mockFileUpload, mockHandleUpload} = require('utils/mock')
 const {randomInteger} = require('utils/math')
 
 const convert = require('./convertFields')
@@ -38,6 +37,8 @@ const getRandomColor = () => {
   return color
 }
 
+const getSyndicateColor = () => (colors.pop() || getRandomColor())
+
 module.exports = (horse, additionalData = {}) => {
   if (horse) {
     console.log(`Processing: ${horse.horseName}`)
@@ -64,33 +65,34 @@ module.exports = (horse, additionalData = {}) => {
           reject(`Horse owner is undefined(${horseData.name})`)
         }
 
-        let syndicateFiles = []
         let syndicateData = {}
         if (horseData.syndicate) {
           horseData.owner.name = horseData.syndicate.name || horseData.owner.name
           syndicateData = horseData.syndicate
-          if (syndicateData.featuredImage) {
-            syndicateFiles.push(mockFileUpload(
-              'featuredImage', syndicateData.featuredImage
-            ))
-          }
-          if (syndicateData.logo) {
-            syndicateFiles.push(mockFileUpload(
-              'logo', syndicateData.logo
-            ))
-          }
+          let {featuredImage, logo} = syndicateData
+          return mockHandleUpload({
+            data: syndicateData,
+            paths: {
+              featuredImage,
+              logo
+            },
+            destination: 'syndicates'
+          })
         }
+        else {
+          return Promise.resolve()
+        }
+      }).then(syndicateData => {
         horseData.owner.name = horseData.owner.name.toUpperCase()
 
         return updateSyndicate(
           Object.assign(
             {
-              color: colors.pop() || getRandomColor(),
+              color: getSyndicateColor(),
               owner: horseData.owner
             },
             syndicateData
-          ),
-          syndicateFiles
+          )
         )
       }).then(syndicate => {
         console.log('Updated syndicate')
@@ -147,6 +149,7 @@ module.exports = (horse, additionalData = {}) => {
           resolve()
         }
       }).catch(err => {
+        console.log(err)
         reject(err)
       })
     })
