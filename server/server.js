@@ -39,7 +39,8 @@ app.use(`/${storagePath}`, express.static(storagePath), (req, res) => {
   res.status(404).send('could not find the file')
 })
 
-app.use('/assets', express.static('public'))
+const assetsPath = config.get('assets.path')
+app.use('/assets', express.static(assetsPath))
 
 app.use(require('setup/passport')())
 

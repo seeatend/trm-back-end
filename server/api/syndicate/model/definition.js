@@ -12,7 +12,8 @@ module.exports = {
     default: '/assets/placeholder/featuredImage.jpg'
   },
   logo: {
-    type: String
+    type: String,
+    file: true
   },
   owner: {
     name: {

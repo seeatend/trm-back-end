@@ -1,28 +1,34 @@
-const fs = require('fs')
 const path = require('path')
-
-const mkdirp = require('mkdirp')
+const fs = require('fs-extra')
+const config = require('config')
 
 const exec = require('child_process').exec
 
-const moveFile = (from, to, done) => {
-  const source = fs.createReadStream(from)
-  const destination = fs.createWriteStream(to)
-
-  source.pipe(destination)
-  source.on('end', function () {
-    setTimeout(() => {
-      fs.unlink(from, function (error) {
-        done()
-        if (error) {
-          console.warn(`Could not unlink file ${from}`)
+const fileUtils = {
+  removeFile: (filePath) => {
+    let fullPath = path.resolve(`./${filePath}`)
+    let baseDir = path.dirname(fullPath)
+    fs.pathExists(fullPath)
+      .then(exists => {
+        if (exists) {
+          return fs.remove(fullPath)
+        }
+        else return Promise.reject(new Error(`Path does not exist: ${fullPath}`))
+      })
+      .then(() => {
+        return fs.readdir(baseDir)
+      })
+      .then(res => {
+        console.log(`Removed: ${fullPath}`)
+        if (res.length === 0) {
+          fs.remove(baseDir)
         }
       })
-    }, 100)
-  })
-}
+      .catch(err => {
+        console.log(err.message)
+      })
+  },
 
-const fileUtils = {
   extension: (name) => {
     return name.slice(name.lastIndexOf('.') + 1)
   },
