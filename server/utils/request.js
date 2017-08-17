@@ -123,7 +123,7 @@ const processMulterFiles = (files, type, name, destination) => {
       if (fieldInfo && fieldInfo.length > 0) {
         switch (type) {
           case 'single':
-            result = fieldInfo[0]
+            result = fieldInfo[0].path
             break
           case 'array':
             result = fieldInfo

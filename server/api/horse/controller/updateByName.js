@@ -9,5 +9,4 @@ module.exports = function(_data) {
     },
     data
   })
-    .then(() => (Promise.resolve()))
 }

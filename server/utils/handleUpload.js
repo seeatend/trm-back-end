@@ -19,6 +19,7 @@ const storage = multer.diskStorage({
 })
 
 const handleUpload = ({field, acceptedTypes = ['image'], destination = 'other'}) => {
+  let type = field.limit > 1 ? 'array' : 'single'
   const upload = multer({
     storage: storage,
     fileFilter: (req, file, cb) => {
@@ -33,7 +34,7 @@ const handleUpload = ({field, acceptedTypes = ['image'], destination = 'other'})
         cb(null, false)
       }
     }
-  })[field.type](field.name, field.limit)
+  }).array(field.name)
 
   return (req, res, next) => {
     upload(req, res, function (err) {
@@ -44,7 +45,7 @@ const handleUpload = ({field, acceptedTypes = ['image'], destination = 'other'})
         const {body, files} = req
         if (files && files.length > 0) {
           processMulterFiles(
-            files, field.type, field.name, destination
+            files, type, field.name, destination
           ).then(result => {
             body[field.name] = result
             next()

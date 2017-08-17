@@ -24,7 +24,6 @@ router.route(routePath)
     handleUpload({
       field: {
         name: 'attachment',
-        type: 'array',
         limit: 15
       },
       acceptedTypes: ['video', 'image', 'audio'],
