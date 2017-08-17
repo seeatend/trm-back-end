@@ -1,7 +1,11 @@
+const {GENERIC} = require('data/messages')
+
 class Controller {
-  constructor({model, methods}) {
+  constructor({model, methods = {}}) {
     this.model = model
-    Object.assign(this, methods)
+    Object.keys(methods).forEach(key => {
+      this[key] = methods[key].bind(this)
+    })
   }
 
   create(body) {
@@ -31,6 +35,19 @@ class Controller {
 
   findById(id) {
     return this.model.findById(id)
+  }
+
+  updateOne({query, data}) {
+    return this.findOne(
+      query
+    ).then(res => {
+      if (res) {
+        return Object.assign(res, data).save()
+      }
+      else {
+        return Promise.reject({message: GENERIC.NOT_FOUND})
+      }
+    })
   }
 
   updateById({id, data}) {

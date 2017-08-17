@@ -13,7 +13,10 @@ HorseSchema.plugin(removeFilesOnUpdate, {
   definition: horseDefinition
 })
 
-const horseHelper = applyAlgolia(HorseSchema, horseSearchSettings)
+let horseHelper
+if (!isTest) {
+  horseHelper = applyAlgolia(HorseSchema, horseSearchSettings)
+}
 
 const HorseModel = mongoose.model('Horse', HorseSchema)
 

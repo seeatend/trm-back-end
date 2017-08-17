@@ -8,7 +8,7 @@ const HorseController = new Controller({
     getRandomHorse: require('./getRandomHorse'),
     removeHorse: require('./removeHorse'),
     searchHorse: require('./searchHorse'),
-    updateOrCreateHorse: require('./updateOrCreateHorse')
+    updateByName: require('./updateByName')
   }
 })
 

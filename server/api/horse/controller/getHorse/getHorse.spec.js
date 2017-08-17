@@ -1,6 +1,7 @@
 const {expect} = require('chai')
 
-const {getHorse, updateOrCreateHorse, removeHorse} = require('api/horse/controller')
+const {getHorse, removeHorse} = require('api/horse/controller')
+const HorseController = require('api/horse/controller')
 
 const {METHODS} = require('data/messages')
 
@@ -25,7 +26,7 @@ describe('Horse', () => {
     })
 
     it('should find existing horse', (done) => {
-      updateOrCreateHorse(
+      HorseController.create(
         requiredProps
       ).then(res => {
         return getHorse({_id: res._id})

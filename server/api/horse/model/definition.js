@@ -10,6 +10,7 @@ module.exports = {
   },
   name: {
     type: String, tf: 'horseName',
+    uppercase: true,
     required: true
   },
   age: {
