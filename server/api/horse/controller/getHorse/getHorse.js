@@ -1,4 +1,4 @@
-const {Horse} = require('api/horse/model')
+const {HorseModel} = require('api/horse/model')
 const {prepareQuery, dehyphenize} = require('utils/request')
 const {prepareHorse} = require('api/horse/utils')
 const {getSyndicate} = require('api/syndicate/controller')
@@ -10,7 +10,7 @@ module.exports = body => {
 
   if (query) {
     let horse
-    return Horse.findOne(
+    return HorseModel.findOne(
       query,
       {__v: false, timeformId: false}
     ).lean().then(_horse => {

@@ -1,9 +1,9 @@
-const {Horse} = require('api/horse/model')
+const HorseController = require('api/horse/controller')
 const User = require('api/user/model')
 
 module.exports = {
   register: () => {
-    return Horse.find(
+    return HorseController.find(
       {}
     ).then(horses => {
       let ownership = []

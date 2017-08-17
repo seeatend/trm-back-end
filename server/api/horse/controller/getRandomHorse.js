@@ -1,10 +1,10 @@
-const {Horse} = require('api/horse/model')
+const {HorseModel} = require('api/horse/model')
 const {prepareHorse} = require('api/horse/utils')
 
 module.exports = (body = {}) => {
   let {amount} = body
 
-  return Horse.aggregate(
+  return HorseModel.aggregate(
     {$sample: {size: amount || 9}}
   ).then(horses => {
     if (horses) {

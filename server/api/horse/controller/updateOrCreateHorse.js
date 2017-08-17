@@ -1,30 +1,17 @@
-const {Horse} = require('api/horse/model')
-const {processFiles} = require('utils/request')
+const {HorseModel} = require('api/horse/model')
 
-module.exports = (query, data, files) => {
-  let _data = Object.assign({}, data)
+module.exports = (query, _data) => {
+  let data = Object.assign({}, _data)
 
-  return processFiles(
-    files, `horses/${Date.now()}`
-  ).then(filesData => {
-    if (filesData) {
-      if (filesData.featuredImage && filesData.featuredImage.length > 0) {
-        _data.featuredImage = filesData.featuredImage[0].path
-      }
-      if (filesData.thumbnailImage && filesData.thumbnailImage.length > 0) {
-        _data.thumbnailImage = filesData.thumbnailImage[0].path
-      }
+  return HorseModel.findOneAndUpdate(
+    query,
+    data,
+    {
+      upsert: true,
+      new: true,
+      runValidators: true
     }
-    return Horse.findOneAndUpdate(
-      query,
-      _data,
-      {
-        upsert: true,
-        new: true,
-        runValidators: true
-      }
-    )
-  }).then(horse => {
+  ).then(horse => {
     if (horse) {
       return Promise.resolve(horse)
     }

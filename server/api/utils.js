@@ -1,53 +1,73 @@
 class Controller {
-  constructor({schema, methods}) {
-    this.schema = schema
+  constructor({model, methods}) {
+    this.model = model
     Object.assign(this, methods)
   }
 
   create(body) {
-    this.schema.create(body)
+    return this.model.create(
+      body
+    ).then(res => {
+      res.wasNew = true
+      return Promise.resolve(res)
+    })
   }
 
   find(query) {
-    return this.schema.find(query)
+    return this.model.find(query)
   }
 
-  findOne(query) {
-    return this.schema.findOne(query)
+  findOne(query = {}) {
+    if (Object.keys(query).length === 0) {
+      throw new Error('Query is empty')
+    }
+    if (query.id) {
+      return this.findById(query.id)
+    }
+    return this.model.findOne(
+      query
+    )
   }
 
   findById(id) {
-    return this.schema.findById(id)
-      .then((doc) => {
-        if (!doc) {
-          return Promise.reject()
-        }
-        return Promise.resolve(doc)
-      })
+    return this.model.findById(id)
   }
 
   updateById({id, data}) {
-    return this.schema.update({_id: id}, data)
-      .then((results) => {
-        if (results.n < 1) {
-          return Promise.reject()
+    return this.findById(
+      id
+    ).then(res => {
+      return Object.assign(res, data).save()
+    })
+  }
+
+  updateOrCreate({query = {}, data}) {
+    if (Object.keys(query).length === 0) {
+      return this.create(data)
+    }
+    else {
+      return this.findOne(
+        query
+      ).then(res => {
+        if (res) {
+          return this.updateById({
+            id: res._id,
+            data
+          })
         }
-        return Promise.resolve()
+        else {
+          return this.create(data)
+        }
       })
+    }
   }
 
   removeById(id) {
-    return this.schema.remove({_id: id})
-      .then((doc) => {
-        if (!doc) {
-          return Promise.reject()
-        }
-        return Promise.resolve()
-      })
+    return this.model.remove({_id: id})
   }
 
   removeAll() {
-    return this.schema.remove()
+    return this.model.remove()
   }
 }
 

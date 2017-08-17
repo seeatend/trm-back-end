@@ -1,9 +1,8 @@
 const {performances} = require('./api')
 
-const {Horse} = require('api/horse/model')
-const {updateSyndicate} = require('api/syndicate/controller')
-const {updateOrCreateHorse} = require('api/horse/controller')
-const {mockFileUpload} = require('utils/mock')
+const SyndicateController = require('api/syndicate/controller')
+const HorseController = require('api/horse/controller')
+const {mockHandleUpload} = require('utils/mock')
 const {randomInteger} = require('utils/math')
 
 const convert = require('./convertFields')
@@ -38,6 +37,8 @@ const getRandomColor = () => {
   return color
 }
 
+const getSyndicateColor = () => (colors.pop() || getRandomColor())
+
 module.exports = (horse, additionalData = {}) => {
   if (horse) {
     console.log(`Processing: ${horse.horseName}`)
@@ -64,34 +65,41 @@ module.exports = (horse, additionalData = {}) => {
           reject(`Horse owner is undefined(${horseData.name})`)
         }
 
-        let syndicateFiles = []
         let syndicateData = {}
         if (horseData.syndicate) {
           horseData.owner.name = horseData.syndicate.name || horseData.owner.name
           syndicateData = horseData.syndicate
-          if (syndicateData.featuredImage) {
-            syndicateFiles.push(mockFileUpload(
-              'featuredImage', syndicateData.featuredImage
-            ))
-          }
-          if (syndicateData.logo) {
-            syndicateFiles.push(mockFileUpload(
-              'logo', syndicateData.logo
-            ))
-          }
+          let {featuredImage, logo} = syndicateData
+          return mockHandleUpload({
+            data: syndicateData,
+            paths: {
+              featuredImage,
+              logo
+            },
+            destination: 'syndicates'
+          })
         }
+        else {
+          return Promise.resolve()
+        }
+      }).then(syndicateData => {
         horseData.owner.name = horseData.owner.name.toUpperCase()
 
-        return updateSyndicate(
-          Object.assign(
-            {
-              color: colors.pop() || getRandomColor(),
-              owner: horseData.owner
-            },
-            syndicateData
-          ),
-          syndicateFiles
+        let data = Object.assign(
+          {
+            color: getSyndicateColor(),
+            owner: horseData.owner
+          },
+          syndicateData
         )
+        data.name = data.owner ? data.name || data.owner.name : data.name
+
+        return SyndicateController.updateOrCreate({
+          query: {
+            name: data.name.toUpperCase()
+          },
+          data
+        })
       }).then(syndicate => {
         console.log('Updated syndicate')
         syndicateData = syndicate
@@ -112,24 +120,22 @@ module.exports = (horse, additionalData = {}) => {
           owned: parseInt(Math.random() * 9) + 1,
           total: parseInt(Math.random() * 15) + 15
         }
-        let timeformId = horse.horseCode.trim()
-        let horseFiles = []
-        if (additionalData.img) {
-          horseFiles.push(mockFileUpload(
-            'featuredImage', additionalData.img
-          ))
-        }
-        if (additionalData.thumbnail) {
-          horseFiles.push(mockFileUpload(
-            'thumbnailImage', additionalData.thumbnail
-          ))
-        }
 
-        return updateOrCreateHorse(
-          {timeformId},
-          horseData,
-          horseFiles
-        )
+        return mockHandleUpload({
+          data: horseData,
+          paths: {
+            featuredImage: additionalData.img,
+            thumbnailImage: additionalData.thumbnail
+          },
+          destination: 'horses'
+        })
+      }).then(horseData => {
+        let timeformId = horse.horseCode.trim()
+
+        return HorseController.updateOrCreate({
+          query: {timeformId},
+          data: horseData
+        })
       }).then(savedHorse => {
         console.log(`Saved: ${horse.horseName}`)
 
@@ -147,6 +153,7 @@ module.exports = (horse, additionalData = {}) => {
           resolve()
         }
       }).catch(err => {
+        console.log(err)
         reject(err)
       })
     })
