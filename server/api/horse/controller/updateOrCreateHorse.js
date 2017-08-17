@@ -1,9 +1,9 @@
-const {Horse} = require('api/horse/model')
+const {HorseModel} = require('api/horse/model')
 
 module.exports = (query, _data) => {
   let data = Object.assign({}, _data)
 
-  return Horse.findOneAndUpdate(
+  return HorseModel.findOneAndUpdate(
     query,
     data,
     {

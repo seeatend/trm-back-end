@@ -1,4 +1,3 @@
-const path = require('path')
 const mongoose = require('mongoose')
 const {Schema} = mongoose
 const {removeFile} = require('utils/file')

@@ -1,8 +1,8 @@
 const {Controller} = require('api/utils')
-const {Horse} = require('api/horse/model')
+const {HorseModel} = require('api/horse/model')
 
 const HorseController = new Controller({
-  model: Horse,
+  model: HorseModel,
   methods: {
     getHorse: require('./getHorse'),
     getRandomHorse: require('./getRandomHorse'),

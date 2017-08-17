@@ -3,7 +3,7 @@ require('setup/db').createDBConnection()
 
 const fs = require('fs-extra')
 
-const {Horse} = require('api/horse/model')
+const {HorseModel} = require('api/horse/model')
 const {createMessage} = require('api/message/controller')
 const {getUser} = require('api/user/controller')
 const {mockFileUpload} = require('utils/mock')
@@ -38,7 +38,7 @@ const _createMessage = (horseName, _data, user) => {
       data.attachment = files
     }
     let query = {name: horseName.toUpperCase()};
-    return Horse.findOne(
+    return HorseModel.findOne(
       query,
       {_id: true}
     )
