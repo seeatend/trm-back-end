@@ -1,12 +1,17 @@
 const mongoose = require('mongoose')
 const {Schema} = mongoose
 const {applyAlgolia} = require('utils/algolia')
+const {removeFilesOnUpdate} = require('utils/mongoose')
 
 const horseSearchSettings = require('./searchSettings')
 
 const horseDefinition = require('./definition')
 
 const HorseSchema = new Schema(horseDefinition)
+
+HorseSchema.plugin(removeFilesOnUpdate, {
+  definition: horseDefinition
+})
 
 const horseHelper = applyAlgolia(HorseSchema, horseSearchSettings)
 

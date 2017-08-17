@@ -1,23 +1,14 @@
 const mongoose = require('mongoose')
 const {Schema} = mongoose
-const {removeFile} = require('utils/file')
+const {removeFilesOnUpdate} = require('utils/mongoose')
 require('api/horse/model')
 
 const syndicateDefinition = require('./definition')
 
 const SyndicateSchema = new Schema(syndicateDefinition)
 
-Object.keys(syndicateDefinition).forEach(key => {
-  let field = syndicateDefinition[key]
-  if (field.file) {
-    SyndicateSchema.path(key).set(function (newVal) {
-      let oldVal = this[key]
-      if (!field.default || oldVal !== field.default) {
-        removeFile(oldVal)
-      }
-      return newVal
-    })
-  }
+SyndicateSchema.plugin(removeFilesOnUpdate, {
+  definition: syndicateDefinition
 })
 
 const SyndicateModel = mongoose.model('Syndicate', SyndicateSchema)

@@ -1,7 +1,7 @@
 const {performances} = require('./api')
 
 const SyndicateController = require('api/syndicate/controller')
-const {updateOrCreateHorse} = require('api/horse/controller')
+const HorseController = require('api/horse/controller')
 const {mockHandleUpload} = require('utils/mock')
 const {randomInteger} = require('utils/math')
 
@@ -132,10 +132,10 @@ module.exports = (horse, additionalData = {}) => {
       }).then(horseData => {
         let timeformId = horse.horseCode.trim()
 
-        return updateOrCreateHorse(
-          {timeformId},
-          horseData
-        )
+        return HorseController.updateOrCreate({
+          query: {timeformId},
+          data: horseData
+        })
       }).then(savedHorse => {
         console.log(`Saved: ${horse.horseName}`)
 

@@ -23,11 +23,13 @@ module.exports = {
   },
   featuredImage: {
     type: String,
-    default: '/assets/placeholder/featuredImage.jpg'
+    default: '/assets/placeholder/featuredImage.jpg',
+    file: true
   },
   thumbnailImage: {
     type: String,
-    default: '/assets/placeholder/thumbnailImage.jpg'
+    default: '/assets/placeholder/thumbnailImage.jpg',
+    file: true
   },
   description: {
     type: String
