@@ -22,11 +22,12 @@ router.route(routePath)
   .post(
     authenticate.can('post message'),
     handleUpload({
-      field: {
-        name: 'attachment',
-        limit: 15
+      fields: {
+        attachment: {
+          type: ['video', 'image', 'audio'],
+          limit: 15
+        }
       },
-      acceptedTypes: ['video', 'image', 'audio'],
       destination: 'messages'
     }),
     assignQueryToBody,

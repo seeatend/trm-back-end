@@ -11,11 +11,14 @@ router.route('/edit')
   .post(
     authenticate.is('admin'),
     handleUpload({
-      field: {
-        name: 'featuredImage',
-        limit: 1
+      fields: {
+        featuredImage: {
+          type: 'image'
+        },
+        thumbnailImage: {
+          type: 'image'
+        }
       },
-      acceptedTypes: ['image'],
       destination: 'horses'
     }),
     assignQueryToBody,
