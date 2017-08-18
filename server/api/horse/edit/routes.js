@@ -5,7 +5,7 @@ const handleUpload = require('utils/handleUpload')
 const {applyController} = require('utils/api')
 const HorseController = require('api/horse/controller')
 const {authenticate} = require('utils/authentication')
-const {assignQueryToBody} = require('utils/request')
+const {assignQueryToBody, bodySelect, dotNotationToObject} = require('utils/request')
 
 router.route('/edit')
   .post(
@@ -22,6 +22,19 @@ router.route('/edit')
       destination: 'horses'
     }),
     assignQueryToBody,
+    bodySelect([
+      'horseName',
+      'featuredImage',
+      'thumbnailImage',
+      'description',
+      'style',
+      'racingType',
+      'cost.monthly',
+      'cost.initial',
+      'ownership.type',
+      'ownership.years'
+    ]),
+    dotNotationToObject,
     applyController(HorseController.updateByName)
   )
 

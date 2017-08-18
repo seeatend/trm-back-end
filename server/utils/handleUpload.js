@@ -28,7 +28,6 @@ const handleUpload = ({fields, destination = 'other'}) => {
       maxCount: val.limit || 1
     }
   })
-  console.log(multerFields)
   const upload = multer({
     storage: storage,
     fileFilter: (req, file, cb) => {
