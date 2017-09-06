@@ -6,6 +6,8 @@ const path = require('path')
 const port = config.get('server.port')
 const bodyParser = require('body-parser')
 const compression = require('compression')
+const {errorHandler} = require('bodymen')
+const {error} = require('utils/api')
 
 const routes = require('api')
 
@@ -27,12 +29,11 @@ else {
     next()
   })
 }
-app.use(morgan('dev'))
 
+app.use(morgan('dev'))
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
-
 
 const storagePath = config.get('storage.path')
 app.use(`/${storagePath}`, express.static(storagePath), (req, res) => {
@@ -54,6 +55,12 @@ app.use('/', express.static(path.resolve('./client')))
 
 app.get('/*', (req, res) => {
   res.sendFile(path.resolve('./client/index.html'))
+})
+
+app.use(errorHandler())
+
+app.use((err, req, res) => {
+  res.status(500).send(error({message: err.message}))
 })
 
 app.listen(port)

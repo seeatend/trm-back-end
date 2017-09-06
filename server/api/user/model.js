@@ -50,6 +50,10 @@ const User = new Schema({
     type: String,
     lowercase: true
   },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
   ownership: [{
     _id: false,
     horse: {

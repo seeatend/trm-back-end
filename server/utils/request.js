@@ -9,6 +9,42 @@ const assignQueryToBody = (req, res, next) => {
   next()
 }
 
+const _dotToObj = _obj => {
+  let obj = Object.assign({}, _obj)
+  Object.keys(obj).forEach(key => {
+    let val = obj[key]
+    let splittedKeys = key.split('.')
+    if (splittedKeys.length > 1) {
+      let lastObj = obj
+      splittedKeys.forEach((splittedKey, i) => {
+        if (i === splittedKeys.length - 1) {
+          lastObj[splittedKey] = val
+        }
+        else {
+          lastObj[splittedKey] = lastObj[splittedKey] || {}
+          lastObj = lastObj[splittedKey]
+        }
+      })
+      delete obj[key]
+    }
+  })
+  return obj
+}
+
+const dotNotationToObject = (req, res, next) => {
+  req.body = _dotToObj(req.body)
+  next()
+}
+
+const bodySelect = (selector = []) => (req, res, next) => {
+  Object.keys(req.body).forEach(key => {
+    if (selector.indexOf(key) < 0) {
+      delete req.body[key]
+    }
+  })
+  next()
+}
+
 const prepareQuery = (query, availableQueries, transform = val => val) => {
   if (!query) {
     console.error(`Query is not defined ${JSON.stringify(availableQueries)}`)
@@ -123,7 +159,7 @@ const processMulterFiles = (files, type, name, destination) => {
       if (fieldInfo && fieldInfo.length > 0) {
         switch (type) {
           case 'single':
-            result = fieldInfo[0]
+            result = fieldInfo[0].path
             break
           case 'array':
             result = fieldInfo
@@ -140,6 +176,8 @@ module.exports = {
   dehyphenize,
   hyphenize,
   isId,
+  bodySelect,
+  dotNotationToObject,
   processFile,
   processFiles,
   processMulterFiles,

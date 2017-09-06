@@ -49,6 +49,23 @@ describe('api/utils/Controller', () => {
     })
   })
 
+  describe('/updateOne', () => {
+    it('should call save hook once', (done) => {
+      TestController.create(props).then(res => {
+        saveCalled = 0
+        return TestController.updateOne({
+          query: {
+            name: res.name
+          },
+          data: altProps
+        })
+      }).then(() => {
+        expect(saveCalled).to.equal(1)
+        done()
+      })
+    })
+  })
+
   describe('/updateById', () => {
     it('should call save hook once', (done) => {
       TestController.create(props).then(res => {
