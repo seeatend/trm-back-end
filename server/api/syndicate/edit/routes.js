@@ -28,8 +28,9 @@ router.route('/edit')
         }),
         assignQueryToBody,
         bodySelect([
-            'name',
+            'syndicateName',
             'featuredImage',
+            'description',
             'logo',
             'color'
         ]),

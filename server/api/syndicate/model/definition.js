@@ -20,6 +20,9 @@ module.exports = {
       type: String
     }
   },
+  description: {
+    type: String
+  },
   color: {
     type: String
   },
