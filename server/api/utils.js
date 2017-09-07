@@ -1,14 +1,14 @@
 const {GENERIC} = require('data/messages')
 
 class Controller {
-  constructor({model, methods = {}}) {
+  constructor ({model, methods = {}}) {
     this.model = model
     Object.keys(methods).forEach(key => {
       this[key] = methods[key].bind(this)
     })
   }
 
-  create(body) {
+  create (body) {
     return this.model.create(
       body
     ).then(res => {
@@ -17,11 +17,11 @@ class Controller {
     })
   }
 
-  find(query) {
+  find (query) {
     return this.model.find(query)
   }
 
-  findOne(query = {}) {
+  findOne (query = {}) {
     if (Object.keys(query).length === 0) {
       throw new Error('Query is empty')
     }
@@ -33,24 +33,23 @@ class Controller {
     )
   }
 
-  findById(id) {
+  findById (id) {
     return this.model.findById(id)
   }
 
-  updateOne({query, data}) {
+  updateOne ({query, data}) {
     return this.findOne(
       query
     ).then(res => {
       if (res) {
         return Object.assign(res, data).save()
-      }
-      else {
+      } else {
         return Promise.reject({message: GENERIC.NOT_FOUND})
       }
     })
   }
 
-  updateById({id, data}) {
+  updateById ({id, data}) {
     return this.findById(
       id
     ).then(res => {
@@ -58,11 +57,10 @@ class Controller {
     })
   }
 
-  updateOrCreate({query = {}, data}) {
+  updateOrCreate ({query = {}, data}) {
     if (Object.keys(query).length === 0) {
       return this.create(data)
-    }
-    else {
+    } else {
       return this.findOne(
         query
       ).then(res => {
@@ -71,19 +69,18 @@ class Controller {
             id: res._id,
             data
           })
-        }
-        else {
+        } else {
           return this.create(data)
         }
       })
     }
   }
 
-  removeById(id) {
+  removeById (id) {
     return this.model.remove({_id: id})
   }
 
-  removeAll() {
+  removeAll () {
     return this.model.remove()
   }
 }

@@ -2,9 +2,9 @@ const algoliaClient = require('./algoliaClient')
 const getIndexName = require('./getIndexName')
 
 module.exports = ({sortBy, filterBy, modelName, setSettings}) => {
-  if (!modelName) { throw new Error('Model name is not defined.')}
+  if (!modelName) { throw new Error('Model name is not defined.') }
 
-  let primaryIndexName = `${nodeEnv}${modelName}s`
+  let primaryIndexName = `${global.nodeEnv}${modelName}s`
 
   let primaryIndex = algoliaClient.initIndex(primaryIndexName)
 

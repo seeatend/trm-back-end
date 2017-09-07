@@ -12,8 +12,7 @@ const prepareHorse = (horse, remove = []) => {
       p => {
         if (p.position) {
           return p.position.official === 1
-        }
-        else {
+        } else {
           return false
         }
       }
@@ -22,8 +21,7 @@ const prepareHorse = (horse, remove = []) => {
       p => {
         if (p.position) {
           return p.position.official === 2 || p.position.official === 3
-        }
-        else {
+        } else {
           return false
         }
       }

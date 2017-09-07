@@ -9,7 +9,8 @@ module.exports = {
     type: String, tf: 'horseCode'
   },
   name: {
-    type: String, tf: 'horseName',
+    type: String,
+    tf: 'horseName',
     uppercase: true,
     required: true
   },

@@ -5,9 +5,11 @@ const {AUTHENTICATION} = require('data/messages')
 const updateUser = (body) => {
   const {email, horse, user, password} = body
 
-  if (!user || !password) return Promise.reject({
-    message: `Provide credentials as 'user' and 'password'.`
-  })
+  if (!user || !password) {
+    return Promise.reject({
+      message: `Provide credentials as 'user' and 'password'.`
+    })
+  }
 
   if (!(email && email.length > 0)) {
     return Promise.reject({message: 'Please provide at least one email(comma separated)'})

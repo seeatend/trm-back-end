@@ -22,8 +22,7 @@ const getSyndicate = (body, options = {}) => {
         if (syndicate) {
           if (!populate.messages) {
             return Promise.resolve()
-          }
-          else {
+          } else {
             let promises = []
             syndicate.horses.forEach(horseId => {
               promises.push(getMessage({
@@ -32,8 +31,7 @@ const getSyndicate = (body, options = {}) => {
             })
             return Promise.all(promises)
           }
-        }
-        else {
+        } else {
           reject('Not found')
         }
       }).then(messages => {
@@ -52,8 +50,7 @@ const getSyndicate = (body, options = {}) => {
       }).catch(err => {
         reject(err)
       })
-    }
-    else {
+    } else {
       reject('Wrong query params')
     }
   })

@@ -10,8 +10,7 @@ const configureIndex = (model, options) => {
   }, (err, content) => {
     if (err) {
       console.error(err.message)
-    }
-    else {
+    } else {
       console.log(content)
     }
   })
@@ -27,4 +26,3 @@ const configureIndex = (model, options) => {
 const {HorseModel, horseSearchSettings} = require('api/horse/model')
 
 configureIndex(HorseModel, horseSearchSettings)
-

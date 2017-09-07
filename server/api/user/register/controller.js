@@ -12,14 +12,18 @@ const createUser = body => {
   let user
 
   return User.create(removeEmpty({
-    username, email, password, firstname, surname, verification,
+    username,
+    email,
+    password,
+    firstname,
+    surname,
+    verification,
     type: 'member'
   })).then(_user => {
     user = _user
-    if (isDev) {
+    if (global.isDev) {
       return getRandomHorse({amount: randomInteger(6, 10)})
-    }
-    else {
+    } else {
       return Promise.resolve()
     }
   }).then(horses => {
@@ -37,8 +41,7 @@ const createUser = body => {
       })
       user.ownership = ownership
       return user.save()
-    }
-    else {
+    } else {
       return Promise.resolve()
     }
   }).then(() => {
@@ -50,7 +53,7 @@ const registerUser = body => {
   const {email, firstname} = body
 
   return createUser(body).then(verification => {
-    let baseUrl = isDev ? '52.209.171.180:3000' : 'uat.theracingmanager.com'
+    let baseUrl = global.isDev ? '52.209.171.180:3000' : 'uat.theracingmanager.com'
     let verificationUrl = `http://${baseUrl}/user/verify/${verification}`
 
     let mailData = {
@@ -63,9 +66,9 @@ const registerUser = body => {
           firstname,
           url: verificationUrl
         }
-      },
+      }
     }
-    if (isLocal) {
+    if (global.isLocal) {
       mailData.to = `chris@vitaminlondon.com`
     }
     sendMail(mailData)

@@ -1,5 +1,3 @@
-const {expect} = require('chai')
-
 const {registerUser} = require('api/user/register/controller')
 const {removeUser} = require('api/user/controller')
 const {FIRSTNAME, REGISTER, EMAIL} = require('data/messages')
@@ -8,7 +6,7 @@ const registerProps = {
   firstname: 'nick',
   surname: 'the french boy',
   email: 'lovehege@nick.com',
-  password: '0loveChrisAlso',
+  password: '0loveChrisAlso'
 }
 
 describe('User/register', () => {

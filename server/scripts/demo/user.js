@@ -45,4 +45,3 @@ module.exports = {
     ).populate('ownership.horse')
   }
 }
-

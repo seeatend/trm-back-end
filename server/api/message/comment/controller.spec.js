@@ -1,5 +1,3 @@
-const {expect} = require('chai')
-
 const {createUser} = require('api/user/register/controller')
 const {getUser, removeUser} = require('api/user/controller')
 const {createMessage, getMessage, removeMessage} = require('api/message/controller')
@@ -11,9 +9,8 @@ const createUserProps = {
   surname: 'the french boy',
   username: 'totalbanter99',
   email: 'lovehege@nick.com',
-  password: '0loveChrisAlso',
+  password: '0loveChrisAlso'
 }
-
 
 const createMessageProps = {
   horseId: '5989b94251aad83124a649fa',
@@ -21,7 +18,6 @@ const createMessageProps = {
 }
 
 const options = {}
-
 
 describe('Message/Comment', () => {
   beforeEach((done) => {
@@ -53,13 +49,13 @@ describe('Message/Comment', () => {
         })
       }).then(res => {
         return createComment({
-            messageId: res[0]._id,
-            text: 'hello'
-          },
+          messageId: res[0]._id,
+          text: 'hello'
+        },
           options
         )
       }).then(res => {
-        expect(res).to.be.string
+        expect(res).to.be.a('string')
         expect(res).to.equal(COMMENT.SUCCESS)
         done()
       })
@@ -80,9 +76,9 @@ describe('Message/Comment', () => {
       }).then(res => {
         messageId = res[0]._id.toString()
         return createComment({
-            messageId,
-            text: 'hello'
-          },
+          messageId,
+          text: 'hello'
+        },
           options
         )
       }).then(() => {

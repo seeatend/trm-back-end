@@ -78,8 +78,7 @@ module.exports = (horse, additionalData = {}) => {
             },
             destination: 'syndicates'
           })
-        }
-        else {
+        } else {
           return Promise.resolve()
         }
       }).then(syndicateData => {
@@ -105,9 +104,9 @@ module.exports = (horse, additionalData = {}) => {
         syndicateData = syndicate
         horseData.owner._id = syndicate._id
         horseData.owner.color = syndicate.color
-        horseData.racingType = Math.random() > .6 ? 'National Hunt' : Math.random() > .3 ? 'Flat Racing' : 'Dual Purpose'
+        horseData.racingType = Math.random() > 0.6 ? 'National Hunt' : Math.random() > 0.3 ? 'Flat Racing' : 'Dual Purpose'
         horseData.ownership = {
-          type: Math.random() > .5 ? 'Fixed Period' : 'Open Ended Period'
+          type: Math.random() > 0.5 ? 'Fixed Period' : 'Open Ended Period'
         }
         if (horseData.ownership.type === 'Open Ended Period') {
           horseData.ownership.years = randomInteger(1, 6)
@@ -147,8 +146,7 @@ module.exports = (horse, additionalData = {}) => {
           }).catch(err => {
             reject(err)
           })
-        }
-        else {
+        } else {
           console.log('Horse already part of syndicate')
           resolve()
         }

@@ -4,17 +4,18 @@ const {generateToken} = require('utils/authentication')
 
 const loginUser = (body) => {
   let {email, password} = body
-  if (!email || !password) return Promise.reject({
-    message: 'Provide email and password.'
-  })
+  if (!email || !password) {
+    return Promise.reject({
+      message: 'Provide email and password.'
+    })
+  }
   let user
   return User.findOne({email})
     .then(_user => {
       user = _user
       if (!user || !user.email) {
         return Promise.reject({message: AUTHENTICATION.ERROR})
-      }
-      else {
+      } else {
         // Check if password matches
         return user.validatePassword(password)
       }

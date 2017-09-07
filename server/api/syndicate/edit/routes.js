@@ -11,28 +11,27 @@ const syndicateController = require('api/syndicate/controller')
 const {authenticate} = require('utils/authentication')
 const {assignQueryToBody, bodySelect} = require('utils/request')
 
-
 router.route('/edit')
     .post(
         authenticate.is('admin'),
         handleUpload({
-            fields: {
-                featuredImage: {
-                    type: 'image'
-                },
-                logo : {
-                    type: 'image'
-                }
+          fields: {
+            featuredImage: {
+              type: 'image'
             },
-            destination: 'syndicate'
+            logo: {
+              type: 'image'
+            }
+          },
+          destination: 'syndicate'
         }),
         assignQueryToBody,
         bodySelect([
-            'syndicateName',
-            'featuredImage',
-            'description',
-            'logo',
-            'color'
+          'syndicateName',
+          'featuredImage',
+          'description',
+          'logo',
+          'color'
         ]),
         applyController(syndicateController.updateByName)
     )

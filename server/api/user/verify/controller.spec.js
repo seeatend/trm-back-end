@@ -1,5 +1,3 @@
-const {expect} = require('chai')
-
 const {createUser} = require('api/user/register/controller')
 const {verifyUser} = require('api/user/verify/controller')
 const {removeUser} = require('api/user/controller')
@@ -8,7 +6,7 @@ const createProps = {
   firstname: 'nick',
   surname: 'the french boy',
   email: 'lovehege@nick.com',
-  password: '0loveChrisAlso',
+  password: '0loveChrisAlso'
 }
 
 describe('User/verify', () => {
@@ -26,7 +24,7 @@ describe('User/verify', () => {
           token: verification
         })
       }).then(res => {
-        expect(res.token).to.be.string
+        expect(res.token).to.be.a('string')
         expect(res.user.firstname).to.equal(createProps.firstname)
         done()
       })

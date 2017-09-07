@@ -5,7 +5,9 @@
     "restart": "run-s stop start",
     "dev": "nodemon --inspect=3100 server",
     "setup-search": "node server/scripts/setupSearch",
-    "test": "mocha -w ./server/setup/test.js --recursive $(find server -name '*.spec.js')",
+    "test": "standard server/*.js && mocha -w ./server/setup/test.js --recursive $(find server -name '*.spec.js')",
+    "standard": "standard --verbose | snazzy server/**/*.js ",
+    "standard-fix": "standard --fix --verbose | snazzy server/**/*.js",
     "test-debug": "mocha --inspect=3100 --debug-brk  -w ./server/setup/test.js --recursive $(find server -name '*.spec.js')",
     "list": "forever list",
     "stop": "forever stop 0",
@@ -16,6 +18,18 @@
     "messages": "node server/scripts/messages",
     "populate": "run-s flush timeform demo messages setup-search",
     "timeform-test": "mocha -t 10000 ./server/script/timeform/test.js"
+  },
+  "standard": {
+    "globals": [
+      "describe",
+      "context",
+      "before",
+      "beforeEach",
+      "after",
+      "afterEach",
+      "it",
+      "expect"
+    ]
   },
   "dependencies": {
     "algoliasearch": "^3.24.0",
@@ -53,5 +67,10 @@
     "randomstring": "^1.1.5",
     "request": "^2.81.0",
     "request-promise": "^4.2.1"
+  },
+  "devDependencies": {
+    "dirty-chai": "^2.0.1",
+    "snazzy": "^7.0.0",
+    "standard": "^10.0.3"
   }
 }

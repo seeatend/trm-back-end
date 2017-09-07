@@ -5,7 +5,7 @@ const objectUtils = {
   isString: elem => (typeof elem === 'string' || elem instanceof String),
   isBoolean: elem => (typeof elem === 'boolean'),
   isFunction: elem => {
-    return elem && {}.toString.call(elem) === '[object Function]';
+    return elem && {}.toString.call(elem) === '[object Function]'
   },
   removePrivate: obj => {
     const result = {}

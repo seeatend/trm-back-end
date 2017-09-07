@@ -23,7 +23,6 @@ module.exports = (body = {}) => {
     searchResults = results
     return Promise.all(promises)
   }).then(horses => {
-
     let result = {
       resultsAmount: searchResults.nbHits,
       results: horses

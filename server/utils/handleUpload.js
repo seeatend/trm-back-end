@@ -44,8 +44,7 @@ const handleUpload = ({fields, destination = 'other'}) => {
 
       if (isOfAcceptedType && isExtensionCorrect) {
         cb(null, true)
-      }
-      else {
+      } else {
         cb(null, false)
       }
     }
@@ -55,8 +54,7 @@ const handleUpload = ({fields, destination = 'other'}) => {
     upload(req, res, function (err) {
       if (err) {
         res.send({error: true, message: 'File upload failed'})
-      }
-      else {
+      } else {
         const {body, files} = req
         let promises = []
         Object.keys(files).forEach(key => {

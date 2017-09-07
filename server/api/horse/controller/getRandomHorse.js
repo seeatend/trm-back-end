@@ -13,8 +13,7 @@ module.exports = (body = {}) => {
         horseData.push(prepareHorse(horse))
       })
       return Promise.resolve(horseData)
-    }
-    else {
+    } else {
       return Promise.reject({message: 'Not found'})
     }
   })

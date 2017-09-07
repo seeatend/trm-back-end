@@ -6,7 +6,7 @@ const User = require('api/user/model')
 passport.use(new Strategy(
   {
     jwtFromRequest: ExtractJwt.fromAuthHeader(),
-    secretOrKey: process.env.PASSPORT_SECRET,
+    secretOrKey: process.env.PASSPORT_SECRET
   },
   (payload, done) => {
     User.findOne({
