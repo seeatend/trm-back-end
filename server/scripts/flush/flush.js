@@ -2,16 +2,16 @@ require('setup/db').createDBConnection()
 
 const fs = require('fs-extra')
 
-const {Horse} = require('api/horse/model')
+const HorseController = require('api/horse/controller')
 const User = require('api/user/model')
 const Message = require('api/message/model')
-const Syndicate = require('api/syndicate/model')
+const SyndicateController = require('api/syndicate/controller')
 
 Promise.all([
-  Horse.remove({}),
+  HorseController.removeAll(),
   User.remove({}),
   Message.remove({}),
-  Syndicate.remove({}),
+  SyndicateController.removeAll(),
   fs.remove('./uploads')
 ]).then(() => {
   console.log('Flushed')

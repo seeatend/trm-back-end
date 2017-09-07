@@ -1,15 +1,19 @@
 const User = require('./model')
+const {METHODS} = require('data/messages')
 
 const removeUser = (body = {}) => {
   return User.remove(body)
 }
 
-const getUser = ({filter = {__v: false, _id: false}, populate = true, omit}) => {
-  let result = User.findOne(
-    {firstname: 'demo'},
-    filter
-  )
-  return populate ? result.populate('ownership.horse', omit) : result
+const getUser = (body) => {
+  return User.findOne(
+    body
+  ).then(user => {
+    if (user) return Promise.resolve(user)
+    else return Promise.reject({
+      message: METHODS.USER.NOT_FOUND(body.email)
+    })
+  })
 }
 
 const getShares = (query, {user} = {}) => {

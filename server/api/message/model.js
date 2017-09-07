@@ -7,6 +7,11 @@ const Message = new Schema({
     type: ObjectId,
     required: true
   },
+  userId: {
+    type: ObjectId,
+    ref: 'User',
+    required: true
+  },
   attachment: {
     type: Array
   },

@@ -1,9 +1,9 @@
-const {Horse} = require('api/horse/model')
+const HorseController = require('api/horse/controller')
 const User = require('api/user/model')
 
 module.exports = {
   register: () => {
-    return Horse.find(
+    return HorseController.find(
       {}
     ).then(horses => {
       let ownership = []
@@ -25,7 +25,7 @@ module.exports = {
         surname: 'Doe',
         password: '$2a$10$/q7.Fm.E3ZnvUtgcHKUiXuMMiE3bvURL/GiGhe0F2LTU6Mq6Dt7rm',
         email: 'demo@vitaminlondon.com',
-        type: 'member',
+        type: 'admin',
         ownership
       }
       promises.push(User.findOneAndUpdate(

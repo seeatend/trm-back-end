@@ -1,9 +1,9 @@
 const {expect} = require('chai')
 
-const {getHorse, updateOrCreateHorse, removeHorse} = require('api/horse/controller')
-const {Horse} = require('api/horse/model')
+const {getHorse, removeHorse} = require('api/horse/controller')
+const HorseController = require('api/horse/controller')
 
-const {GENERIC} = require('data/messages')
+const {METHODS} = require('data/messages')
 
 const requiredProps = {
   name: 'To Be Nick'
@@ -20,13 +20,13 @@ describe('Horse', () => {
       getHorse(
         requiredProps
       ).catch(err => {
-        expect(err.message).to.equal(GENERIC.NOT_FOUND)
+        expect(err.message).to.equal(METHODS.HORSE.NOT_FOUND(requiredProps.name.toUpperCase()))
         done()
       })
     })
 
     it('should find existing horse', (done) => {
-      updateOrCreateHorse(
+      HorseController.create(
         requiredProps
       ).then(res => {
         return getHorse({_id: res._id})

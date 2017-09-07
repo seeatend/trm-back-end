@@ -1,6 +1,6 @@
-const Syndicate = require('./model')
+const Syndicate = require('api/syndicate/model')
 const {getMessage} = require('api/message/controller')
-const {prepareQuery, dehyphenize, processFiles} = require('utils/request')
+const {prepareQuery, dehyphenize} = require('utils/request')
 
 const allowedGetParams = ['name']
 
@@ -59,53 +59,4 @@ const getSyndicate = (body, options = {}) => {
   })
 }
 
-const updateSyndicate = (data = {}, files) => {
-  data = Object.assign({}, data)
-
-  return processFiles(
-    files, `syndicates/${Date.now()}`
-  ).then(filesInfo => {
-    if (filesInfo) {
-      if (filesInfo.featuredImage && filesInfo.featuredImage.length > 0) {
-        data.featuredImage = filesInfo.featuredImage[0].path
-      }
-      if (filesInfo.logo && filesInfo.logo.length > 0) {
-        data.logo = filesInfo.logo[0].path
-      }
-    }
-    data.name = data.owner ? data.name || data.owner.name : data.name
-
-    if (data.name) {
-      data.name = data.name.toUpperCase()
-      let query = {name: data.name}
-      return Syndicate.findOne(query)
-    }
-    else {
-      return Promise.reject({message: 'Syndicate owner is not specified.'})
-    }
-  }).then(syndicate => {
-    if (syndicate) {
-      if (Object.keys(data).length > 0) {
-        return Object.assign(syndicate, data).save()
-      }
-      else {
-        return Promise.resolve(syndicate)
-      }
-    }
-    else {
-      return Syndicate.create(data)
-    }
-  }).then(syndicate => {
-    if (syndicate) {
-      return Promise.resolve(syndicate)
-    }
-    else {
-      return Promise.reject({message: 'Could not create syndicate.'})
-    }
-  }).catch(Promise.reject)
-}
-
-module.exports = {
-  updateSyndicate,
-  getSyndicate
-}
+module.exports = getSyndicate

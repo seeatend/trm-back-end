@@ -2,9 +2,11 @@ const mongoose = require('mongoose')
 const {Schema} = mongoose
 const {ObjectId} = Schema.Types
 const {EMAIL_VLD, PASSWORD_VLD, FIRSTNAME_VLD} = require('utils/validation')
-const bcrypt = require('bcrypt-as-promised')
+const bcrypt = require('bcrypt')
 const uniqueValidator = require('mongoose-unique-validator')
 const {AUTHENTICATION} = require('data/messages')
+
+let UserModel
 
 const User = new Schema({
   firstname: FIRSTNAME_VLD,
@@ -13,7 +15,31 @@ const User = new Schema({
     required: true
   },
   username: {
-    type: String
+    type: String,
+    validate: {
+      isAsync: true,
+      validator: function (value, done) {
+        if (this.isModified('username') || this.isNew) {
+          UserModel.findOne(
+            {username: value}
+          ).then(user => {
+            if (user) {
+              done(false)
+            }
+            else {
+              done(true)
+            }
+          }).catch(err => {
+            console.error(err)
+            done(false)
+          })
+        }
+        else {
+          done(true)
+        }
+      },
+      message: `This username has been taken`
+    }
   },
   verification: {
     type: String
@@ -23,6 +49,10 @@ const User = new Schema({
   type: {
     type: String,
     lowercase: true
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
   },
   ownership: [{
     _id: false,
@@ -47,18 +77,17 @@ User.plugin(uniqueValidator)
 User.pre('save', function (next) {
   let user = this
   if (this.isModified('password') || this.isNew) {
-    bcrypt.genSalt(10, function (err, salt) {
+    bcrypt.genSalt(10, (err, salt) => {
       if (err) {
-        next(err)
+        return next(err)
       }
-      bcrypt.hash(user.password, salt)
-        .then(hash => {
-          user.password = hash
-          next()
-        })
-        .catch(err => {
-          next(err)
-        })
+      bcrypt.hash(user.password, salt, (err, hash) => {
+        if (err) {
+          return next(err)
+        }
+        user.password = hash
+        next()
+      })
     })
   } else {
     return next()
@@ -67,17 +96,38 @@ User.pre('save', function (next) {
 
 // Compare password input to password saved in database
 User.methods.validatePassword = function (password) {
-  return bcrypt.compare(password, this.password)
-    .then(isMatch => {
+  return bcrypt.compare(
+    password,
+    this.password,
+    (err, isMatch) => {
+      if (err) {
+        return Promise.reject({message: AUTHENTICATION.ERROR})
+      }
       if (isMatch) {
         return Promise.resolve()
       }
       else {
         return Promise.reject({message: AUTHENTICATION.ERROR})
       }
-    }).catch(() => {
-      return Promise.reject({message: AUTHENTICATION.ERROR})
     })
 }
 
-module.exports = mongoose.model('User', User)
+User.methods.addShare = function ({horse, amount = 1}) {
+  let owned = this.ownership.filter(o => (o.horse.toString() === horse._id.toString()))
+  if (owned.length > 0) {
+    owned[0].shares.owned += 1
+  }
+  else {
+    this.ownership.push({
+      horse: horse._id,
+      shares: {
+        owned: amount,
+        total: horse.shares.total
+      }
+    })
+  }
+}
+
+UserModel = mongoose.model('User', User)
+
+module.exports = UserModel

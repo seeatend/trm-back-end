@@ -1,19 +1,19 @@
-const mongoose = require('mongoose')
-const {Schema} = mongoose
-const {ObjectId} = Schema.Types
-require('api/horse/model')
+const {ObjectId} = require('mongoose').Schema.Types
 
-const Syndicate = new Schema({
+module.exports = {
   name: {
     type: String,
+    uppercase: true,
     required: true
   },
   featuredImage: {
     type: String,
+    file: true,
     default: '/assets/placeholder/featuredImage.jpg'
   },
   logo: {
-    type: String
+    type: String,
+    file: true
   },
   owner: {
     name: {
@@ -26,6 +26,4 @@ const Syndicate = new Schema({
   horses: [
     { type: ObjectId, ref: 'Horse' }
   ]
-})
-
-module.exports = mongoose.model('Syndicate', Syndicate)
+}

@@ -3,14 +3,15 @@ require('setup/db').createDBConnection()
 
 const fs = require('fs-extra')
 
-const {Horse} = require('api/horse/model')
+const {HorseModel} = require('api/horse/model')
 const {createMessage} = require('api/message/controller')
+const {getUser} = require('api/user/controller')
 const {mockFileUpload} = require('utils/mock')
 const {processMulterFiles} = require('utils/request')
 
 const messages = require('./messageData')
 
-const _createMessage = (horseName, _data) => {
+const _createMessage = (horseName, _data, user) => {
   let data = Object.assign({}, _data)
   let files = []
   if (data.attachment) {
@@ -37,13 +38,13 @@ const _createMessage = (horseName, _data) => {
       data.attachment = files
     }
     let query = {name: horseName.toUpperCase()};
-    return Horse.findOne(
+    return HorseModel.findOne(
       query,
       {_id: true}
     )
   }).then(horse => {
     data.horseId = horse._id
-    return createMessage(data)
+    return createMessage(data, {user})
   }).catch((err) => {
     console.log(err)
   })
@@ -52,11 +53,13 @@ const _createMessage = (horseName, _data) => {
 fs.copy(
   './seed/messages', './uploads/tmp/messages'
 ).then(() => {
+  return getUser({email: 'demo@vitaminlondon.com'})
+}).then(user => {
   let promises = []
 
   messages.forEach(messageData => {
     messageData.messages.forEach(message => {
-      promises.push(_createMessage(messageData.horseName, message))
+      promises.push(_createMessage(messageData.horseName, message, user))
     })
   })
   return Promise.all(promises)

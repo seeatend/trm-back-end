@@ -24,7 +24,7 @@ const configureIndex = (model, options) => {
   })
 }
 
-const {Horse, horseSearchSettings} = require('api/horse/model')
+const {HorseModel, horseSearchSettings} = require('api/horse/model')
 
-configureIndex(Horse, horseSearchSettings)
+configureIndex(HorseModel, horseSearchSettings)
 

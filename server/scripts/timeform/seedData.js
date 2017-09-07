@@ -1,5 +1,25 @@
 module.exports = [
   {
+    name: 'HANSEATIC',
+    img: 'HERO_hanseatic1.jpg',
+    thumbnail: 'CARD_hanseatic2.jpg',
+    description: 'Hanseatic is a magnificent looking son of eight times UK and Ireland champion sire Galileo. He is well related, being a half brother to numerous winners including Stronghold, Imply, Convey and Indication. He won on sand and turf for John Gosden before joining us. Hanseatic\'s first win for his new connections came at Doncaster in June under a beautiful ride by Cam Hardie. He ran very consistently throughout 2016 and was recently runner up at Pontefract.',
+    syndicate: {
+      name: 'SHEEP AS A LAMB'
+    }
+  },
+  {
+    name: 'NEPTUNE STAR',
+    img: 'HERO_neptunestar1.jpg',
+    thumbnail: 'CARD_neptunestar1.jpg',
+    description: 'Neptune Star is a new arrival at the yard. She is by Born To Sea and was originally trained by Jeremy Gask.',
+    syndicate: {
+      name: 'SHEEP AS A LAMB',
+      featuredImage: 'HERO_neptunestar3.jpg',
+      description: 'Sheep as a Lamb Racing was set up by a group of like minded individuals who wanted to make owning a horse, simple, affordable and most importantly fun. We specialise in syndicates of 10-20 people, offering a low cost introduction to horse racing that can be shared with family and friends. Horses are either bought or taken on a lease basis depending on requirements.'
+    }
+  },
+  {
     name: 'DE BRUYNE HORSE',
     style: 'flat',
     manager: {
