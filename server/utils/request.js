@@ -1,7 +1,7 @@
 const config = require('config')
 const path = require('path')
 const mime = require('mime')
-const {generateThumbnail, thumbnailPath} = require('./file')
+const {generateThumbnail} = require('./file')
 const fs = require('fs-extra')
 
 const assignQueryToBody = (req, res, next) => {
@@ -19,8 +19,7 @@ const _dotToObj = _obj => {
       splittedKeys.forEach((splittedKey, i) => {
         if (i === splittedKeys.length - 1) {
           lastObj[splittedKey] = val
-        }
-        else {
+        } else {
           lastObj[splittedKey] = lastObj[splittedKey] || {}
           lastObj = lastObj[splittedKey]
         }
@@ -52,12 +51,11 @@ const prepareQuery = (query, availableQueries, transform = val => val) => {
   }
   let result = {}
   availableQueries.forEach((key) => {
-    let val = query[key];
+    let val = query[key]
     if (val) {
       if (key === '_id') {
         result[key] = val
-      }
-      else {
+      } else {
         result[key] = transform(val, key)
       }
       return result
@@ -99,15 +97,13 @@ const processFile = (file, destination) => {
             fileObject.thumbnail = `/${path.relative('./', thumbnailPath)}`
             resolve(fileObject)
           }).catch(reject)
-        }
-        else {
+        } else {
           resolve(fileObject)
         }
       }).catch(reject)
 
       return fileObject
-    }
-    else {
+    } else {
       reject({message: 'mime type doesn\'t match extension'})
     }
   })
@@ -123,7 +119,7 @@ const processFiles = (files, destination) => {
     files = newFiles
   }
   return new Promise((resolve, reject) => {
-    if (!files || files && files.length === 0) {
+    if (!files || (files && files.length === 0)) {
       resolve(null)
       return
     }

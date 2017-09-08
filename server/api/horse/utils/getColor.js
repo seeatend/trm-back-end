@@ -11,7 +11,7 @@ const colors = {
   'ro or gr': 'roan or grey',
   'b  or ro': 'brown or roan',
   'ch or br': 'chestnut or brown',
-  'bl or br': 'black or brown',
+  'bl or br': 'black or brown'
 }
 
 module.exports = color => colors[color.trim()] || 'unknown'

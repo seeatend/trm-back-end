@@ -1,4 +1,4 @@
-module.exports = function(_data) {
+module.exports = function (_data) {
   let data = Object.assign({}, _data)
   let {horseName} = data
   delete data.horseName

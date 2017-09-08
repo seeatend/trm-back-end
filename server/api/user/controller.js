@@ -10,9 +10,11 @@ const getUser = (body) => {
     body
   ).then(user => {
     if (user) return Promise.resolve(user)
-    else return Promise.reject({
-      message: METHODS.USER.NOT_FOUND(body.email)
-    })
+    else {
+      return Promise.reject({
+        message: METHODS.USER.NOT_FOUND(body.email)
+      })
+    }
   })
 }
 

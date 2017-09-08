@@ -12,8 +12,7 @@ const createComment = (body, {user} = {}) => {
     }).then(() => {
       return Promise.resolve(COMMENT.SUCCESS)
     })
-  }
-  else {
+  } else {
     return Promise.reject()
   }
 }
@@ -23,13 +22,13 @@ const getComment = body => {
 
   if (messageId) {
     return Comment.find({
-        messageId,
-      },
-      {_id: false, __v: false},
-      {
-        limit: 30,
-        sort: {createdAt: -1}
-      }
+      messageId
+    },
+    {_id: false, __v: false},
+    {
+      limit: 30,
+      sort: {createdAt: -1}
+    }
     ).lean().populate(
       'userId'
     ).then(comments => {
@@ -39,8 +38,7 @@ const getComment = body => {
         return comment
       }))
     })
-  }
-  else {
+  } else {
     return Promise.reject()
   }
 }

@@ -129,7 +129,7 @@ But the fellas won’t need any nagging to give their clubs a rest this Saturday
   {
     name: 'BIG ORANGE',
     syndicate: {
-      name: 'W. J. and T. C. O. Gredley',
+      name: 'W. J. and T. C. O. Gredley'
     },
     style: 'jumps',
     manager: {
@@ -141,7 +141,7 @@ But the fellas won’t need any nagging to give their clubs a rest this Saturday
   {
     name: 'SIZING JOHN',
     syndicate: {
-      name: 'Ann & Alan Potts Partnership',
+      name: 'Ann & Alan Potts Partnership'
     },
     style: 'jumps',
     manager: {
@@ -153,7 +153,7 @@ But the fellas won’t need any nagging to give their clubs a rest this Saturday
   {
     name: 'SCOLE HARDEN (IRE)',
     syndicate: {
-      name: 'Mrs Jill Eynon & Mr Robin Eynon',
+      name: 'Mrs Jill Eynon & Mr Robin Eynon'
     },
     style: 'jumps',
     manager: {
@@ -165,7 +165,7 @@ But the fellas won’t need any nagging to give their clubs a rest this Saturday
   {
     name: 'DOUVAN (FR)',
     syndicate: {
-      name: 'Mrs S. Ricci',
+      name: 'Mrs S. Ricci'
     },
     style: 'jumps',
     manager: {
@@ -177,7 +177,7 @@ But the fellas won’t need any nagging to give their clubs a rest this Saturday
   {
     name: 'ALTIOR (IRE)',
     syndicate: {
-      name: 'Mrs Patricia Pugh',
+      name: 'Mrs Patricia Pugh'
     },
     style: 'jumps',
     manager: {
@@ -190,7 +190,7 @@ good-topped gelding: top-class form over hurdles: unbeaten in 2015/16 in novices
   {
     name: 'WICKLOW BRAVE',
     syndicate: {
-      name: 'Wicklow Bloodstock (Ireland) Ltd',
+      name: 'Wicklow Bloodstock (Ireland) Ltd'
     },
     style: 'dual purposes',
     manager: {
@@ -202,7 +202,7 @@ good-topped gelding: top-class form over hurdles: unbeaten in 2015/16 in novices
   {
     name: 'CLONDAW WARRIOR (IRE)',
     syndicate: {
-      name: 'Act D Wagg Syndicate',
+      name: 'Act D Wagg Syndicate'
     },
     style: 'dual purposes',
     description: `strong, workmanlike gelding: smart performer: won Irish St Leger at the Curragh (by ½ length from Order of St George) in 2016: fourth in Group 3 at Belmont (2¼ lengths behind Red Cardinal) in June: 11/8, respectable ½-length second of 7 to Rekindling in Curragh Cup last time.`,
@@ -211,7 +211,7 @@ good-topped gelding: top-class form over hurdles: unbeaten in 2015/16 in novices
   {
     name: 'MINDING (IRE)',
     syndicate: {
-      name: 'Mr D. Smith, Mrs J. Magnier, Mr M. Tabor',
+      name: 'Mr D. Smith, Mrs J. Magnier, Mr M. Tabor'
     },
     style: 'flat',
     manager: {
@@ -223,7 +223,7 @@ good-topped gelding: top-class form over hurdles: unbeaten in 2015/16 in novices
   {
     name: 'GALILEO GOLD',
     syndicate: {
-      name: 'Al Shaqab Racing',
+      name: 'Al Shaqab Racing'
     },
     style: 'flat',
     manager: {
@@ -235,7 +235,7 @@ good-topped gelding: top-class form over hurdles: unbeaten in 2015/16 in novices
   {
     name: 'CLOTH OF STARS (IRE)',
     syndicate: {
-      name: 'Godolphin S.N.C.',
+      name: 'Godolphin S.N.C.'
     },
     style: 'flat',
     manager: {
@@ -243,5 +243,5 @@ good-topped gelding: top-class form over hurdles: unbeaten in 2015/16 in novices
     },
     description: `has won all 3 starts this year, Prix Exbury at Saint-Cloud.`,
     thumbnail: 'CARD_clothofstars.jpg'
-  },
+  }
 ]

@@ -22,8 +22,7 @@ const _createMessage = (horseName, _data, user) => {
           `messages/${att}`
         ))
       })
-    }
-    else {
+    } else {
       files.push(mockFileUpload(
         'attachment',
         `messages/${data.attachment}`
@@ -37,7 +36,7 @@ const _createMessage = (horseName, _data, user) => {
     if (files && files.length > 0) {
       data.attachment = files
     }
-    let query = {name: horseName.toUpperCase()};
+    let query = {name: horseName.toUpperCase()}
     return HorseModel.findOne(
       query,
       {_id: true}

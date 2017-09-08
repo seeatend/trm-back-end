@@ -1,4 +1,4 @@
-const {REGISTER, EMAIL, FIRSTNAME} = require('data/messages')
+const {EMAIL, FIRSTNAME} = require('data/messages')
 
 const FIRSTNAME_REG = /^(?=[a-zA-Z-\s]{2,}$)^[a-zA-Z\s]+(-[a-zA-Z\s]+)*$/
 
@@ -10,7 +10,6 @@ const FIRSTNAME_VLD = {
     validator: FIRSTNAME_REG
   }
 }
-
 
 const EMAIL_REG = /^[_a-z0-9-]+(\.[_a-z0-9-]+)*(\+[a-z0-9-]+)?@[a-z0-9-]+(\.[a-z0-9-]{2,})+$/
 

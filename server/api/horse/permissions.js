@@ -24,13 +24,11 @@ const ownsHorseByMessageId = (body, user) => {
           {horseId: message.horseId},
           user
         )
-      }
-      else {
+      } else {
         return Promise.reject()
       }
     })
-  }
-  else {
+  } else {
     return Promise.reject()
   }
 }
@@ -39,11 +37,9 @@ const ownsHorse = (body, user) => {
   let {horseId, messageId} = body
   if (horseId) {
     return ownsHorseByHorseId(body, user)
-  }
-  else if (messageId) {
+  } else if (messageId) {
     return ownsHorseByMessageId(body, user)
-  }
-  else {
+  } else {
     return Promise.reject()
   }
 }
@@ -56,4 +52,3 @@ module.exports = {
   ownsHorseByMessageId,
   ownsHorseByHorseId
 }
-

@@ -5,27 +5,27 @@ if (!global.nodeEnv) {
 }
 if (global.isUat === undefined) {
   Object.defineProperty(global, 'isUat', {
-    get: () => (nodeEnv === 'uat')
+    get: () => (global.nodeEnv === 'uat')
   })
 }
 if (global.isDev === undefined) {
   Object.defineProperty(global, 'isDev', {
-    get: () => (nodeEnv === 'dev' || nodeEnv === 'local')
+    get: () => (global.nodeEnv === 'dev' || global.nodeEnv === 'local')
   })
 }
 if (global.isLocal === undefined) {
   Object.defineProperty(global, 'isLocal', {
-    get: () => (nodeEnv === 'local')
+    get: () => (global.nodeEnv === 'local')
   })
 }
 if (global.isTest === undefined) {
   Object.defineProperty(global, 'isTest', {
-    get: () => (nodeEnv === 'test')
+    get: () => (global.nodeEnv === 'test')
   })
 }
 if (!global.devLog) {
   global.devLog = message => {
-    if (isDev) {
+    if (global.isDev) {
       console.log(message)
     }
   }
@@ -33,3 +33,22 @@ if (!global.devLog) {
 require('babel-register')
 global.Promise = require('bluebird')
 require('dotenv').config()
+
+const pe = require('pretty-error').start()
+
+pe.appendStyle({
+  'pretty-error > header > message': {
+    color: 'red'
+  },
+  'pretty-error > trace > item > header > pointer > file': {
+    color: 'bright-red'
+  },
+
+  'pretty-error > trace > item > header > pointer > colon': {
+    color: 'grey'
+  },
+
+  'pretty-error > trace > item > header > pointer > line': {
+    color: 'yellow'
+  }
+})

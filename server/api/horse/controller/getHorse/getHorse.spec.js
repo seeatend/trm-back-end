@@ -1,5 +1,3 @@
-const {expect} = require('chai')
-
 const {getHorse, removeHorse} = require('api/horse/controller')
 const HorseController = require('api/horse/controller')
 
@@ -31,7 +29,7 @@ describe('Horse', () => {
       ).then(res => {
         return getHorse({_id: res._id})
       }).then(res => {
-        expect(res).to.exist
+        expect(res).to.exist()
         done()
       })
     })

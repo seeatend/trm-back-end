@@ -1,4 +1,3 @@
-const {expect} = require('chai')
 const {Controller} = require('api/utils')
 const mongoose = require('mongoose')
 const {Schema} = mongoose

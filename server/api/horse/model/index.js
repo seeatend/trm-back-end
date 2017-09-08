@@ -14,7 +14,7 @@ HorseSchema.plugin(removeFilesOnUpdate, {
 })
 
 let horseHelper
-if (!isTest) {
+if (!global.isTest) {
   horseHelper = applyAlgolia(HorseSchema, horseSearchSettings)
 }
 

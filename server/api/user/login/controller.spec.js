@@ -1,5 +1,3 @@
-const {expect} = require('chai')
-
 const {registerUser, createUser} = require('api/user/register/controller')
 const {loginUser} = require('api/user/login/controller')
 const {verifyUser} = require('api/user/verify/controller')
@@ -11,12 +9,12 @@ const registerProps = {
   firstname: 'nick',
   surname: 'the french boy',
   email: 'lovehege@nick.com',
-  password: '0loveChrisAlso',
+  password: '0loveChrisAlso'
 }
 
 const loginProps = {
   email: registerProps.email,
-  password: registerProps.password,
+  password: registerProps.password
 }
 
 describe('User/login', () => {
@@ -71,12 +69,12 @@ describe('User/login', () => {
           token: verification
         })
       }).then(res => {
-        expect(res.token).to.be.string
+        expect(res.token).to.be.a('string')
         return loginUser(
           loginProps
         )
       }).then(res => {
-        expect(res.token).to.be.string
+        expect(res.token).to.be.a('string')
         done()
       })
     })

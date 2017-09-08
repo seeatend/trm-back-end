@@ -6,7 +6,7 @@ const attributesRoute = require('./attributes/routes')
 const {searchHorse} = require('api/horse/controller')
 const {applyController} = require('utils/api')
 
-let routePath = '/search';
+let routePath = '/search'
 router.route(routePath)
   .post(applyController(searchHorse))
 

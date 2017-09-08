@@ -13,8 +13,7 @@ const authenticate = (req, res, next) => {
   passport.authenticate('jwt', {session: false}, (err, user) => {
     if (err || !user) {
       _notAuthorized(res)
-    }
-    else {
+    } else {
       req.user = user
       next()
     }
@@ -47,8 +46,7 @@ authenticate.can = (actions = []) => ([
       let _validators = permissions[action]
       if (_validators && _validators.length > 0) {
         validators = validators.concat(_validators)
-      }
-      else {
+      } else {
         _notAuthorized(res)
         throw new Error(`There is no validators for action '${action}'`)
       }
@@ -65,8 +63,7 @@ authenticate.is = type => [
     let {user} = req
     if (type && type.length > 0 && user.type === type) {
       next()
-    }
-    else {
+    } else {
       _notAuthorized(res)
     }
   }
@@ -81,7 +78,6 @@ const prepareUserData = (user = {}) => {
     email,
     username
   }
-
 }
 
 const generateToken = user => {
@@ -94,8 +90,7 @@ const generateToken = user => {
       token,
       user: prepareUserData(user)
     })
-  }
-  else {
+  } else {
     return Promise.reject({status: NOT_VERIFIED, message: VERIFICATION.ERROR})
   }
 }

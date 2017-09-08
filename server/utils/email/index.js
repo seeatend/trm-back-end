@@ -16,7 +16,7 @@ const auth = {
 const mailgun = nodemailer.createTransport(mailgunTransport(auth))
 
 const sendMail = _data => {
-  if (isTest) {
+  if (global.isTest) {
     return Promise.resolve()
   }
   let data = Object.assign({}, _data)
@@ -29,8 +29,7 @@ const sendMail = _data => {
     mailgun.sendMail(data, (err, info) => {
       if (err) {
         reject(err)
-      }
-      else {
+      } else {
         resolve(info)
       }
     })

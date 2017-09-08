@@ -25,16 +25,14 @@ const User = new Schema({
           ).then(user => {
             if (user) {
               done(false)
-            }
-            else {
+            } else {
               done(true)
             }
           }).catch(err => {
             console.error(err)
             done(false)
           })
-        }
-        else {
+        } else {
           done(true)
         }
       },
@@ -105,8 +103,7 @@ User.methods.validatePassword = function (password) {
       }
       if (isMatch) {
         return Promise.resolve()
-      }
-      else {
+      } else {
         return Promise.reject({message: AUTHENTICATION.ERROR})
       }
     })
@@ -116,8 +113,7 @@ User.methods.addShare = function ({horse, amount = 1}) {
   let owned = this.ownership.filter(o => (o.horse.toString() === horse._id.toString()))
   if (owned.length > 0) {
     owned[0].shares.owned += 1
-  }
-  else {
+  } else {
     this.ownership.push({
       horse: horse._id,
       shares: {

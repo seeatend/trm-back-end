@@ -3,7 +3,7 @@ const config = require('config')
 
 const {host, port, name} = config.get('db')
 
-const url = `mongodb://${host}:${port}/${name}`;
+const url = `mongodb://${host}:${port}/${name}`
 
 mongoose.Promise = global.Promise
 

@@ -1,5 +1,3 @@
-const config = require('config')
-
 const userUtils = require('./user')
 
 userUtils.register().then(() => {

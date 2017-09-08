@@ -18,9 +18,8 @@ module.exports = body => {
         horse = prepareHorse(_horse)
 
         return Promise.resolve()
-      }
-      else {
-        return Promise.reject({message: METHODS.HORSE.NOT_FOUND(query.name || query._id)})
+      } else {
+        return Promise.reject(new Error(METHODS.HORSE.NOT_FOUND(query.name || query._id)))
       }
     }).then(() => {
       if (!horse.owner) {
@@ -35,8 +34,7 @@ module.exports = body => {
       }
       return Promise.resolve(horse)
     })
-  }
-  else {
+  } else {
     return Promise.reject()
   }
 }

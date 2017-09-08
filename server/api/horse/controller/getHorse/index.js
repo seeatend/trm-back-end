@@ -11,8 +11,7 @@ module.exports = (body, options = {}) => {
     result = horse
     if (!populate.messages) {
       return Promise.resolve()
-    }
-    else {
+    } else {
       return getMessage(
         {horseId: horse._id}
       )
@@ -21,8 +20,7 @@ module.exports = (body, options = {}) => {
     result.messages = messages
     if (!populate.shares) {
       return Promise.resolve()
-    }
-    else {
+    } else {
       return getShares({
         horseId: result._id,
         options

@@ -21,7 +21,7 @@ module.exports = {
     SUCCESS: 'Login successful'
   },
   REGISTER: {
-    SUCCESS: created('User'),
+    SUCCESS: created('User')
   },
   EMAIL: {
     DUPLICATE: 'This email has been taken',

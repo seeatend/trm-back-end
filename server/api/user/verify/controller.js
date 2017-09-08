@@ -9,14 +9,13 @@ const verifyUser = (body) => {
   }, {
     $unset: {
       verification: 1
-    },
+    }
   }, {
-    new: true,
+    new: true
   }).then(user => {
     if (user) {
       return generateToken(user)
-    }
-    else {
+    } else {
       return Promise.reject()
     }
   })

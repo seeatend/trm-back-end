@@ -3,4 +3,3 @@ const {ownsHorseByHorseId, ownsHorseByMessageId} = require('api/horse/permission
 
 authenticate.registerPermission('get message', ownsHorseByMessageId)
 authenticate.registerPermission('post message', ownsHorseByHorseId)
-
