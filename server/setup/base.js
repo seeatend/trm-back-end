@@ -33,3 +33,22 @@ if (!global.devLog) {
 require('babel-register')
 global.Promise = require('bluebird')
 require('dotenv').config()
+
+const pe = require('pretty-error').start()
+
+pe.appendStyle({
+  'pretty-error > header > message': {
+    color: 'red'
+  },
+  'pretty-error > trace > item > header > pointer > file': {
+    color: 'bright-red'
+  },
+
+  'pretty-error > trace > item > header > pointer > colon': {
+    color: 'grey'
+  },
+
+  'pretty-error > trace > item > header > pointer > line': {
+    color: 'yellow'
+  }
+})

@@ -1,6 +1,5 @@
 const {isFunction} = require('utils/object')
 const {SUCCESS, ERROR} = require('data/statusCodes')
-
 const success = data => {
   return {status: SUCCESS, data}
 }

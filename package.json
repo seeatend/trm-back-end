@@ -5,9 +5,8 @@
     "restart": "run-s stop start",
     "dev": "nodemon --inspect=3100 server",
     "setup-search": "node server/scripts/setupSearch",
-    "test": "standard server/*.js && mocha -w ./server/setup/test.js --recursive $(find server -name '*.spec.js')",
-    "standard": "standard --verbose | snazzy server/**/*.js ",
-    "standard-fix": "standard --fix --verbose | snazzy server/**/*.js",
+    "test": "mocha -w ./server/setup/test.js --recursive $(find server -name '*.spec.js')",
+    "lint": "eslint ./server/* --fix",
     "test-debug": "mocha --inspect=3100 --debug-brk  -w ./server/setup/test.js --recursive $(find server -name '*.spec.js')",
     "list": "forever list",
     "stop": "forever stop 0",
@@ -18,18 +17,6 @@
     "messages": "node server/scripts/messages",
     "populate": "run-s flush timeform demo messages setup-search",
     "timeform-test": "mocha -t 10000 ./server/script/timeform/test.js"
-  },
-  "standard": {
-    "globals": [
-      "describe",
-      "context",
-      "before",
-      "beforeEach",
-      "after",
-      "afterEach",
-      "it",
-      "expect"
-    ]
   },
   "dependencies": {
     "algoliasearch": "^3.24.0",
@@ -64,13 +51,19 @@
     "npm-run-all": "^4.0.2",
     "passport": "^0.3.2",
     "passport-jwt": "^2.2.1",
+    "pretty-error": "^2.1.1",
     "randomstring": "^1.1.5",
     "request": "^2.81.0",
     "request-promise": "^4.2.1"
   },
   "devDependencies": {
     "dirty-chai": "^2.0.1",
-    "snazzy": "^7.0.0",
-    "standard": "^10.0.3"
+    "eslint": "^4.6.1",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "mocha-eslint": "^4.1.0"
   }
 }

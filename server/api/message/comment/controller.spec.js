@@ -22,20 +22,20 @@ const options = {}
 describe('Message/Comment', () => {
   beforeEach((done) => {
     Promise.all([removeMessage(), removeUser()])
-    .then(() => {
-      return createUser(createUserProps)
-    })
-    .then(() => {
-      return getUser({
-        email: createUserProps.email
+      .then(() => {
+        return createUser(createUserProps)
       })
-    })
-    .then(res => {
-      options.user = res
-      done()
-    }).catch(err => {
-      console.log(err)
-    })
+      .then(() => {
+        return getUser({
+          email: createUserProps.email
+        })
+      })
+      .then(res => {
+        options.user = res
+        done()
+      }).catch(err => {
+        console.log(err)
+      })
   })
 
   describe('/createComment', () => {
@@ -52,7 +52,7 @@ describe('Message/Comment', () => {
           messageId: res[0]._id,
           text: 'hello'
         },
-          options
+        options
         )
       }).then(res => {
         expect(res).to.be.a('string')
@@ -69,25 +69,25 @@ describe('Message/Comment', () => {
         createMessageProps,
         options
       )
-      .then(() => {
-        return getMessage({
-          horseId: createMessageProps.horseId
-        })
-      }).then(res => {
-        messageId = res[0]._id.toString()
-        return createComment({
-          messageId,
-          text: 'hello'
-        },
+        .then(() => {
+          return getMessage({
+            horseId: createMessageProps.horseId
+          })
+        }).then(res => {
+          messageId = res[0]._id.toString()
+          return createComment({
+            messageId,
+            text: 'hello'
+          },
           options
-        )
-      }).then(() => {
-        return getComment({messageId}, options)
-      }).then(res => {
-        expect(res).to.be.an('array').of.length(1)
-        expect(res[0].messageId.toString()).to.equal(messageId)
-        done()
-      })
+          )
+        }).then(() => {
+          return getComment({messageId}, options)
+        }).then(res => {
+          expect(res).to.be.an('array').of.length(1)
+          expect(res[0].messageId.toString()).to.equal(messageId)
+          done()
+        })
     })
   })
 })

@@ -19,7 +19,7 @@ module.exports = body => {
 
         return Promise.resolve()
       } else {
-        return Promise.reject({message: METHODS.HORSE.NOT_FOUND(query.name || query._id)})
+        return Promise.reject(new Error(METHODS.HORSE.NOT_FOUND(query.name || query._id)))
       }
     }).then(() => {
       if (!horse.owner) {
