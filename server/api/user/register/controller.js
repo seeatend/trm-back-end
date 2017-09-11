@@ -17,7 +17,7 @@ const createUser = body => {
     password,
     firstname,
     surname,
-    verification,
+    // verification,
     type: 'member'
   })).then(_user => {
     user = _user

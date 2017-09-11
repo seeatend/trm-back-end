@@ -1,9 +1,9 @@
-const {registerUser, createUser} = require('api/user/register/controller')
+const {registerUser} = require('api/user/register/controller')
 const {loginUser} = require('api/user/login/controller')
-const {verifyUser} = require('api/user/verify/controller')
+// const {verifyUser} = require('api/user/verify/controller')
 const {removeUser} = require('api/user/controller')
 const {AUTHENTICATION, REGISTER, EMAIL} = require('data/messages')
-const {NOT_VERIFIED} = require('data/statusCodes')
+// const {NOT_VERIFIED} = require('data/statusCodes')
 
 const registerProps = {
   firstname: 'nick',
@@ -33,19 +33,19 @@ describe('User/login', () => {
       })
     })
 
-    it('should reject not verified user', (done) => {
-      registerUser(
-        registerProps
-      ).then(res => {
-        expect(res.message).to.equal(REGISTER.SUCCESS)
-        return loginUser(
-          loginProps
-        )
-      }).catch(err => {
-        expect(err.status).to.equal(NOT_VERIFIED)
-        done()
-      })
-    })
+    // it('should reject not verified user', (done) => {
+    //   registerUser(
+    //     registerProps
+    //   ).then(res => {
+    //     expect(res.message).to.equal(REGISTER.SUCCESS)
+    //     return loginUser(
+    //       loginProps
+    //     )
+    //   }).catch(err => {
+    //     expect(err.status).to.equal(NOT_VERIFIED)
+    //     done()
+    //   })
+    // })
 
     it('should reject user with already registered email', (done) => {
       registerUser(
@@ -61,22 +61,22 @@ describe('User/login', () => {
       })
     })
 
-    it('should login verified user', (done) => {
-      createUser(
-        registerProps
-      ).then(verification => {
-        return verifyUser({
-          token: verification
-        })
-      }).then(res => {
-        expect(res.token).to.be.a('string')
-        return loginUser(
-          loginProps
-        )
-      }).then(res => {
-        expect(res.token).to.be.a('string')
-        done()
-      })
-    })
+    // it('should login verified user', (done) => {
+    //   createUser(
+    //     registerProps
+    //   ).then(verification => {
+    //     return verifyUser({
+    //       token: verification
+    //     })
+    //   }).then(res => {
+    //     expect(res.token).to.be.a('string')
+    //     return loginUser(
+    //       loginProps
+    //     )
+    //   }).then(res => {
+    //     expect(res.token).to.be.a('string')
+    //     done()
+    //   })
+    // })
   })
 })
