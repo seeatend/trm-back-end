@@ -64,4 +64,4 @@ app.use((err, req, res) => {
 
 app.listen(port)
 
-console.log('TRM RESTful API server started on: ' + port)
+console.log(`[${global.nodeEnv}] TRM RESTful API server started on: ${port}`)
