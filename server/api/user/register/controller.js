@@ -53,7 +53,7 @@ const registerUser = body => {
   const {email, firstname} = body
 
   return createUser(body).then(verification => {
-    let baseUrl = global.isDev ? '52.209.171.180:3000' : 'uat.theracingmanager.com'
+    let baseUrl = global.isDev ? '52.51.111.248:3000' : '54.76.253.247:3000'
     let verificationUrl = `http://${baseUrl}/user/verify/${verification}`
 
     let mailData = {
