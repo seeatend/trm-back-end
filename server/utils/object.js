@@ -32,5 +32,4 @@ const objectUtils = {
 
 objectUtils.safeTrim = (val) => (objectUtils.isString(val) ? val.trim() : val)
 
-
 module.exports = objectUtils

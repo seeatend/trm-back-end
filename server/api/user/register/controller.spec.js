@@ -1,5 +1,5 @@
 const {registerUser} = require('api/user/register/controller')
-const {removeUser} = require('api/user/controller')
+const UserController = require('api/user/controller')
 const {FIRSTNAME, REGISTER, EMAIL} = require('data/messages')
 
 const registerProps = {
@@ -11,7 +11,7 @@ const registerProps = {
 
 describe('User/register', () => {
   beforeEach((done) => {
-    removeUser().then(() => {
+    UserController.removeAll().then(() => {
       done()
     })
   })

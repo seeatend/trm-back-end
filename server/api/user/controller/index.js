@@ -4,10 +4,6 @@ const {Controller} = require('api/utils')
 const UserModel = require('api/user/model')
 const moment = require('moment')
 
-const removeUser = (body = {}) => {
-  return UserModel.remove(body)
-}
-
 const getUser = (body) => {
   return UserModel.findOne(
     body
@@ -47,7 +43,6 @@ const updateUser = (body, {user}) => {
 const UserController = new Controller({
   model: UserModel,
   methods: {
-    removeUser,
     getUser,
     getShares,
     updateUser
