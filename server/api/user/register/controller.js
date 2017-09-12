@@ -4,7 +4,7 @@ const randomString = require('randomstring')
 const {REGISTER} = require('data/messages')
 const {randomInteger} = require('utils/math')
 const {getRandomHorse} = require('api/horse/controller')
-const {removeEmpty} = require('utils/object')
+const {removeEmpty, safeTrim} = require('utils/object')
 
 const createUser = body => {
   const {username, email, password, firstname, surname} = body
@@ -12,11 +12,11 @@ const createUser = body => {
   let user
 
   return User.create(removeEmpty({
-    username,
-    email,
-    password,
-    firstname,
-    surname,
+    username: safeTrim(username),
+    email: safeTrim(email),
+    password: safeTrim(password),
+    firstname: safeTrim(firstname),
+    surname: safeTrim(surname),
     // verification,
     type: 'member'
   })).then(_user => {

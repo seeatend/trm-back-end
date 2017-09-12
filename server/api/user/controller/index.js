@@ -1,12 +1,15 @@
-const User = require('./model')
 const {METHODS} = require('data/messages')
 
+const {Controller} = require('api/utils')
+const UserModel = require('api/user/model')
+const moment = require('moment')
+
 const removeUser = (body = {}) => {
-  return User.remove(body)
+  return UserModel.remove(body)
 }
 
 const getUser = (body) => {
-  return User.findOne(
+  return UserModel.findOne(
     body
   ).then(user => {
     if (user) return Promise.resolve(user)
@@ -30,8 +33,25 @@ const getShares = (query, {user} = {}) => {
   return Promise.resolve()
 }
 
-module.exports = {
-  getUser,
-  getShares,
-  removeUser
+const updateUser = (body, {user}) => {
+  if (body.birthDate) {
+    body.birthDate = moment(body.birthDate, 'DD/MM/YYYY').toDate()
+  }
+  return Object.assign(
+    user, body
+  )
+    .save()
+    .then(() => Promise.resolve())
 }
+
+const UserController = new Controller({
+  model: UserModel,
+  methods: {
+    removeUser,
+    getUser,
+    getShares,
+    updateUser
+  }
+})
+
+module.exports = UserController

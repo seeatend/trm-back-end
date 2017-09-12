@@ -11,11 +11,10 @@ const FIRSTNAME_VLD = {
   }
 }
 
-const EMAIL_REG = /^[_a-z0-9-]+(\.[_a-z0-9-]+)*(\+[a-z0-9-]+)?@[a-z0-9-]+(\.[a-z0-9-]{2,})+$/
+const EMAIL_REG = /^[_a-zA-Z0-9-]+(\.[_a-z0-9-]+)*(\+[a-z0-9-]+)?@[a-z0-9-]+(\.[a-z0-9-]{2,})+$/
 
 const EMAIL_VLD = {
   type: String,
-  lowercase: true,
   unique: EMAIL.DUPLICATE,
   required: true,
   validate: {
