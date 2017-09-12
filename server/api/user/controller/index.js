@@ -1,21 +1,6 @@
-const {METHODS} = require('data/messages')
-
 const {Controller} = require('api/utils')
 const UserModel = require('api/user/model')
 const moment = require('moment')
-
-const getUser = (body) => {
-  return UserModel.findOne(
-    body
-  ).then(user => {
-    if (user) return Promise.resolve(user)
-    else {
-      return Promise.reject({
-        message: METHODS.USER.NOT_FOUND(body.email)
-      })
-    }
-  })
-}
 
 const getShares = (query, {user} = {}) => {
   if (user && user.ownership) {
@@ -43,7 +28,6 @@ const updateUser = (body, {user}) => {
 const UserController = new Controller({
   model: UserModel,
   methods: {
-    getUser,
     getShares,
     updateUser
   }

@@ -1,6 +1,22 @@
-const {getUser} = require('api/user/controller')
+// This is temporary for managing users before we have actual admin ui
+
+const UserController = require('api/user/controller')
 const {getHorse} = require('api/horse/controller')
 const {AUTHENTICATION} = require('data/messages')
+const {METHODS} = require('data/messages')
+
+const getUser = (body) => {
+  return UserController.findOne(
+    body
+  ).then(user => {
+    if (user) return Promise.resolve(user)
+    else {
+      return Promise.reject({
+        message: METHODS.USER.NOT_FOUND(body.email)
+      })
+    }
+  })
+}
 
 const updateUser = (body) => {
   const {email, horse, user, password} = body

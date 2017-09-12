@@ -5,7 +5,7 @@ const fs = require('fs-extra')
 
 const {HorseModel} = require('api/horse/model')
 const {createMessage} = require('api/message/controller')
-const {getUser} = require('api/user/controller')
+const UserController = require('api/user/controller')
 const {mockFileUpload} = require('utils/mock')
 const {processMulterFiles} = require('utils/request')
 
@@ -52,7 +52,7 @@ const _createMessage = (horseName, _data, user) => {
 fs.copy(
   './seed/messages', './uploads/tmp/messages'
 ).then(() => {
-  return getUser({email: 'demo@vitaminlondon.com'})
+  return UserController.findOne({email: 'demo@vitaminlondon.com'})
 }).then(user => {
   let promises = []
 

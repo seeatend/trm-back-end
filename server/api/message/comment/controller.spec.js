@@ -26,7 +26,7 @@ describe('Message/Comment', () => {
         return createUser(createUserProps)
       })
       .then(() => {
-        return UserController.getUser({
+        return UserController.findOne({
           email: createUserProps.email
         })
       })
