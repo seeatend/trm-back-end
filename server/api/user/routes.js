@@ -2,11 +2,11 @@ const express = require('express')
 
 const router = express.Router({mergeParams: true})
 
-const dashboardRoute = require('./dashboard/routes')
-const registerRoute = require('./register/routes')
-const loginRoute = require('./login/routes')
-const verifyRoute = require('./verify/routes')
-const updateRoute = require('./update/routes')
+const dashboardRoute = require('./routes/dashboard/routes')
+const registerRoute = require('./routes/register/routes')
+const loginRoute = require('./routes/login/routes')
+const verifyRoute = require('./routes/verify/routes')
+const updateRoute = require('./routes/update/routes')
 
 const routePath = '/user'
 

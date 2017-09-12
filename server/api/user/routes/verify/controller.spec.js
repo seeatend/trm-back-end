@@ -1,4 +1,4 @@
-// const {createUser} = require('api/user/register/controller')
+// const {createUser} = require('api/user/routes/register/controller')
 // const {verifyUser} = require('api/user/verify/controller')
 const UserController = require('api/user/controller')
 

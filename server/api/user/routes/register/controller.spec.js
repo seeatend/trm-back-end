@@ -1,4 +1,4 @@
-const {registerUser} = require('api/user/register/controller')
+const {registerUser} = require('api/user/routes/register/controller')
 const UserController = require('api/user/controller')
 const {FIRSTNAME, REGISTER, EMAIL} = require('data/messages')
 
