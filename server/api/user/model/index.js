@@ -61,6 +61,10 @@ let userDefinition = {
     type: Date,
     default: Date.now
   },
+  syndicates: [{
+    type: ObjectId,
+    ref: 'Syndicate'
+  }],
   ownership: [{
     _id: false,
     horse: {
