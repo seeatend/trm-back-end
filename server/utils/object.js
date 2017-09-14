@@ -30,4 +30,6 @@ const objectUtils = {
   cloneObject: obj => (JSON.parse(JSON.stringify(obj)))
 }
 
+objectUtils.safeTrim = (val) => (objectUtils.isString(val) ? val.trim() : val)
+
 module.exports = objectUtils

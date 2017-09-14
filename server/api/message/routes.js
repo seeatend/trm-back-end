@@ -3,7 +3,7 @@ const express = require('express')
 const {applyController} = require('utils/api')
 const handleUpload = require('utils/handleUpload')
 
-const commentRoute = require('./comment/routes')
+const commentRoute = require('./routes/comment/routes')
 
 const router = express.Router({mergeParams: true})
 const {getMessage, createMessage} = require('./controller')

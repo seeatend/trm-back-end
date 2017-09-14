@@ -1,7 +1,7 @@
-const {registerUser} = require('api/user/register/controller')
-const {loginUser} = require('api/user/login/controller')
+const {registerUser} = require('api/user/routes/register/controller')
+const {loginUser} = require('api/user/routes/login/controller')
 // const {verifyUser} = require('api/user/verify/controller')
-const {removeUser} = require('api/user/controller')
+const UserController = require('api/user/controller')
 const {AUTHENTICATION, REGISTER, EMAIL} = require('data/messages')
 // const {NOT_VERIFIED} = require('data/statusCodes')
 
@@ -19,7 +19,7 @@ const loginProps = {
 
 describe('User/login', () => {
   beforeEach((done) => {
-    removeUser().then(() => {
+    UserController.removeAll().then(() => {
       done()
     })
   })

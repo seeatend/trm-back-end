@@ -1,7 +1,7 @@
-const {createUser} = require('api/user/register/controller')
-const {getUser, removeUser} = require('api/user/controller')
+const {createUser} = require('api/user/routes/register/controller')
+const UserController = require('api/user/controller')
 const {createMessage, getMessage, removeMessage} = require('api/message/controller')
-const {createComment, getComment} = require('api/message/comment/controller')
+const {createComment, getComment} = require('api/message/routes/comment/controller')
 const {COMMENT} = require('data/messages')
 
 const createUserProps = {
@@ -21,12 +21,12 @@ const options = {}
 
 describe('Message/Comment', () => {
   beforeEach((done) => {
-    Promise.all([removeMessage(), removeUser()])
+    Promise.all([removeMessage(), UserController.removeAll()])
       .then(() => {
         return createUser(createUserProps)
       })
       .then(() => {
-        return getUser({
+        return UserController.findOne({
           email: createUserProps.email
         })
       })
