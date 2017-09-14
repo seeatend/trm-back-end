@@ -1,3 +1,5 @@
+const validator = require('validator')
+
 const {EMAIL, FIRSTNAME} = require('data/messages')
 
 const FIRSTNAME_REG = /^(?=[a-zA-Z-\s]{2,}$)^[a-zA-Z\s]+(-[a-zA-Z\s]+)*$/
@@ -34,8 +36,17 @@ const PASSWORD_VLD = {
   }
 }
 
+const POSTCODE_VLD = {
+  type: String,
+  validate: {
+    message: 'Please provide valid postcode.',
+    validator: (value) => (validator.isPostalCode(value, 'GB'))
+  }
+}
+
 module.exports = {
   FIRSTNAME_VLD,
   EMAIL_VLD,
-  PASSWORD_VLD
+  PASSWORD_VLD,
+  POSTCODE_VLD
 }

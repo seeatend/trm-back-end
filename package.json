@@ -61,7 +61,8 @@
     "pretty-error": "^2.1.1",
     "randomstring": "^1.1.5",
     "request": "^2.81.0",
-    "request-promise": "^4.2.1"
+    "request-promise": "^4.2.1",
+    "validator": "^8.2.0"
   },
   "devDependencies": {
     "dirty-chai": "^2.0.1",
