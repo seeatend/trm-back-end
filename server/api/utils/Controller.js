@@ -1,4 +1,5 @@
-const {GENERIC} = require('data/messages')
+const {GENERIC, METHODS} = require('data/messages')
+const {isObject} = require('utils/object')
 
 class Controller {
   constructor ({model, methods = {}}) {
@@ -38,6 +39,9 @@ class Controller {
   }
 
   updateOne ({query, data}) {
+    if (!isObject(data) || Object.keys(data).length === 0) {
+      return Promise.reject({message: METHODS.MISSING_PARAMETER('data')})
+    }
     return this.findOne(
       query
     ).then(res => {

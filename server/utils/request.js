@@ -68,10 +68,6 @@ const prepareQuery = (query, availableQueries, transform = val => val) => {
   return result
 }
 
-const dehyphenize = query => (query.toString() || '').trim().replace(/[-]+/g, ' ').toUpperCase()
-
-const hyphenize = query => query.toString().trim().replace(/[ ]+/g, '-').toLowerCase()
-
 const isId = id => id.match(/^[0-9a-fA-F]{24}$/)
 
 const processFile = (file, destination) => {
@@ -169,8 +165,6 @@ const processMulterFiles = (files, type, name, destination) => {
 
 module.exports = {
   prepareQuery,
-  dehyphenize,
-  hyphenize,
   isId,
   bodySelect,
   dotNotationToObject,

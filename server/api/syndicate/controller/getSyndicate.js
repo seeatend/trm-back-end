@@ -1,6 +1,6 @@
 const Syndicate = require('api/syndicate/model')
 const {getMessage} = require('api/message/controller')
-const {prepareQuery, dehyphenize} = require('utils/request')
+const {prepareQuery} = require('utils/request')
 
 const allowedGetParams = ['name']
 
@@ -8,8 +8,7 @@ const getSyndicate = (body, options = {}) => {
   const {populate = {}} = options
   let query = prepareQuery(
     body,
-    allowedGetParams,
-    dehyphenize
+    allowedGetParams
   )
   return new Promise((resolve, reject) => {
     if (query) {

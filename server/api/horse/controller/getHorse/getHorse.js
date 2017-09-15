@@ -1,12 +1,12 @@
 const {HorseModel} = require('api/horse/model')
-const {prepareQuery, dehyphenize} = require('utils/request')
+const {prepareQuery} = require('utils/request')
 const {prepareHorse} = require('api/horse/utils')
 const {getSyndicate} = require('api/syndicate/controller')
 const {METHODS} = require('data/messages')
 const availableQueries = ['name', '_id']
 
 module.exports = body => {
-  let query = prepareQuery(body, availableQueries, dehyphenize)
+  let query = prepareQuery(body, availableQueries)
 
   if (query) {
     let horse

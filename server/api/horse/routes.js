@@ -13,7 +13,7 @@ const routePath = '/horse'
 
 router.route(routePath)
   .put(
-    authenticate.is('admin'),
+    authenticate.can('put horse'),
     handleUpload({
       fields: {
         featuredImage: {

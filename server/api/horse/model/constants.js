@@ -14,8 +14,15 @@ const RACING_HISTORY = [
   'Raced'
 ]
 
+const STYLE = [
+  'Jump',
+  'Flat',
+  'Dual Purpose'
+]
+
 module.exports = {
   OWNERSHIP_TYPE,
   RACING_TYPE,
-  RACING_HISTORY
+  RACING_HISTORY,
+  STYLE
 }

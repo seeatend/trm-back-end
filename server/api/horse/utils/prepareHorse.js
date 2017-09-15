@@ -1,5 +1,5 @@
-const {hyphenize} = require('utils/request')
 const {cloneObject} = require('utils/object')
+const {hyphenize} = require('utils/transforms')
 const getGender = require('./getGender')
 const getColor = require('./getColor')
 

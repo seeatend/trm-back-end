@@ -8,7 +8,8 @@ module.exports = {
     },
     USER: {
       NOT_FOUND: notFound('user')
-    }
+    },
+    MISSING_PARAMETER: param => (`Please provide ${param}.`)
   },
   GENERIC: {
     NOT_FOUND: 'Not found'
