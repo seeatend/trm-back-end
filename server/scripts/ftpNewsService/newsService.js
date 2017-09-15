@@ -126,10 +126,10 @@ function getAndStoreNewsInDB () {
             let minutes = date.substring(11, 13)
             let seconds = date.substring(13, 15)
             let newDate = new Date(year, month, day, hours, minutes, seconds)
-            //let imageString = new Date().toString() + imageName
-            //let test =  imageString.replace(/\s/g,'');
+            // let imageString = new Date().toString() + imageName
+            // let test =  imageString.replace(/\s/g,'');
             resolve(imageName)
-             // console.log('image string is: ' + imageString)
+            // console.log('image string is: ' + imageString)
             // console.log('newdate', newDate);
             let news = new News({
               date: newDate,
@@ -165,7 +165,7 @@ function getAndStoreNewsInDB () {
                 stream.once('close', resolve('Successfull'))
                 stream.once('error', reject('Unsuccessful'))
                 // writing the images in images directory
-                stream.pipe(fs.createWriteStream('server/images/' +image))
+                stream.pipe(fs.createWriteStream('server/images/' + image))
               })
             }))
       })
