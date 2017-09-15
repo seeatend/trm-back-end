@@ -2,6 +2,8 @@ const {getMessage} = require('api/message/controller')
 const {getShares} = require('api/user/controller')
 const getHorse = require('./getHorse')
 
+// TODO: Split this into two methods: 'getPublicHorse' and 'getPrivateHorse'
+
 module.exports = (body, options = {}) => {
   const {populate = {}} = options
   let result
