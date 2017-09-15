@@ -36,6 +36,9 @@ module.exports = {
           syndicates: [syndicate._id],
           ownership
         }
+        if (global.isLocal) {
+          user._id = '59ba8724882f8bda956d968e'
+        }
         return UserController.updateOrCreate({
           query: {firstname: user.firstname},
           data: user

@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt')
 const uniqueValidator = require('mongoose-unique-validator')
 const {AUTHENTICATION} = require('data/messages')
 const {removeFilesOnUpdate} = require('utils/mongoose')
+const {isMongoId} = require('utils/object')
 
 let UserModel
 
@@ -140,6 +141,10 @@ UserSchema.methods.addShare = function ({horse, amount = 1}) {
       }
     })
   }
+}
+
+UserSchema.methods.ownsSyndicate = function (syndicateId) {
+  return isMongoId(syndicateId) && this.syndicates.indexOf(syndicateId.toString()) >= 0
 }
 
 UserModel = mongoose.model('User', UserSchema)

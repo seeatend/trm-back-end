@@ -1,4 +1,4 @@
-const {hyphenize} = require('utils/request')
+const {hyphenize} = require('utils/transforms')
 const {prepareHorse} = require('api/horse/utils')
 
 module.exports = (ownership) => {

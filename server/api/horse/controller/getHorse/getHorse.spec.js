@@ -18,7 +18,7 @@ describe('Horse', () => {
       getHorse(
         requiredProps
       ).catch(err => {
-        expect(err.message).to.equal(METHODS.HORSE.NOT_FOUND(requiredProps.name.toUpperCase()))
+        expect(err.message).to.equal(METHODS.HORSE.NOT_FOUND(requiredProps.name))
         done()
       })
     })
