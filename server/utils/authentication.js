@@ -70,13 +70,15 @@ authenticate.is = type => [
 ]
 
 const prepareUserData = (user = {}) => {
-  let {firstname, surname, email, username} = user
+  let {avatarImage, firstname, surname, username, birthDate, location} = user
 
   return {
+    avatarImage,
     firstname,
     surname,
-    email,
-    username
+    username,
+    birthDate,
+    location
   }
 }
 

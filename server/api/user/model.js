@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const {Schema} = mongoose
 const {ObjectId} = Schema.Types
-const {EMAIL_VLD, PASSWORD_VLD, FIRSTNAME_VLD, POSTCODE_VLD} = require('utils/validation')
+const {EMAIL_VLD, PASSWORD_VLD, FIRSTNAME_VLD} = require('utils/validation')
 const bcrypt = require('bcrypt')
 const uniqueValidator = require('mongoose-unique-validator')
 const {AUTHENTICATION} = require('data/messages')
@@ -57,7 +57,9 @@ let userDefinition = {
     type: String,
     lowercase: true
   },
-  location: POSTCODE_VLD,
+  location: {
+    type: String
+  },
   createdAt: {
     type: Date,
     default: Date.now
