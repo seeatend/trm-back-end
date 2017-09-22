@@ -13,6 +13,7 @@
     "list": "forever list",
     "stop": "forever stop 0",
     "logs": "forever logs 0",
+    "news": "node server/scripts/ftpNewsService",
     "flush": "node server/scripts/flush",
     "timeform": "node server/scripts/timeform",
     "demo": "node server/scripts/demo",

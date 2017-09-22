@@ -7,8 +7,8 @@ const newsSchema = new mongoose.Schema({
   date: Date,
   headline: String,
   slugline: String,
-  news: String,
-  imagePath: String
+  content: String,
+  thumbnailImage: String
 })
 
 module.exports = mongoose.model('News', newsSchema)
