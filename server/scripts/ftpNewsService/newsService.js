@@ -36,132 +36,132 @@ const News = require('api/news/model')
 // }
 
 const getAndStoreNewsInDB = () => {
-    let ftp = new PromiseFtp()
-    let formattedArticles = []
-    ftp.connect({
-        host: 'ftp.theracingmanager.com',
-        user: 'press@theracingmanager.com',
-        password: ftpPassword
-    })
-        .then((serverMessage) => {
-            console.log(serverMessage)
-            console.log('--------------------')
-            return ftp.list('/')
-        }).then((list) => {
-        // The directory listing is required
-        console.log('Getting xml files')
-        let promises = []
-        list.forEach(function (element) {
-            if (element.name.endsWith('.xml')) {
-                // only looking at xml files to get all the data
-                promises.push(
-                    // Getting the xml file
-                    ftp.get(element.name)
-                        .then(stream => {
-                            let xml = ''
-                            return new Promise((resolve, reject) => {
-                                stream.on('data', (chunk) => {
-                                    xml += chunk
-                                })
-                                stream.on('error', reject)
-                                stream.once('end', () => {
-                                    // return the xml contents
-                                    resolve(xml)
-                                })
-                            })
-                        }))
-            }
-        })
-        return Promise.all(promises)
-    }).then(function (xmls) {
-        console.log('Parsing xml files to strings')
-        let promises = []
-
-        // parsing xml strings to js objects
-        xmls.forEach(xml => {
-            promises.push(new Promise((resolve, reject) => {
-                    parseString(xml, function (err, result) {
-                        if (!err) {
-                            resolve(result)
-                        } else {
-                            reject(err)
-                        }
-                    })
+  let ftp = new PromiseFtp()
+  let formattedArticles = []
+  ftp.connect({
+    host: 'ftp.theracingmanager.com',
+    user: 'press@theracingmanager.com',
+    password: ftpPassword
+  })
+    .then((serverMessage) => {
+      console.log(serverMessage)
+      console.log('--------------------')
+      return ftp.list('/')
+    }).then((list) => {
+      // The directory listing is required
+      console.log('Getting xml files')
+      let promises = []
+      list.forEach(function (element) {
+        if (element.name.endsWith('.xml')) {
+          // only looking at xml files to get all the data
+          promises.push(
+            // Getting the xml file
+            ftp.get(element.name)
+              .then(stream => {
+                let xml = ''
+                return new Promise((resolve, reject) => {
+                  stream.on('data', (chunk) => {
+                    xml += chunk
+                  })
+                  stream.on('error', reject)
+                  stream.once('end', () => {
+                    // return the xml contents
+                    resolve(xml)
+                  })
                 })
-            )
-        })
-
-        return Promise.all(promises)
-    }).then((articles) => {
-        // articles are the data within the xml file in js format
-        console.log(`Formatting ${articles.length} article groups`)
-
-        articles.forEach((elem) => {
-            let date = elem.NewsML.NewsEnvelope[0].DateAndTime[0]
-            let newsCompenents = elem.NewsML.NewsItem[0].NewsComponent[0].NewsComponent
-            newsCompenents.forEach(component => {
-                // Getting all the required data
-                let headline = component.NewsComponent[0].NewsLines[0].HeadLine[0]
-                let slugline = component.NewsComponent[0].NewsLines[0].SlugLine[0]
-                let contentsOfArticle = component.NewsComponent[0].ContentItem[0].DataContent[0].nitf[0].body[0]['body.content'][0].p
-                let contents = contentsOfArticle.join('\n')
-                let imageName = component.NewsComponent[1].NewsComponent[0].NewsComponent[0].ContentItem[0].$.Href
-
-                let year = date.substring(0, 4)
-                let month = date.substring(4, 6)
-                let day = date.substring(6, 8)
-                let hours = date.substring(9, 11)
-                let minutes = date.substring(11, 13)
-                let seconds = date.substring(13, 15)
-                let newDate = new Date(year, month, day, hours, minutes, seconds)
-
-                let formattedArticle = {
-                    date: newDate,
-                    headline: headline,
-                    slugline: slugline,
-                    content: contents,
-                    thumbnailImage: imageName
-                }
-                formattedArticles.push(formattedArticle)
-            })
-        })
-        console.log('Storing images')
-        let promises = []
-        let randomName = `${Date.now()}-${parseInt(Math.random() * 100)}`
-        let baseDir = `/${config.get('storage.path')}/news/${randomName}/`
-        promises.push(fs.ensureDir(path.resolve(`.${baseDir}`)))
-        formattedArticles.forEach(article => {
-            promises.push(
-                ftp.get(article.thumbnailImage)
-                    .then(stream => {
-                        // TODO: Refactor path formatting into common function
-                        let imageName = article.thumbnailImage
-                        let imagePath = `${baseDir}${imageName}`
-                        return new Promise((resolve, reject) => {
-                            article.thumbnailImage = imagePath
-                            stream.pipe(fs.createWriteStream('.' + imagePath))
-                            stream.once('end', () => {
-                                resolve({Success: true})
-                            })
-                            stream.once('error', () => reject({ Success: false,message: 'Stream error'}))
-                        })
-                    })
-            )
-        })
-
-        return Promise.all(promises)
-    }).then((promises) => {
-        //console.log('promises',promises)
-        console.log('Writing to database')
-        return News.create(formattedArticles)
-    }).then(() => {
-        let wasConnected = ftp.destroy()
-        if (wasConnected) {
-            return Promise.reject(new Error('Not all connections closed on time'))
+              }))
         }
-        process.exit(0)
+      })
+      return Promise.all(promises)
+    }).then(function (xmls) {
+      console.log('Parsing xml files to strings')
+      let promises = []
+
+      // parsing xml strings to js objects
+      xmls.forEach(xml => {
+        promises.push(new Promise((resolve, reject) => {
+          parseString(xml, function (err, result) {
+            if (!err) {
+              resolve(result)
+            } else {
+              reject(err)
+            }
+          })
+        })
+        )
+      })
+
+      return Promise.all(promises)
+    }).then((articles) => {
+      // articles are the data within the xml file in js format
+      console.log(`Formatting ${articles.length} article groups`)
+
+      articles.forEach((elem) => {
+        let date = elem.NewsML.NewsEnvelope[0].DateAndTime[0]
+        let newsCompenents = elem.NewsML.NewsItem[0].NewsComponent[0].NewsComponent
+        newsCompenents.forEach(component => {
+          // Getting all the required data
+          let headline = component.NewsComponent[0].NewsLines[0].HeadLine[0]
+          let slugline = component.NewsComponent[0].NewsLines[0].SlugLine[0]
+          let contentsOfArticle = component.NewsComponent[0].ContentItem[0].DataContent[0].nitf[0].body[0]['body.content'][0].p
+          let contents = contentsOfArticle.join('\n')
+          let imageName = component.NewsComponent[1].NewsComponent[0].NewsComponent[0].ContentItem[0].$.Href
+
+          let year = date.substring(0, 4)
+          let month = date.substring(4, 6)
+          let day = date.substring(6, 8)
+          let hours = date.substring(9, 11)
+          let minutes = date.substring(11, 13)
+          let seconds = date.substring(13, 15)
+          let newDate = new Date(year, month, day, hours, minutes, seconds)
+
+          let formattedArticle = {
+            date: newDate,
+            headline: headline,
+            slugline: slugline,
+            content: contents,
+            thumbnailImage: imageName
+          }
+          formattedArticles.push(formattedArticle)
+        })
+      })
+      console.log('Storing images')
+      let promises = []
+      let randomName = `${Date.now()}-${parseInt(Math.random() * 100)}`
+      let baseDir = `/${config.get('storage.path')}/news/${randomName}/`
+      promises.push(fs.ensureDir(path.resolve(`.${baseDir}`)))
+      formattedArticles.forEach(article => {
+        promises.push(
+          ftp.get(article.thumbnailImage)
+            .then(stream => {
+              // TODO: Refactor path formatting into common function
+              let imageName = article.thumbnailImage
+              let imagePath = `${baseDir}${imageName}`
+              return new Promise((resolve, reject) => {
+                article.thumbnailImage = imagePath
+                stream.pipe(fs.createWriteStream('.' + imagePath))
+                stream.once('end', () => {
+                  resolve({Success: true})
+                })
+                stream.once('error', () => reject({Success: false, message: 'Stream error'}))
+              })
+            })
+        )
+      })
+
+      return Promise.all(promises)
+    }).then((promises) => {
+      // console.log('promises',promises)
+      console.log('Writing to database')
+      return News.create(formattedArticles)
+    }).then(() => {
+      let wasConnected = ftp.destroy()
+      if (wasConnected) {
+        return Promise.reject(new Error('Not all connections closed on time'))
+      }
+      process.exit(0)
     }).catch(err => {
-        console.log('error ', err)
+      console.log('error ', err)
     })
 }
 
