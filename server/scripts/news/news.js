@@ -6,8 +6,6 @@
 const config = require('config')
 const path = require('path')
 
-let ftpPassword = process.env.FTP_PASSWORD
-
 let PromiseFtp = require('promise-ftp')
 
 // file stream to write images to disk
@@ -19,29 +17,13 @@ let parseString = require('xml2js').parseString
 // The model for the news
 const News = require('api/news/model')
 
-// for running the code every day at 12
-// let cron = require('node-cron')
-// getAndStoreNewsInDB()
-// scheduleJob()
-
-// function scheduleJob () {
-//   let task = cron.schedule('* * 12 * * *', function () {
-//     console.log('immediately started')
-//
-//     getAndStoreNewsInDB()
-//   }, false)
-//
-//   // Starting the task
-//   task.start()
-// }
-
-const getAndStoreNewsInDB = () => {
+module.exports = () => {
   let ftp = new PromiseFtp()
   let formattedArticles = []
-  ftp.connect({
+  return ftp.connect({
     host: 'ftp.theracingmanager.com',
     user: 'press@theracingmanager.com',
-    password: ftpPassword
+    password: process.env.FTP_PASSWORD
   })
     .then((serverMessage) => {
       console.log(serverMessage)
@@ -51,7 +33,7 @@ const getAndStoreNewsInDB = () => {
       // The directory listing is required
       console.log('Getting xml files')
       let promises = []
-      list.forEach(function (element) {
+      list.forEach((element) => {
         if (element.name.endsWith('.xml')) {
           // only looking at xml files to get all the data
           promises.push(
@@ -73,14 +55,14 @@ const getAndStoreNewsInDB = () => {
         }
       })
       return Promise.all(promises)
-    }).then(function (xmls) {
+    }).then((xmls) => {
       console.log('Parsing xml files to strings')
       let promises = []
 
       // parsing xml strings to js objects
       xmls.forEach(xml => {
         promises.push(new Promise((resolve, reject) => {
-          parseString(xml, function (err, result) {
+          parseString(xml, (err, result) => {
             if (!err) {
               resolve(result)
             } else {
@@ -150,8 +132,7 @@ const getAndStoreNewsInDB = () => {
       })
 
       return Promise.all(promises)
-    }).then((promises) => {
-      // console.log('promises',promises)
+    }).then(() => {
       console.log('Writing to database')
       return News.create(formattedArticles)
     }).then(() => {
@@ -159,10 +140,7 @@ const getAndStoreNewsInDB = () => {
       if (wasConnected) {
         return Promise.reject(new Error('Not all connections closed on time'))
       }
-      process.exit(0)
-    }).catch(err => {
-      console.log('error ', err)
+      console.log('--------------------')
+      return Promise.resolve()
     })
 }
-
-getAndStoreNewsInDB()
