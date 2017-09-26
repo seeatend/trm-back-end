@@ -8,9 +8,7 @@ const syndicateDefinition = require('./definition')
 
 const SyndicateSchema = new Schema(syndicateDefinition)
 
-SyndicateSchema.plugin(removeFilesOnUpdate, {
-  definition: syndicateDefinition
-})
+SyndicateSchema.plugin(removeFilesOnUpdate)
 
 SyndicateSchema.pre('findOne', function () {
   if (this._conditions.name) {

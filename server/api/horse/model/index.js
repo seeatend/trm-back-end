@@ -10,9 +10,7 @@ const horseDefinition = require('./definition')
 
 const HorseSchema = new Schema(horseDefinition)
 
-HorseSchema.plugin(removeFilesOnUpdate, {
-  definition: horseDefinition
-})
+HorseSchema.plugin(removeFilesOnUpdate)
 
 let horseHelper
 if (!global.isTest) {

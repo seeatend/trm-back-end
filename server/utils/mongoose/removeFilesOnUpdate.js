@@ -1,8 +1,8 @@
 const {removeFile} = require('utils/file')
 
-module.exports = function (schema, {definition}) {
-  Object.keys(definition).forEach(key => {
-    let field = definition[key]
+module.exports = function (schema) {
+  Object.keys(schema.tree).forEach(key => {
+    let field = schema.tree[key]
     if (field.file) {
       schema.path(key).set(function (newVal) {
         let oldVal = this[key]
