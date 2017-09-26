@@ -15,7 +15,7 @@ const fs = require('fs-extra')
 let parseString = require('xml2js').parseString
 
 // The model for the news
-const News = require('api/news/model')
+const News = require('api/news/controller')
 
 module.exports = () => {
   let ftp = new PromiseFtp()
@@ -134,7 +134,16 @@ module.exports = () => {
       return Promise.all(promises)
     }).then(() => {
       console.log('Writing to database')
-      return News.create(formattedArticles)
+      let promises = formattedArticles.map(articleData => {
+        return News.updateOrCreate({
+          query: {
+            date: articleData.date,
+            headline: articleData.headline
+          },
+          data: articleData
+        })
+      })
+      return Promise.all(promises)
     }).then(() => {
       let wasConnected = ftp.destroy()
       if (wasConnected) {
