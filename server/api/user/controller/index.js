@@ -5,6 +5,7 @@ const UserController = new Controller({
   model: UserModel,
   methods: {
     getShares: require('./getShares'),
+    getUser: require('./getUser'),
     updateUser: require('./updateUser')
   }
 })

@@ -24,6 +24,10 @@ const {authenticate} = require('utils/authentication')
 const {bodySelect} = require('utils/request')
 
 router.route(routePath)
+  .get(
+    authenticate,
+    applyController(UserController.getUser)
+  )
   .put(
     authenticate,
     handleUpload({
