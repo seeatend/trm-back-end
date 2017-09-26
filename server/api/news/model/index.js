@@ -1,14 +1,20 @@
-/**
- * Created by Ali on 15/09/2017.
- */
+const {removeFilesOnUpdate} = require('utils/mongoose')
+
 const mongoose = require('mongoose')
 
-const newsSchema = new mongoose.Schema({
+const NewsSchema = new mongoose.Schema({
   date: Date,
   headline: String,
   slugline: String,
   content: String,
-  thumbnailImage: String
+  thumbnailImage: {
+    type: String,
+    file: true
+  }
 })
 
-module.exports = mongoose.model('News', newsSchema)
+NewsSchema.plugin(removeFilesOnUpdate)
+
+const NewsModel = mongoose.model('News', NewsSchema)
+
+module.exports = NewsModel

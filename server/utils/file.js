@@ -19,8 +19,9 @@ const fileUtils = {
       .then(res => {
         console.log(`Removed: ${fullPath}`)
         if (res.length === 0) {
-          fs.remove(baseDir)
+          return fs.remove(baseDir)
         }
+        return Promise.resolve()
       })
       .catch(err => {
         console.log(err.message)
