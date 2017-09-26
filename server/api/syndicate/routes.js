@@ -21,7 +21,7 @@ router.route(routePath)
         featuredImage: {
           type: 'image'
         },
-        logo: {
+        logoImage: {
           type: 'image'
         }
       },
@@ -32,7 +32,7 @@ router.route(routePath)
       'syndicateName',
       'featuredImage',
       'description',
-      'logo',
+      'logoImage',
       'color'
     ]),
     applyController(syndicateController.updateByName)
