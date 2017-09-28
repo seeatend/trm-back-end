@@ -11,7 +11,7 @@ module.exports = {
     file: true,
     default: '/assets/placeholder/featuredImage.jpg'
   },
-  logo: {
+  logoImage: {
     type: String,
     file: true
   },
