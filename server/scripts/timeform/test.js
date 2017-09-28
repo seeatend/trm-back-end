@@ -1,5 +1,4 @@
 require('dotenv').config()
-const {expect} = require('chai')
 const {authenticate, races, jockeys, entries, countries, trainers, courses, meetings, horses, performances} = require('./api')
 
 describe('Timeform - api', () => {

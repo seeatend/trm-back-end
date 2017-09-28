@@ -10,9 +10,8 @@ const selectFields = (body, fields) => {
         if (body[value.tf]) {
           result[key] = body[value.tf]
         }
-      }
-      else {
-        const newValue = selectFields(body, value);
+      } else {
+        const newValue = selectFields(body, value)
         if (Object.keys(newValue).length > 0) {
           result[key] = newValue
         }

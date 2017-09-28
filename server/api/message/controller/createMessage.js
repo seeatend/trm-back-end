@@ -26,8 +26,7 @@ module.exports = (body, options = {}) => {
     ).then(() => {
       return Promise.resolve(MESSAGE.SUCCESS)
     })
-  }
-  else {
+  } else {
     return Promise.reject()
   }
 }

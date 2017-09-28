@@ -22,9 +22,7 @@ const authenticate = new Promise((resolve, reject) => {
     body = JSON.parse(body)
     token = body.access_token
     resolve()
-  }).catch(() => {
-    reject()
-  })
+  }).catch(reject)
 })
 
 apiNames.forEach(name => {
@@ -42,9 +40,7 @@ apiNames.forEach(name => {
         }).then(body => {
           body = JSON.parse(body)
           resolve(body.value)
-        }).catch(error => {
-          reject(error)
-        })
+        }).catch(reject)
       })
     }
   }

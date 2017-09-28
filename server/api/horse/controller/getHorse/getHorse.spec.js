@@ -1,6 +1,3 @@
-const {expect} = require('chai')
-
-const {getHorse, removeHorse} = require('api/horse/controller')
 const HorseController = require('api/horse/controller')
 
 const {METHODS} = require('data/messages')
@@ -11,16 +8,16 @@ const requiredProps = {
 
 describe('Horse', () => {
   beforeEach((done) => {
-    removeHorse().then(() => {
+    HorseController.removeAll().then(() => {
       done()
     })
   })
   describe('/getHorse', () => {
     it('should return not found when no horses', (done) => {
-      getHorse(
+      HorseController.getHorse(
         requiredProps
       ).catch(err => {
-        expect(err.message).to.equal(METHODS.HORSE.NOT_FOUND(requiredProps.name.toUpperCase()))
+        expect(err.message).to.equal(METHODS.HORSE.NOT_FOUND(requiredProps.name))
         done()
       })
     })
@@ -29,9 +26,9 @@ describe('Horse', () => {
       HorseController.create(
         requiredProps
       ).then(res => {
-        return getHorse({_id: res._id})
+        return HorseController.getHorse({_id: res._id})
       }).then(res => {
-        expect(res).to.exist
+        expect(res).to.exist()
         done()
       })
     })

@@ -1,5 +1,3 @@
-const { expect } = require('chai')
-
 const { removePrivate } = require('./object')
 
 describe('Utils - object', () => {

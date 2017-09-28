@@ -1,4 +1,6 @@
-const {REGISTER, EMAIL, FIRSTNAME} = require('data/messages')
+const validator = require('validator')
+
+const {EMAIL, FIRSTNAME} = require('data/messages')
 
 const FIRSTNAME_REG = /^(?=[a-zA-Z-\s]{2,}$)^[a-zA-Z\s]+(-[a-zA-Z\s]+)*$/
 
@@ -11,12 +13,10 @@ const FIRSTNAME_VLD = {
   }
 }
 
-
-const EMAIL_REG = /^[_a-z0-9-]+(\.[_a-z0-9-]+)*(\+[a-z0-9-]+)?@[a-z0-9-]+(\.[a-z0-9-]{2,})+$/
+const EMAIL_REG = /^[_a-zA-Z0-9-]+(\.[_a-z0-9-]+)*(\+[a-z0-9-]+)?@[a-z0-9-]+(\.[a-z0-9-]{2,})+$/
 
 const EMAIL_VLD = {
   type: String,
-  lowercase: true,
   unique: EMAIL.DUPLICATE,
   required: true,
   validate: {
@@ -36,8 +36,17 @@ const PASSWORD_VLD = {
   }
 }
 
+const POSTCODE_VLD = {
+  type: String,
+  validate: {
+    message: 'Please provide valid postcode.',
+    validator: (value) => (validator.isPostalCode(value, 'GB'))
+  }
+}
+
 module.exports = {
   FIRSTNAME_VLD,
   EMAIL_VLD,
-  PASSWORD_VLD
+  PASSWORD_VLD,
+  POSTCODE_VLD
 }

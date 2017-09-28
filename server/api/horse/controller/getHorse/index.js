@@ -2,6 +2,8 @@ const {getMessage} = require('api/message/controller')
 const {getShares} = require('api/user/controller')
 const getHorse = require('./getHorse')
 
+// TODO: Split this into two methods: 'getPublicHorse' and 'getPrivateHorse'
+
 module.exports = (body, options = {}) => {
   const {populate = {}} = options
   let result
@@ -11,8 +13,7 @@ module.exports = (body, options = {}) => {
     result = horse
     if (!populate.messages) {
       return Promise.resolve()
-    }
-    else {
+    } else {
       return getMessage(
         {horseId: horse._id}
       )
@@ -21,8 +22,7 @@ module.exports = (body, options = {}) => {
     result.messages = messages
     if (!populate.shares) {
       return Promise.resolve()
-    }
-    else {
+    } else {
       return getShares({
         horseId: result._id,
         options

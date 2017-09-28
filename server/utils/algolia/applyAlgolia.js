@@ -30,19 +30,17 @@ module.exports = (schema, options = {}) => {
       let searchIndex
       if (sort && Object.keys(sort).length > 0) {
         searchIndex = replicaIndexes[getIndexName(primaryIndexName, sort.field, sort.order)]
-      }
-      else {
+      } else {
         searchIndex = primaryIndex
       }
       if (searchIndex) {
         let filterConditions = generateConditions(filter)
-        let filters = filterConditions.join(' AND ');
+        let filters = filterConditions.join(' AND ')
         return searchIndex.search({
           query,
           filters
         })
-      }
-      else {
+      } else {
         return Promise.reject({message: 'Unsupported sorting strategy'})
       }
     }

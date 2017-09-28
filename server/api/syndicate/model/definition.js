@@ -11,7 +11,7 @@ module.exports = {
     file: true,
     default: '/assets/placeholder/featuredImage.jpg'
   },
-  logo: {
+  logoImage: {
     type: String,
     file: true
   },
@@ -19,6 +19,9 @@ module.exports = {
     name: {
       type: String
     }
+  },
+  description: {
+    type: String
   },
   color: {
     type: String

@@ -1,6 +1,5 @@
 const path = require('path')
 const fs = require('fs-extra')
-const config = require('config')
 
 const exec = require('child_process').exec
 
@@ -12,8 +11,7 @@ const fileUtils = {
       .then(exists => {
         if (exists) {
           return fs.remove(fullPath)
-        }
-        else return Promise.reject(new Error(`Path does not exist: ${fullPath}`))
+        } else return Promise.reject(new Error(`Path does not exist: ${fullPath}`))
       })
       .then(() => {
         return fs.readdir(baseDir)
@@ -21,8 +19,9 @@ const fileUtils = {
       .then(res => {
         console.log(`Removed: ${fullPath}`)
         if (res.length === 0) {
-          fs.remove(baseDir)
+          return fs.remove(baseDir)
         }
+        return Promise.resolve()
       })
       .catch(err => {
         console.log(err.message)
@@ -40,8 +39,7 @@ const fileUtils = {
       exec(command, err => {
         if (err) {
           reject(err)
-        }
-        else {
+        } else {
           resolve(thumbnailPath)
         }
       })

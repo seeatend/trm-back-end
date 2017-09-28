@@ -90,6 +90,6 @@ module.exports = {
     })
   },
   virtuals: {
-    racingHistory: horse => (horse.performances ? horse.performances.length > 0 ? RACING_HISTORY[1] : RACING_HISTORY[0] : RACING_HISTORY[0]),
+    racingHistory: horse => (horse.performances ? horse.performances.length > 0 ? RACING_HISTORY[1] : RACING_HISTORY[0] : RACING_HISTORY[0])
   }
 }

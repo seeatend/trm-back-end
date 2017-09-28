@@ -22,16 +22,14 @@ module.exports = (body, {user} = {}) => {
           let user = message.userId
           delete message.userId
           message.author = getUserDisplayName(user)
-        }
-        else {
+        } else {
           message.author = 'Anonymous'
         }
         return message
       })
       return Promise.resolve(messagesData)
     })
-  }
-  else {
+  } else {
     return Promise.reject({message: 'Wrong parameters'})
   }
 }

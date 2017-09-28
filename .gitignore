@@ -24,6 +24,7 @@ yarn.lock
 
 # Other
 /uploads
+/server/images
 /test-uploads
 /client
 .env

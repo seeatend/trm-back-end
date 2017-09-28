@@ -21,7 +21,7 @@ module.exports = [
   },
   {
     name: 'DE BRUYNE HORSE',
-    style: 'flat',
+    style: 'Flat',
     manager: {
       name: 'CHARLOTTE HOLMES'
     },
@@ -40,7 +40,7 @@ Tim Palin fell in love with racing in 1983 – all from placing a 25p each way b
   },
   {
     name: 'Contentment',
-    style: 'flat',
+    style: 'Flat',
     description: `This filly is a real queen. She is out of the Stakes winning mare Cartimandua and by Cacique who covers a limited book of mares, but he has a fantastic strike rate with those foals he does get on the ground. He has produced 21% black type performers from foals of racing age and having raced two of his best progeny; Dominant and Census, we are extremely happy to be adding this stunning filly into our syndicates. Contentment ran three times as a two-year-old and was unlucky not to break her maiden having bumped into the subsequent Oh So Sharp Stakes (Gr 3) winner Poet’s Vanity when second at Salisbury. She is a filly with plenty of class about her and is an exciting prospect for 2017.`,
     img: 'HERO_contentment.jpg',
     thumbnail: 'CARD_contentment.jpg',
@@ -54,7 +54,7 @@ A large part of our success has been due to the selection process employed for p
   },
   {
     name: 'Formidable Kitt',
-    style: 'flat',
+    style: 'Flat',
     manager: {
       name: 'Andrew Black'
     },
@@ -78,7 +78,7 @@ Throughout the year, Chasemore works closely with Stephen Harrison at Thoroughbr
       name: 'The Queen',
       featuredImage: 'queen.jpg'
     },
-    style: 'flat',
+    style: 'Flat',
     manager: {
       name: 'John Warren'
     },
@@ -94,14 +94,14 @@ Throughout the year, Chasemore works closely with Stephen Harrison at Thoroughbr
       description: `Pals Belinda McClung and Deborah Thomson had a cheeky dig at their partners’ expense when they bought a ­racehorse and called their partnership Two Golf Widows.
 But the fellas won’t need any nagging to give their clubs a rest this Saturday.`
     },
-    style: 'jumps',
+    style: 'Jump',
     description: `One For Arthur (foaled 24 February 2009) is an Irish-bred Thoroughbred racehorse who competes in National Hunt racing. In 2017 he became the second horse trained in Scotland to win the Grand National.`,
     thumbnail: 'CARD_arthur.jpg',
     img: 'HERO_arthur.jpg'
   },
   {
     name: 'Lil Rockerfeller (USA)',
-    style: 'jumps',
+    style: 'Jump',
     thumbnail: 'CARD_lil.jpg',
     img: 'HERO_lil.jpg'
   },
@@ -118,7 +118,7 @@ But the fellas won’t need any nagging to give their clubs a rest this Saturday
   },
   {
     name: 'HAVRE DE PAIX (FR)',
-    style: 'flat',
+    style: 'Flat',
     description: `By Le Havre (IRE) by Noverre out of Marie Rheinberg by Surako. Won 4 races at 2 and 3 from 7 furlongs to 1 mile 2.5 furlongs including Prix du Jockey Club GrI and placed 2nd Poule d'Essai des Poulains GrI. Retired to stud in 2010 and sire of the winners of 59 races including AVENIR CERTAIN (Poule d'Essai des Pouliches GrI, Prix de Diane GrI), AUVRAY (Prix de Chaudenay GrII, Prix de Lutece GrIII), CRISOLLES (2nd Prix de la Nonette GrII, 3rd Prix Vanteaux GrIII).`,
     thumbnail: 'CARD_paix.jpg',
     img: 'HERO_paix.jpg',
@@ -129,9 +129,9 @@ But the fellas won’t need any nagging to give their clubs a rest this Saturday
   {
     name: 'BIG ORANGE',
     syndicate: {
-      name: 'W. J. and T. C. O. Gredley',
+      name: 'W. J. and T. C. O. Gredley'
     },
-    style: 'jumps',
+    style: 'Jump',
     manager: {
       name: 'T. C. O. Gredley'
     },
@@ -141,9 +141,9 @@ But the fellas won’t need any nagging to give their clubs a rest this Saturday
   {
     name: 'SIZING JOHN',
     syndicate: {
-      name: 'Ann & Alan Potts Partnership',
+      name: 'Ann & Alan Potts Partnership'
     },
-    style: 'jumps',
+    style: 'Jump',
     manager: {
       name: 'Ann Potts'
     },
@@ -153,9 +153,9 @@ But the fellas won’t need any nagging to give their clubs a rest this Saturday
   {
     name: 'SCOLE HARDEN (IRE)',
     syndicate: {
-      name: 'Mrs Jill Eynon & Mr Robin Eynon',
+      name: 'Mrs Jill Eynon & Mr Robin Eynon'
     },
-    style: 'jumps',
+    style: 'Jump',
     manager: {
       name: 'Mrs Jill Eynon'
     },
@@ -165,9 +165,9 @@ But the fellas won’t need any nagging to give their clubs a rest this Saturday
   {
     name: 'DOUVAN (FR)',
     syndicate: {
-      name: 'Mrs S. Ricci',
+      name: 'Mrs S. Ricci'
     },
-    style: 'jumps',
+    style: 'Jump',
     manager: {
       name: 'Mrs Jill Eynon'
     },
@@ -177,9 +177,9 @@ But the fellas won’t need any nagging to give their clubs a rest this Saturday
   {
     name: 'ALTIOR (IRE)',
     syndicate: {
-      name: 'Mrs Patricia Pugh',
+      name: 'Mrs Patricia Pugh'
     },
-    style: 'jumps',
+    style: 'Jump',
     manager: {
       name: 'Mrs Patricia Pugh'
     },
@@ -190,9 +190,9 @@ good-topped gelding: top-class form over hurdles: unbeaten in 2015/16 in novices
   {
     name: 'WICKLOW BRAVE',
     syndicate: {
-      name: 'Wicklow Bloodstock (Ireland) Ltd',
+      name: 'Wicklow Bloodstock (Ireland) Ltd'
     },
-    style: 'dual purposes',
+    style: 'Dual Purpose',
     manager: {
       name: 'LINDA DOYLE'
     },
@@ -202,18 +202,18 @@ good-topped gelding: top-class form over hurdles: unbeaten in 2015/16 in novices
   {
     name: 'CLONDAW WARRIOR (IRE)',
     syndicate: {
-      name: 'Act D Wagg Syndicate',
+      name: 'Act D Wagg Syndicate'
     },
-    style: 'dual purposes',
+    style: 'Dual Purpose',
     description: `strong, workmanlike gelding: smart performer: won Irish St Leger at the Curragh (by ½ length from Order of St George) in 2016: fourth in Group 3 at Belmont (2¼ lengths behind Red Cardinal) in June: 11/8, respectable ½-length second of 7 to Rekindling in Curragh Cup last time.`,
     thumbnail: 'CARD_CLONDAWWARRIOR.jpg'
   },
   {
     name: 'MINDING (IRE)',
     syndicate: {
-      name: 'Mr D. Smith, Mrs J. Magnier, Mr M. Tabor',
+      name: 'Mr D. Smith, Mrs J. Magnier, Mr M. Tabor'
     },
-    style: 'flat',
+    style: 'Flat',
     manager: {
       name: 'Mr D. Smith'
     },
@@ -223,9 +223,9 @@ good-topped gelding: top-class form over hurdles: unbeaten in 2015/16 in novices
   {
     name: 'GALILEO GOLD',
     syndicate: {
-      name: 'Al Shaqab Racing',
+      name: 'Al Shaqab Racing'
     },
-    style: 'flat',
+    style: 'Flat',
     manager: {
       name: 'Mr D. Shaqab'
     },
@@ -235,13 +235,13 @@ good-topped gelding: top-class form over hurdles: unbeaten in 2015/16 in novices
   {
     name: 'CLOTH OF STARS (IRE)',
     syndicate: {
-      name: 'Godolphin S.N.C.',
+      name: 'Godolphin S.N.C.'
     },
-    style: 'flat',
+    style: 'Flat',
     manager: {
       name: 'Godolphin'
     },
     description: `has won all 3 starts this year, Prix Exbury at Saint-Cloud.`,
     thumbnail: 'CARD_clothofstars.jpg'
-  },
+  }
 ]

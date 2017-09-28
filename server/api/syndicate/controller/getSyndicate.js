@@ -1,6 +1,6 @@
 const Syndicate = require('api/syndicate/model')
 const {getMessage} = require('api/message/controller')
-const {prepareQuery, dehyphenize} = require('utils/request')
+const {prepareQuery} = require('utils/request')
 
 const allowedGetParams = ['name']
 
@@ -8,8 +8,7 @@ const getSyndicate = (body, options = {}) => {
   const {populate = {}} = options
   let query = prepareQuery(
     body,
-    allowedGetParams,
-    dehyphenize
+    allowedGetParams
   )
   return new Promise((resolve, reject) => {
     if (query) {
@@ -22,8 +21,7 @@ const getSyndicate = (body, options = {}) => {
         if (syndicate) {
           if (!populate.messages) {
             return Promise.resolve()
-          }
-          else {
+          } else {
             let promises = []
             syndicate.horses.forEach(horseId => {
               promises.push(getMessage({
@@ -32,8 +30,7 @@ const getSyndicate = (body, options = {}) => {
             })
             return Promise.all(promises)
           }
-        }
-        else {
+        } else {
           reject('Not found')
         }
       }).then(messages => {
@@ -52,8 +49,7 @@ const getSyndicate = (body, options = {}) => {
       }).catch(err => {
         reject(err)
       })
-    }
-    else {
+    } else {
       reject('Wrong query params')
     }
   })

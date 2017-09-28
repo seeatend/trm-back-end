@@ -17,7 +17,7 @@ module.exports = [
       {
         attachment: 'ContentmentQSJC2016.jpg',
         text: `Few racehorses can have possessed such a belligerent, bullying ... Speed, Beauty Only, Joyful Trinity, Helene Paragon and Contentment.`
-      },
+      }
     ]
   },
   {
@@ -30,7 +30,7 @@ module.exports = [
       {
         attachment: 'Elation-grazing-16.05.17.jpg',
         text: 'Elation running well on the gallops this morning.'
-      },
+      }
     ]
   },
   {
@@ -87,7 +87,7 @@ module.exports = [
       {
         // attachment: 'somevideo.mp4',
         text: 'A good training ride today at Vitamin yard'
-      },
+      }
     ]
   }
 ]

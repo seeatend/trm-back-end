@@ -1,6 +1,5 @@
 const {isFunction} = require('utils/object')
 const {SUCCESS, ERROR} = require('data/statusCodes')
-
 const success = data => {
   return {status: SUCCESS, data}
 }
@@ -41,12 +40,9 @@ const applyController = (controller, options = {}) => {
             errors,
             status: err.status
           }))
-        }
-        else
-          res.status(404).send(error())
+        } else { res.status(404).send(error()) }
       })
-    }
-    else {
+    } else {
       console.error('Controller is not a function')
       res.status(404).send(error())
     }

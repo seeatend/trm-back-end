@@ -1,6 +1,4 @@
-const {expect} = require('chai')
-
-const {prepareQuery, processFiles} = require('./request')
+const {prepareQuery} = require('./request')
 
 describe('Utils - request - prepareQuery', () => {
   it('should extract correct query', () => {

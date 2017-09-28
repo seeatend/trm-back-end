@@ -1,7 +1,8 @@
 const {ObjectId} = require('mongoose').Schema.Types
 const {
   OWNERSHIP_TYPE,
-  RACING_TYPE
+  RACING_TYPE,
+  STYLE
 } = require('./constants')
 
 module.exports = {
@@ -9,7 +10,8 @@ module.exports = {
     type: String, tf: 'horseCode'
   },
   name: {
-    type: String, tf: 'horseName',
+    type: String,
+    tf: 'horseName',
     uppercase: true,
     required: true
   },
@@ -36,7 +38,8 @@ module.exports = {
     type: String
   },
   style: {
-    type: String
+    type: String,
+    enum: STYLE
   },
   timeformComments: {
     flat: {

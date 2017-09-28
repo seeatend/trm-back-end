@@ -9,7 +9,7 @@ const mockFileUpload = (fieldName, filePath) => {
     originalname: filePath,
     mimetype: mimeType,
     filename: filePath,
-    path: path.resolve('./uploads/tmp', filePath),
+    path: path.resolve('./uploads/tmp', filePath)
   }
 }
 

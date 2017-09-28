@@ -8,7 +8,8 @@ module.exports = {
     },
     USER: {
       NOT_FOUND: notFound('user')
-    }
+    },
+    MISSING_PARAMETER: param => (`Please provide ${param}.`)
   },
   GENERIC: {
     NOT_FOUND: 'Not found'
@@ -21,7 +22,7 @@ module.exports = {
     SUCCESS: 'Login successful'
   },
   REGISTER: {
-    SUCCESS: created('User'),
+    SUCCESS: created('User')
   },
   EMAIL: {
     DUPLICATE: 'This email has been taken',

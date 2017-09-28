@@ -6,7 +6,7 @@ const {extension} = require('utils/file')
 const {processMulterFiles} = require('utils/request')
 const mkdirp = require('mkdirp')
 const {error} = require('utils/api')
-const {isString} = require('utils/object')
+const {isString, isObject} = require('utils/object')
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -44,8 +44,7 @@ const handleUpload = ({fields, destination = 'other'}) => {
 
       if (isOfAcceptedType && isExtensionCorrect) {
         cb(null, true)
-      }
-      else {
+      } else {
         cb(null, false)
       }
     }
@@ -55,10 +54,12 @@ const handleUpload = ({fields, destination = 'other'}) => {
     upload(req, res, function (err) {
       if (err) {
         res.send({error: true, message: 'File upload failed'})
-      }
-      else {
+      } else {
         const {body, files} = req
         let promises = []
+        if (!isObject(files)) {
+          return next()
+        }
         Object.keys(files).forEach(key => {
           let fileField = files[key]
           let fieldInfo = fields[key]

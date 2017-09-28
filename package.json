@@ -4,12 +4,17 @@
     "start": "forever --minUptime 1000 --spinSleepTime 1000 start server",
     "restart": "run-s stop start",
     "dev": "nodemon --inspect=3100 server",
+    "test-once": "mocha ./server/setup/test.js --recursive $(find server -name '*.spec.js')",
+    "test": "npm run test-once -- -w",
+    "lint-no-fix": "eslint ./server/*",
+    "lint": "npm run lint-no-fix -- --fix",
     "setup-search": "node server/scripts/setupSearch",
-    "test": "mocha -w ./server/setup/test.js --recursive $(find server -name '*.spec.js')",
     "test-debug": "mocha --inspect=3100 --debug-brk  -w ./server/setup/test.js --recursive $(find server -name '*.spec.js')",
     "list": "forever list",
     "stop": "forever stop 0",
     "logs": "forever logs 0",
+    "news": "node server/scripts/news",
+    "news-cron": "node server/scripts/news/cron",
     "flush": "node server/scripts/flush",
     "timeform": "node server/scripts/timeform",
     "demo": "node server/scripts/demo",
@@ -17,6 +22,10 @@
     "populate": "run-s flush timeform demo messages setup-search",
     "timeform-test": "mocha -t 10000 ./server/script/timeform/test.js"
   },
+  "pre-commit": [
+    "lint-no-fix",
+    "test-once"
+  ],
   "dependencies": {
     "algoliasearch": "^3.24.0",
     "babel-core": "^6.25.0",
@@ -31,6 +40,7 @@
     "chalk": "^1.1.3",
     "compression": "^1.6.2",
     "config": "^1.26.1",
+    "cron": "^1.3.0",
     "dotenv": "^4.0.0",
     "express": "^4.15.3",
     "forever": "^0.15.3",
@@ -39,6 +49,7 @@
     "jsonwebtoken": "^7.4.1",
     "mime": "^1.3.6",
     "mocha": "^3.4.2",
+    "moment": "^2.18.1",
     "mongoose": "^4.10.4",
     "mongoose-algolia": "^1.7.0",
     "mongoose-unique-validator": "^1.0.5",
@@ -50,8 +61,22 @@
     "npm-run-all": "^4.0.2",
     "passport": "^0.3.2",
     "passport-jwt": "^2.2.1",
+    "pretty-error": "^2.1.1",
+    "promise-ftp": "^1.3.3",
     "randomstring": "^1.1.5",
     "request": "^2.81.0",
-    "request-promise": "^4.2.1"
+    "request-promise": "^4.2.1",
+    "validator": "^8.2.0",
+    "xml2js": "^0.4.19"
+  },
+  "devDependencies": {
+    "dirty-chai": "^2.0.1",
+    "eslint": "^4.6.1",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "pre-commit": "^1.2.2"
   }
 }

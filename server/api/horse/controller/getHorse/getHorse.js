@@ -1,12 +1,12 @@
 const {HorseModel} = require('api/horse/model')
-const {prepareQuery, dehyphenize} = require('utils/request')
+const {prepareQuery} = require('utils/request')
 const {prepareHorse} = require('api/horse/utils')
 const {getSyndicate} = require('api/syndicate/controller')
 const {METHODS} = require('data/messages')
 const availableQueries = ['name', '_id']
 
 module.exports = body => {
-  let query = prepareQuery(body, availableQueries, dehyphenize)
+  let query = prepareQuery(body, availableQueries)
 
   if (query) {
     let horse
@@ -18,9 +18,8 @@ module.exports = body => {
         horse = prepareHorse(_horse)
 
         return Promise.resolve()
-      }
-      else {
-        return Promise.reject({message: METHODS.HORSE.NOT_FOUND(query.name || query._id)})
+      } else {
+        return Promise.reject(new Error(METHODS.HORSE.NOT_FOUND(query.name || query._id)))
       }
     }).then(() => {
       if (!horse.owner) {
@@ -35,8 +34,7 @@ module.exports = body => {
       }
       return Promise.resolve(horse)
     })
-  }
-  else {
+  } else {
     return Promise.reject()
   }
 }

@@ -1,5 +1,3 @@
-const {expect} = require('chai')
-
 const {createMessage, getMessage, removeMessage} = require('api/message/controller')
 const {MESSAGE} = require('data/messages')
 
@@ -23,7 +21,7 @@ describe('Message', () => {
       createMessage.apply(
         null, createProps
       ).then(res => {
-        expect(res).to.be.string
+        expect(res).to.be.a('string')
         expect(res).to.equal(MESSAGE.SUCCESS)
         done()
       })

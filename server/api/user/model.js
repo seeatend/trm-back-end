@@ -5,10 +5,12 @@ const {EMAIL_VLD, PASSWORD_VLD, FIRSTNAME_VLD} = require('utils/validation')
 const bcrypt = require('bcrypt')
 const uniqueValidator = require('mongoose-unique-validator')
 const {AUTHENTICATION} = require('data/messages')
+const {removeFilesOnUpdate} = require('utils/mongoose')
+const {isMongoId} = require('utils/object')
 
 let UserModel
 
-const User = new Schema({
+let userDefinition = {
   firstname: FIRSTNAME_VLD,
   surname: {
     type: String,
@@ -25,16 +27,14 @@ const User = new Schema({
           ).then(user => {
             if (user) {
               done(false)
-            }
-            else {
+            } else {
               done(true)
             }
           }).catch(err => {
             console.error(err)
             done(false)
           })
-        }
-        else {
+        } else {
           done(true)
         }
       },
@@ -44,16 +44,30 @@ const User = new Schema({
   verification: {
     type: String
   },
+  avatarImage: {
+    type: String,
+    file: true
+  },
+  birthDate: {
+    type: Date
+  },
   email: EMAIL_VLD,
   password: PASSWORD_VLD,
   type: {
     type: String,
     lowercase: true
   },
+  location: {
+    type: String
+  },
   createdAt: {
     type: Date,
     default: Date.now
   },
+  syndicates: [{
+    type: ObjectId,
+    ref: 'Syndicate'
+  }],
   ownership: [{
     _id: false,
     horse: {
@@ -69,12 +83,17 @@ const User = new Schema({
       }
     }
   }]
+}
+
+const UserSchema = new Schema(userDefinition)
+
+UserSchema.plugin(uniqueValidator)
+UserSchema.plugin(removeFilesOnUpdate, {
+  definition: userDefinition
 })
 
-User.plugin(uniqueValidator)
-
 // Hash the user's password before inserting a new user
-User.pre('save', function (next) {
+UserSchema.pre('save', function (next) {
   let user = this
   if (this.isModified('password') || this.isNew) {
     bcrypt.genSalt(10, (err, salt) => {
@@ -95,7 +114,7 @@ User.pre('save', function (next) {
 })
 
 // Compare password input to password saved in database
-User.methods.validatePassword = function (password) {
+UserSchema.methods.validatePassword = function (password) {
   return bcrypt.compare(
     password,
     this.password,
@@ -105,19 +124,17 @@ User.methods.validatePassword = function (password) {
       }
       if (isMatch) {
         return Promise.resolve()
-      }
-      else {
+      } else {
         return Promise.reject({message: AUTHENTICATION.ERROR})
       }
     })
 }
 
-User.methods.addShare = function ({horse, amount = 1}) {
+UserSchema.methods.addShare = function ({horse, amount = 1}) {
   let owned = this.ownership.filter(o => (o.horse.toString() === horse._id.toString()))
   if (owned.length > 0) {
     owned[0].shares.owned += 1
-  }
-  else {
+  } else {
     this.ownership.push({
       horse: horse._id,
       shares: {
@@ -128,6 +145,10 @@ User.methods.addShare = function ({horse, amount = 1}) {
   }
 }
 
-UserModel = mongoose.model('User', User)
+UserSchema.methods.ownsSyndicate = function (syndicateId) {
+  return isMongoId(syndicateId) && this.syndicates.indexOf(syndicateId.toString()) >= 0
+}
+
+UserModel = mongoose.model('User', UserSchema)
 
 module.exports = UserModel
