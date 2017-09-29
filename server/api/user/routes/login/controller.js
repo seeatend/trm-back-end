@@ -1,6 +1,7 @@
 const User = require('api/user/model')
 const {AUTHENTICATION} = require('data/messages')
 const {generateToken} = require('utils/authentication')
+const {safeLowerCase} = require('utils/object')
 
 const loginUser = (body) => {
   let {email, password} = body
@@ -9,6 +10,7 @@ const loginUser = (body) => {
       message: 'Provide email and password.'
     })
   }
+  email = safeLowerCase(email)
   let user
   return User.findOne({email})
     .then(_user => {

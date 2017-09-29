@@ -18,6 +18,7 @@ const EMAIL_REG = /^[_a-zA-Z0-9-]+(\.[_a-z0-9-]+)*(\+[a-z0-9-]+)?@[a-z0-9-]+(\.[
 const EMAIL_VLD = {
   type: String,
   unique: EMAIL.DUPLICATE,
+  lowercase: true,
   required: true,
   validate: {
     message: EMAIL.ERROR,

@@ -46,6 +46,8 @@ const cloneObject = obj => (JSON.parse(JSON.stringify(obj)))
 
 const safeTrim = (val) => (isString(val) ? val.trim() : val)
 
+const safeLowerCase = (val) => (isString(val) ? val.toLowerCase() : val)
+
 module.exports = {
   isObject,
   isString,
@@ -55,5 +57,6 @@ module.exports = {
   removePrivate,
   removeEmpty,
   cloneObject,
-  safeTrim
+  safeTrim,
+  safeLowerCase
 }
