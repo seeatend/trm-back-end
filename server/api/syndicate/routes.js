@@ -33,7 +33,8 @@ router.route(routePath)
       'featuredImage',
       'description',
       'logoImage',
-      'color'
+      'color',
+      'primaryColor'
     ]),
     applyController(syndicateController.updateByName)
   )

@@ -9,23 +9,23 @@ const convert = require('./convertFields')
 
 const colors = [
   '#FFF2C7',
-  '#12242f',
+  '#fff352',
+  '#fac8ca',
+  '#f78e1e',
   '#794440',
-  '#004890',
-  '#006351',
-  '#1fb259',
-  '#959ca1',
-  '#a0cced',
-  '#6db43e',
+  '#ee2e23',
   '#b30337',
   '#b3a1cd',
-  '#f78e1e',
-  '#fac8ca',
   '#542989',
-  '#ee2e23',
+  '#a0cced',
   '#0068b3',
+  '#004890',
+  '#6db43e',
+  '#1fb259',
+  '#006351',
   '#e7e7e7',
-  '#fff352'
+  '#959ca1',
+  '#12242f'
 ]
 
 const getRandomColor = () => {

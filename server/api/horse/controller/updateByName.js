@@ -1,4 +1,5 @@
 const {METHODS} = require('data/messages')
+const {safeUpperCase} = require('utils/object')
 
 module.exports = function (_data) {
   let data = Object.assign({}, _data)
@@ -9,7 +10,7 @@ module.exports = function (_data) {
   }
   return this.updateOne({
     query: {
-      name: horseName.toUpperCase()
+      name: safeUpperCase(horseName)
     },
     data
   })

@@ -32,6 +32,7 @@ const removePrivate = obj => {
 }
 
 const removeEmpty = obj => {
+  if (!isObject(obj)) return obj
   let result = {}
   Object.keys(obj).forEach(key => {
     let val = obj[key]
@@ -48,6 +49,8 @@ const safeTrim = (val) => (isString(val) ? val.trim() : val)
 
 const safeLowerCase = (val) => (isString(val) ? val.toLowerCase() : val)
 
+const safeUpperCase = (val) => (isString(val) ? val.toUpperCase() : val)
+
 module.exports = {
   isObject,
   isString,
@@ -58,5 +61,6 @@ module.exports = {
   removeEmpty,
   cloneObject,
   safeTrim,
-  safeLowerCase
+  safeLowerCase,
+  safeUpperCase
 }
