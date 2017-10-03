@@ -1,4 +1,5 @@
 const {ObjectId} = require('mongoose').Schema.Types
+const {PRIMARY_COLOR} = require('./constants')
 
 module.exports = {
   name: {
@@ -24,6 +25,19 @@ module.exports = {
     type: String
   },
   color: {
+    type: String
+  },
+  primaryColor: {
+    type: String,
+    enum: PRIMARY_COLOR
+  },
+  headline1: {
+    type: String
+  },
+  headline2: {
+    type: String
+  },
+  benefits: {
     type: String
   },
   horses: [

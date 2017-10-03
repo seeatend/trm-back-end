@@ -1,5 +1,5 @@
 const {GENERIC, METHODS} = require('data/messages')
-const {isObject} = require('utils/object')
+const {isObject, removeEmpty} = require('utils/object')
 
 class Controller {
   constructor ({model, methods = {}}) {
@@ -39,14 +39,15 @@ class Controller {
   }
 
   updateOne ({query, data}) {
-    if (!isObject(data) || Object.keys(data).length === 0) {
+    let _data = removeEmpty(data)
+    if (!isObject(_data) || Object.keys(_data).length === 0) {
       return Promise.reject({message: METHODS.MISSING_PARAMETER('data')})
     }
     return this.findOne(
       query
     ).then(res => {
       if (res) {
-        return Object.assign(res, data).save()
+        return Object.assign(res, _data).save()
       } else {
         return Promise.reject({message: GENERIC.NOT_FOUND})
       }

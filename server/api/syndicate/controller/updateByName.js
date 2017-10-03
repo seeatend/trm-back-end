@@ -1,4 +1,5 @@
 const {METHODS} = require('data/messages')
+const {safeUpperCase} = require('utils/object')
 
 module.exports = function (_data) {
   let data = Object.assign({}, _data)
@@ -7,9 +8,10 @@ module.exports = function (_data) {
   if (!syndicateName || syndicateName.length === 0) {
     return Promise.reject({message: METHODS.MISSING_PARAMETER('syndicateName')})
   }
+  data.primaryColor = safeUpperCase(data.primaryColor)
   return this.updateOne({
     query: {
-      name: syndicateName.toUpperCase()
+      name: safeUpperCase(syndicateName)
     },
     data
   })
