@@ -1,6 +1,7 @@
 const loadTemplate = require('./loadTemplate')
 const templates = {
-  verification: loadTemplate('verification')
+  verification: loadTemplate('verification'),
+  joinHorse: loadTemplate('joinHorse')
 }
 
 const nodemailer = require('nodemailer')

@@ -9,7 +9,11 @@ const handleUpload = require('utils/handleUpload')
 const {authenticate} = require('utils/authentication')
 const {assignQueryToBody, bodySelect, dotNotationToObject} = require('utils/request')
 
+const joinRoute = require('./routes/join/routes')
+
 const routePath = '/horse'
+
+router.use(routePath, joinRoute)
 
 router.route(routePath)
   .put(

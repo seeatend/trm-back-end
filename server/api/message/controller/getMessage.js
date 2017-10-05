@@ -8,12 +8,12 @@ module.exports = (body, {user} = {}) => {
   let query = prepareQuery(body, availableQueries)
   if (query) {
     return Message.find(
-      query,
-      {__v: false, horseId: false},
-      {
-        limit: 20,
-        sort: {createdAt: -1}
-      }
+      query
+      // {__v: false, horseId: false},
+      // {
+      //   limit: 20,
+      //   sort: {createdAt: -1}
+      // }
     ).lean().populate(
       'userId'
     ).then(messages => {
