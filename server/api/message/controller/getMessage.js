@@ -17,6 +17,7 @@ module.exports = (body, {user} = {}) => {
     ).lean().populate(
       'userId'
     ).then(messages => {
+      console.log(messages);
       let messagesData = messages.map(message => {
         if (message.userId) {
           let user = message.userId
