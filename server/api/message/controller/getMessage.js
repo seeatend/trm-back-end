@@ -8,16 +8,11 @@ module.exports = (body, {user} = {}) => {
   let query = prepareQuery(body, availableQueries)
   if (query) {
     return Message.find(
-      query
-      // {__v: false, horseId: false},
-      // {
-      //   limit: 20,
-      //   sort: {createdAt: -1}
-      // }
-    ).lean().populate(
+      query,
+      {__v: 0, horseId: 0}
+    ).limit(20).sort({createdAt: -1}).lean().populate(
       'userId'
     ).then(messages => {
-      console.log(messages);
       let messagesData = messages.map(message => {
         if (message.userId) {
           let user = message.userId
