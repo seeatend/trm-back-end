@@ -17,30 +17,28 @@ const joinHorse = (body, { user }) => {
     if (!horse) {
       return Promise.reject({ message: METHODS.HORSE.NOT_FOUND })
     }
-    let syndicate
-    Syndicate.findOne({ horses: horse._id }).then(_syndicate => {
-      syndicate = _syndicate
-      if (!syndicate) {
-        return Promise.reject({ message: SYNDICATE.ERROR.NOT_FOUND })
-      }
-      let mailData = {
-        from: `noreply@theracingmanager.com`,
-        to: `info@theracingmanager.com`,
-        subject: `The Racing Manager: Request to join a syndicate`,
-        template: {
-          name: 'joinHorse',
-          data: {
-            firstname: user.firstname,
-            surname: user.surname,
-            email: user.email,
-            horse: horse.name,
-            syndicate: syndicate.name
-          }
+    return Syndicate.findOne({ horses: horse._id })
+  }).then(_syndicate => {
+    if (!_syndicate) {
+      return Promise.reject({ message: SYNDICATE.ERROR.NOT_FOUND })
+    }
+    let mailData = {
+      from: `noreply@theracingmanager.com`,
+      to: `info@theracingmanager.com`,
+      subject: `The Racing Manager: Request to join a syndicate`,
+      template: {
+        name: 'joinHorse',
+        data: {
+          firstname: user.firstname,
+          surname: user.surname,
+          email: user.email,
+          horse: horse.name,
+          syndicate: _syndicate.name
         }
       }
-      sendMail(mailData)
-      return Promise.resolve()
-    })
+    }
+    sendMail(mailData)
+    return Promise.resolve()
   })
 }
 
