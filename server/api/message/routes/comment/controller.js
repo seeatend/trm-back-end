@@ -24,12 +24,8 @@ const getComment = body => {
     return Comment.find({
       messageId
     },
-    {_id: false, __v: false},
-    {
-      limit: 30,
-      sort: {createdAt: -1}
-    }
-    ).lean().populate(
+    {_id: 0, __v: 0}
+    ).limit(30).sort({createdAt: -1}).lean().populate(
       'userId'
     ).then(comments => {
       return Promise.resolve(comments.map(comment => {

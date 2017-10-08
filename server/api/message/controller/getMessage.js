@@ -9,12 +9,8 @@ module.exports = (body, {user} = {}) => {
   if (query) {
     return Message.find(
       query,
-      {__v: false, horseId: false},
-      {
-        limit: 20,
-        sort: {createdAt: -1}
-      }
-    ).lean().populate(
+      {__v: 0, horseId: 0}
+    ).limit(20).sort({createdAt: -1}).lean().populate(
       'userId'
     ).then(messages => {
       let messagesData = messages.map(message => {

@@ -37,5 +37,10 @@ module.exports = {
   },
   COMMENT: {
     SUCCESS: created('Comment')
+  },
+  SYNDICATE: {
+    ERROR: {
+      NOT_FOUND: notFound('syndicate')
+    }
   }
 }
